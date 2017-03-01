@@ -1,22 +1,21 @@
 module Main exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (program)
+import Model exposing (..)
+import Update exposing (..)
+import View exposing (..)
 
 
-type alias Model =
-    {}
-
-
-type Msg
-    = NoOp
-
-
-update msg model =
-    case msg of
-        NoOp ->
-            model
-
-
+main : Program Never Model Msg
 main =
-    div [ class "bg-blue" ] [ text "wooo" ]
+    program
+        { update = update
+        , subscriptions = \_ -> Sub.none
+        , view = view
+        , init = init
+        }
+
+
+init : ( Model, Cmd Msg )
+init =
+    ( Model "", Cmd.none )

@@ -4,7 +4,7 @@
 
 :root {
 
-  --sans-serif: 'helvetica neue', helvetica, arial;
+  --sans-serif: lato, 'helvetica neue', helvetica, arial;
   --serif: georgia, serif;
   --code: consolas, monaco, monospace;
 
