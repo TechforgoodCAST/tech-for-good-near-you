@@ -1,0 +1,34 @@
+{
+  "name": "tech-for-good-near-you",
+  "version": "1.0.0",
+  "description": "an app to find tech for good events near you",
+  "main": "index.js",
+  "scripts": {
+    "live": "elm-live app/elm/Main.elm --output=public/main.js --dir=public --open --pushstate",
+    "css": "postcss --watch --config postcss-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechforgoodCAST/tech-for-good-near-you.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TechforgoodCAST/tech-for-good-near-you/issues"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.3",
+    "elm": "^0.18.0",
+    "elm-live": "^2.7.4",
+    "postcss-clean": "^1.0.2",
+    "postcss-cli": "^2.6.0",
+    "postcss-custom-media": "^5.0.1",
+    "postcss-custom-properties": "^5.0.2",
+    "postcss-import": "^9.1.0"
+  },
+  "dependencies": {
+    "tachyons-custom": "^4.5.4"
+  },
+  "homepage": "https://github.com/TechforgoodCAST/tech-for-good-near-you#readme"
+}
