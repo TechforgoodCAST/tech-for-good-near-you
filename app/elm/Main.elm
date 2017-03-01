@@ -4,6 +4,7 @@ import Html exposing (program)
 import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
+import Data.Categories exposing (..)
 
 
 main : Program Never Model Msg
@@ -18,4 +19,4 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "", Cmd.none )
+    ( Model "" categoriesDict, Cmd.none )
