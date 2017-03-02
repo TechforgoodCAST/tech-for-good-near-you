@@ -4,8 +4,8 @@ import Model exposing (..)
 import Dict
 
 
-categoriesDict : Categories
-categoriesDict =
+allCategories : Categories
+allCategories =
     Dict.fromList
         [ ( 111, ( "Charity & Causes", False ) )
         , ( 103, ( "Music", False ) )

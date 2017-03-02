@@ -1,0 +1,15 @@
+.t-3 {
+  transition-duration: 0.3s!important;
+}
+
+.t-5 {
+  transition-delay: 0.5s!important;
+}
+
+.all {
+  transition-property: all!important;
+}
+
+.ease {
+  transition-timing-function: ease!important;
+}
