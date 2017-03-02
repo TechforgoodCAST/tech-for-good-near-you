@@ -39,3 +39,4 @@ jspm_packages
 elm-stuff
 public/style.min.css
 public/main.js
+config.env
