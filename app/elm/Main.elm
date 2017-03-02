@@ -26,4 +26,6 @@ initialModel : Model
 initialModel =
     { postcode = ""
     , categories = allCategories
+    , date = ""
+    , events = []
     }
