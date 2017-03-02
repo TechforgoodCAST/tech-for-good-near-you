@@ -10,13 +10,20 @@ import Data.Categories exposing (..)
 main : Program Never Model Msg
 main =
     program
-        { update = update
-        , subscriptions = \_ -> Sub.none
+        { init = init
+        , update = update
         , view = view
-        , init = init
+        , subscriptions = \_ -> Sub.none
         }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "" categoriesDict, Cmd.none )
+    ( initialModel, Cmd.none )
+
+
+initialModel : Model
+initialModel =
+    { postcode = ""
+    , categories = allCategories
+    }

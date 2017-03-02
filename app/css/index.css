@@ -48,4 +48,5 @@
 
 /* custom variables */
 @import './_variables';
+@import './_transitions';
 @import './_custom';
