@@ -1,12 +1,14 @@
 module Model exposing (..)
 
 import Http
+import Geolocation
 
 
 type alias Model =
     { postcode : String
     , date : String
     , events : List SearchResult
+    , location : { lat : Float, lon : Float }
     }
 
 
@@ -29,3 +31,5 @@ type Msg
     | SetDate String
     | GetSearchResults
     | SearchResults (Result Http.Error (List SearchResult))
+    | GetLocation
+    | Location (Result Geolocation.Error Geolocation.Location)

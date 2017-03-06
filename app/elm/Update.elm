@@ -2,6 +2,8 @@ module Update exposing (..)
 
 import Model exposing (..)
 import Data.Request exposing (getResults)
+import Geolocation exposing (now)
+import Task
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -25,3 +27,17 @@ update msg model =
                     Debug.log "Request Error" err
             in
                 model ! []
+
+        GetLocation ->
+            model ! [ getLocation ]
+
+        Location (Ok location) ->
+            { model | location = { lat = location.latitude, lon = location.longitude } } ! []
+
+        Location (Err err) ->
+            model ! []
+
+
+getLocation : Cmd Msg
+getLocation =
+    Task.attempt Location now
