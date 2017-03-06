@@ -7,7 +7,7 @@ import Model exposing (..)
 
 navbar : Model -> Html Msg
 navbar model =
-    nav [ class "bg-green pa3 white dib w5-ns vh-100-ns left-0 top-0" ]
+    nav [ class "bg-green pa3 white dib w5-ns vh-100 left-0 top-0" ]
         [ logo
         , p [ class "mt0 ml1" ] [ text "near you" ]
         ]

@@ -26,11 +26,5 @@ initialModel =
     { postcode = ""
     , date = ""
     , events = []
-    , location = initLocation
-    }
-
-
-initLocation =
-    { lat = 51.52
-    , lon = -0.04
+    , userLocation = Nothing
     }

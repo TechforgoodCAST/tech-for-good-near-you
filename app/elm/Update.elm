@@ -32,12 +32,27 @@ update msg model =
             model ! [ getLocation ]
 
         Location (Ok location) ->
-            { model | location = { lat = location.latitude, lon = location.longitude } } ! []
+            let
+                log =
+                    Debug.log "Location results" location
+            in
+                { model | userLocation = Just (getCoords location) } ! []
 
         Location (Err err) ->
-            model ! []
+            let
+                log =
+                    Debug.log "Location Error" err
+            in
+                model ! []
 
 
 getLocation : Cmd Msg
 getLocation =
     Task.attempt Location now
+
+
+getCoords : Geolocation.Location -> Coords
+getCoords location =
+    { lat = location.latitude
+    , lon = location.longitude
+    }

@@ -8,5 +8,8 @@ import Html.Events exposing (..)
 
 location : Model -> Html Msg
 location model =
-    div [ class "center" ]
-        [ img [ class "w3 center mt4", src "/img/crosshair.svg", onClick GetLocation ] [] ]
+    div [ class "tc w-100 mt5-ns" ]
+        [ h2 [ class "green" ] [ text "Find Tech for Good Events near you" ]
+        , p [ class "green f6 mt5" ] [ text "get my location" ]
+        , div [ class "w3 center", onClick GetLocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
+        ]
