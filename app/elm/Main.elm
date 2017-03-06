@@ -26,4 +26,5 @@ initialModel =
     { postcode = ""
     , date = ""
     , events = []
+    , myLocation = Nothing
     }

@@ -7,6 +7,7 @@ type alias Model =
     { postcode : String
     , date : String
     , events : List SearchResult
+    , myLocation : Maybe Coords
     }
 
 
@@ -21,6 +22,12 @@ type alias SearchResult =
     , lon : Float
     , rsvpCount : Int
     , groupName : String
+    }
+
+
+type alias Coords =
+    { lat : Float
+    , lng : Float
     }
 
 

@@ -2,13 +2,14 @@ module View exposing (..)
 
 import Model exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Views.Navbar exposing (navbar)
-import Views.Search exposing (search)
+import Views.Location exposing (location)
 
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ class "flex" ]
         [ navbar model
-        , search model
+        , location model
         ]
