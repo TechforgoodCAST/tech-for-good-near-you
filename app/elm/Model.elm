@@ -1,18 +1,31 @@
 module Model exposing (..)
 
-import Dict exposing (Dict)
+import Http
 
 
 type alias Model =
     { postcode : String
-    , categories : Categories
+    , date : String
+    , events : List SearchResult
     }
 
 
-type alias Categories =
-    Dict Int ( String, Bool )
+type alias SearchResult =
+    { name : String
+    , description : String
+    , url : String
+    , time : Int
+    , address : String
+    , venueName : String
+    , lat : Float
+    , lon : Float
+    , rsvpCount : Int
+    , groupName : String
+    }
 
 
 type Msg
     = UpdatePostcode String
-    | ToggleCategory Int
+    | SetDate String
+    | GetSearchResults
+    | SearchResults (Result Http.Error (List SearchResult))

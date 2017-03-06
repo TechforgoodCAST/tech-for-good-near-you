@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import Data.Categories exposing (toggleCategory)
+import Data.Request exposing (getResults)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -10,5 +10,18 @@ update msg model =
         UpdatePostcode postcode ->
             { model | postcode = postcode } ! []
 
-        ToggleCategory catId ->
-            { model | categories = toggleCategory catId model.categories } ! []
+        SetDate date ->
+            { model | date = date } ! []
+
+        GetSearchResults ->
+            model ! [ getResults ]
+
+        SearchResults (Ok results) ->
+            { model | events = results } ! []
+
+        SearchResults (Err err) ->
+            let
+                log =
+                    Debug.log "Request Error" err
+            in
+                model ! []
