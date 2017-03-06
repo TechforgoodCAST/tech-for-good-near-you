@@ -1,9 +1,10 @@
 module Views.Search exposing (..)
 
-import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
+import Model exposing (..)
+import Data.Dates exposing (..)
 
 
 search : Model -> Html Msg
@@ -12,7 +13,7 @@ search model =
         [ h2 [ class "green" ] [ text "Tech for good events near you" ]
         , locationSearch model
         , dateSearch model
-        , button [ onClick GetSearchResults ] [ text "Search" ]
+        , div [ class "bg-green white pa2 ma2", onClick GetSearchResults ] [ text "Search" ]
         ]
 
 
@@ -27,8 +28,14 @@ locationSearch model =
 dateSearch : Model -> Html Msg
 dateSearch model =
     div []
-        [ h3 [ class "green" ] [ text "See events from " ]
-        , button [] [ text "Today" ]
-        , button [] [ text "This week" ]
-        , button [] [ text "This month" ]
+        ([ h3 [ class "green" ] [ text "See events from " ] ] ++ (List.map (dateButton model) datesList))
+
+
+dateButton : Model -> String -> Html Msg
+dateButton model date =
+    div
+        [ class "white pa2 ma2"
+        , classList [ ( "bg-yellow", date == model.date ), ( "bg-blue", date /= model.date ) ]
+        , onClick (SetDate date)
         ]
+        [ text date ]

@@ -4,7 +4,6 @@ import Html exposing (program)
 import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
-import Data.Categories exposing (..)
 
 
 main : Program Never Model Msg
@@ -25,7 +24,6 @@ init =
 initialModel : Model
 initialModel =
     { postcode = ""
-    , categories = allCategories
     , date = ""
     , events = []
     }
