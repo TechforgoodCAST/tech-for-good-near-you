@@ -3,6 +3,7 @@ module Model exposing (..)
 import Http
 import Geolocation
 import Time exposing (..)
+import Date exposing (..)
 
 
 type alias Model =
@@ -10,7 +11,7 @@ type alias Model =
     , selectedDate : String
     , events : List Event
     , userLocation : Maybe Coords
-    , currentDate : Maybe Time
+    , currentDate : Maybe Date
     }
 
 
@@ -18,7 +19,7 @@ type alias Event =
     { name : String
     , description : String
     , url : String
-    , time : Float
+    , time : Date
     , address : String
     , venueName : String
     , lat : Float
@@ -35,10 +36,10 @@ type alias Coords =
 
 
 type Msg
-    = UpdatePostcode String
+    = SetPostcode String
     | SetDate String
-    | GetSearchResults
-    | SearchResults (Result Http.Error (List Event))
+    | GetEvents
+    | Events (Result Http.Error (List Event))
     | GetLocation
     | Location (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time

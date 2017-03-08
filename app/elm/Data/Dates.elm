@@ -4,7 +4,7 @@ import Model exposing (..)
 import Date.Extra exposing (..)
 import Date exposing (..)
 import Task
-import Time
+import Time exposing (..)
 
 
 datesList : List String
@@ -21,12 +21,23 @@ getCurrentDate =
 
 
 filterByDate : Model -> List Event -> List Event
-filterByDate model =
-    List.filter (isEventThisWeek model)
+filterByDate { selectedDate, currentDate } =
+    case selectedDate of
+        "Today" ->
+            List.filter (isEventBefore Day currentDate)
+
+        "This week" ->
+            List.filter (isEventBefore Week currentDate)
+
+        "This month" ->
+            List.filter (isEventBefore Month currentDate)
+
+        _ ->
+            List.filter (always True)
 
 
-isEventThisWeek : Model -> Event -> Bool
-isEventThisWeek model event =
-    Just (fromTime event.time)
-        |> Maybe.map3 isBetween (Maybe.map fromTime model.currentDate) (Just (Date.Extra.ceiling Week (fromTime event.time)))
+isEventBefore : Interval -> Maybe Date -> Event -> Bool
+isEventBefore interval currentDate event =
+    Just (event.time)
+        |> Maybe.map3 isBetween currentDate (Maybe.map (Date.Extra.ceiling interval) currentDate)
         |> Maybe.withDefault False

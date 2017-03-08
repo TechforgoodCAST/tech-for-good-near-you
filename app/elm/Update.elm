@@ -2,26 +2,29 @@ module Update exposing (..)
 
 import Model exposing (..)
 import Data.Request exposing (getEvents)
-import Geolocation exposing (now)
-import Task
+import Data.Location exposing (..)
+import Date exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdatePostcode postcode ->
+        SetPostcode postcode ->
             { model | postcode = postcode } ! []
 
         SetDate date ->
-            { model | selectedDate = date } ! []
+            if model.selectedDate == date then
+                { model | selectedDate = "" } ! []
+            else
+                { model | selectedDate = date } ! []
 
-        GetSearchResults ->
+        GetEvents ->
             model ! [ getEvents ]
 
-        SearchResults (Ok results) ->
-            { model | events = results } ! []
+        Events (Ok events) ->
+            { model | events = events } ! []
 
-        SearchResults (Err err) ->
+        Events (Err err) ->
             let
                 log =
                     Debug.log "Request Error" err
@@ -32,11 +35,7 @@ update msg model =
             model ! [ getLocation ]
 
         Location (Ok location) ->
-            let
-                log =
-                    Debug.log "Location results" location
-            in
-                { model | userLocation = Just (getCoords location) } ! []
+            { model | userLocation = Just (getCoords location) } ! []
 
         Location (Err err) ->
             let
@@ -46,20 +45,4 @@ update msg model =
                 model ! []
 
         CurrentDate currentDate ->
-            let
-                log =
-                    Debug.log "today" currentDate
-            in
-                { model | currentDate = Just currentDate } ! []
-
-
-getLocation : Cmd Msg
-getLocation =
-    Task.attempt Location now
-
-
-getCoords : Geolocation.Location -> Coords
-getCoords location =
-    { lat = location.latitude
-    , lon = location.longitude
-    }
+            { model | currentDate = Just (fromTime currentDate) } ! []

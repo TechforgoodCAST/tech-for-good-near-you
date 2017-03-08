@@ -13,4 +13,4 @@ events model =
 
 eventView : Event -> Html Msg
 eventView event =
-    div [ class "ma2 green" ] [ text event.name ]
+    div [ class "ma2 green" ] [ text event.name, text (toString event.time) ]
