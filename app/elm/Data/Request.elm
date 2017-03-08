@@ -6,18 +6,18 @@ import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
 
 
-getResults : Cmd Msg
-getResults =
+getEvents : Cmd Msg
+getEvents =
     Http.send SearchResults (Http.get "http://localhost:3000/events" (list decodeEvent))
 
 
-decodeEvent : Decoder SearchResult
+decodeEvent : Decoder Event
 decodeEvent =
-    decode SearchResult
+    decode Event
         |> required "name" string
         |> optional "description" string ""
         |> required "event_url" string
-        |> required "time" int
+        |> required "time" float
         |> optionalAt [ "venue", "address_1" ] string ""
         |> optionalAt [ "venue", "name" ] string ""
         |> optionalAt [ "venue", "lat" ] float 51

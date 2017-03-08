@@ -2,21 +2,23 @@ module Model exposing (..)
 
 import Http
 import Geolocation
+import Time exposing (..)
 
 
 type alias Model =
     { postcode : String
-    , date : String
-    , events : List SearchResult
+    , selectedDate : String
+    , events : List Event
     , userLocation : Maybe Coords
+    , currentDate : Maybe Time
     }
 
 
-type alias SearchResult =
+type alias Event =
     { name : String
     , description : String
     , url : String
-    , time : Int
+    , time : Float
     , address : String
     , venueName : String
     , lat : Float
@@ -36,6 +38,7 @@ type Msg
     = UpdatePostcode String
     | SetDate String
     | GetSearchResults
-    | SearchResults (Result Http.Error (List SearchResult))
+    | SearchResults (Result Http.Error (List Event))
     | GetLocation
     | Location (Result Geolocation.Error Geolocation.Location)
+    | CurrentDate Time

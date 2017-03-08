@@ -4,6 +4,8 @@ import Html exposing (program)
 import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
+import Data.Request exposing (..)
+import Data.Dates exposing (..)
 
 
 main : Program Never Model Msg
@@ -18,13 +20,14 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, getCurrentDate )
 
 
 initialModel : Model
 initialModel =
     { postcode = ""
-    , date = ""
+    , selectedDate = ""
     , events = []
     , userLocation = Nothing
+    , currentDate = Nothing
     }

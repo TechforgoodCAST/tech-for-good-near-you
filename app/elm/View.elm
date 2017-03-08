@@ -5,15 +5,15 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Views.Navbar exposing (navbar)
 import Views.Location exposing (location)
-
-
--- import Views.Search exposing (search)
+import Views.Events exposing (events)
+import Views.Search exposing (search)
 
 
 view : Model -> Html Msg
 view model =
     div [ class "flex" ]
         [ navbar model
-          -- , search model
-        , location model
+        , search model
+          -- , location model
+        , events model
         ]

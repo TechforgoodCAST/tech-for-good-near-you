@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import Data.Request exposing (getResults)
+import Data.Request exposing (getEvents)
 import Geolocation exposing (now)
 import Task
 
@@ -13,10 +13,10 @@ update msg model =
             { model | postcode = postcode } ! []
 
         SetDate date ->
-            { model | date = date } ! []
+            { model | selectedDate = date } ! []
 
         GetSearchResults ->
-            model ! [ getResults ]
+            model ! [ getEvents ]
 
         SearchResults (Ok results) ->
             { model | events = results } ! []
@@ -44,6 +44,13 @@ update msg model =
                     Debug.log "Location Error" err
             in
                 model ! []
+
+        CurrentDate currentDate ->
+            let
+                log =
+                    Debug.log "today" currentDate
+            in
+                { model | currentDate = Just currentDate } ! []
 
 
 getLocation : Cmd Msg

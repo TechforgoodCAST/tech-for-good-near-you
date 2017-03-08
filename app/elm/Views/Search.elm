@@ -35,7 +35,7 @@ dateButton : Model -> String -> Html Msg
 dateButton model date =
     div
         [ class "white pa2 ma2"
-        , classList [ ( "bg-yellow", date == model.date ), ( "bg-blue", date /= model.date ) ]
+        , classList [ ( "bg-yellow", date == model.selectedDate ), ( "bg-blue", date /= model.selectedDate ) ]
         , onClick (SetDate date)
         ]
         [ text date ]
