@@ -1,11 +1,13 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Html exposing (program)
 import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
-import Data.Request exposing (..)
 import Data.Dates exposing (..)
+
+
+port initMap : Marker -> Cmd msg
 
 
 main : Program Never Model Msg
@@ -20,7 +22,12 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, getCurrentDate )
+    ( initialModel, Cmd.batch commands )
+
+
+commands : List (Cmd Msg)
+commands =
+    [ getCurrentDate, initMap (Marker "1" "hello" 51.5062 0.1164) ]
 
 
 initialModel : Model

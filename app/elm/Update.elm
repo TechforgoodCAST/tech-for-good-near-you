@@ -1,9 +1,13 @@
-module Update exposing (..)
+port module Update exposing (..)
 
 import Model exposing (..)
 import Data.Request exposing (getEvents)
 import Data.Location exposing (..)
+import Data.Dates exposing (..)
 import Date exposing (..)
+
+
+port updateMarkers : List Marker -> Cmd msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -13,16 +17,23 @@ update msg model =
             { model | postcode = postcode } ! []
 
         SetDate date ->
-            if model.selectedDate == date then
-                { model | selectedDate = "" } ! []
-            else
-                { model | selectedDate = date } ! []
+            let
+                noDateSelected =
+                    { model | selectedDate = "" }
+
+                newDateSelected =
+                    { model | selectedDate = date }
+            in
+                if model.selectedDate == date then
+                    noDateSelected ! [ updateMarkers (eventMarkers (filterByDate noDateSelected noDateSelected.events)) ]
+                else
+                    newDateSelected ! [ updateMarkers (eventMarkers (filterByDate newDateSelected newDateSelected.events)) ]
 
         GetEvents ->
             model ! [ getEvents ]
 
         Events (Ok events) ->
-            { model | events = events } ! []
+            { model | events = events } ! [ updateMarkers (eventMarkers events) ]
 
         Events (Err err) ->
             let
@@ -46,3 +57,9 @@ update msg model =
 
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []
+
+
+eventMarkers : List Event -> List Marker
+eventMarkers events =
+    events
+        |> List.map (\{ lat, lng, description, url } -> { url = url, lat = lat, lng = lng, description = description })

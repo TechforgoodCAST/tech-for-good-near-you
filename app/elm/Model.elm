@@ -6,6 +6,9 @@ import Time exposing (..)
 import Date exposing (..)
 
 
+-- TODO: Change post and selectedDate to Maybes
+
+
 type alias Model =
     { postcode : String
     , selectedDate : String
@@ -23,7 +26,7 @@ type alias Event =
     , address : String
     , venueName : String
     , lat : Float
-    , lon : Float
+    , lng : Float
     , rsvpCount : Int
     , groupName : String
     }
@@ -31,7 +34,15 @@ type alias Event =
 
 type alias Coords =
     { lat : Float
-    , lon : Float
+    , lng : Float
+    }
+
+
+type alias Marker =
+    { url : String
+    , description : String
+    , lat : Float
+    , lng : Float
     }
 
 

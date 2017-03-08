@@ -11,8 +11,18 @@
     <div id="main"> </div>
   </body>
   <script src="main.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmUAx0BR-nEKDDUnf7wWqXO7E03HzNJoo"></script>
+  <script src="gmap.js" charset="utf-8"></script>
   <script>
     var node = document.getElementById('main')
     var app = Elm.Main.embed(node)
+    app.ports.initMap.subscribe(function (center) {
+      initMap(center)
+    })
+
+    app.ports.updateMarkers.subscribe(function (coords) {
+      addMarkers(coords)
+    })
+
   </script>
 </html>
