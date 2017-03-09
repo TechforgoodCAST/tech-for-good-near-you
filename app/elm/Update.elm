@@ -35,7 +35,7 @@ update msg model =
             model ! [ getLocation ]
 
         Location (Ok location) ->
-            { model | userLocation = Just (getCoords location) } ! []
+            { model | userLocation = Just (getCoords location) } ! [ updateUserLocation (getCoords location) ]
 
         Location (Err err) ->
             let

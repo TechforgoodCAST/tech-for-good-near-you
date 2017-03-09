@@ -68,7 +68,7 @@ function normalizeZoom (n) {
   }
 }
 
-function addMarkers (newMarkers) {
+function updateMarkers (newMarkers) {
   clearVisibleMarkers()
   newMarkers.forEach(m => visibleMarkers.push(makeMarker(m)))
   visibleMarkers.forEach(m => addMarkerListener(m))
@@ -77,4 +77,18 @@ function addMarkers (newMarkers) {
     fitBounds(visibleMarkers)
     normalizeZoom(13)
   }
+}
+
+function updateUserLocation (coords) {
+  var circle = new google.maps.Circle({
+    center: { lat: coords.lat, lng: coords.lng },
+    radius: coords.accuracy,
+    map: _map,
+    fillColor: '#0000FF',
+    fillOpacity: 0.5,
+    strokeColor: '#0000FF',
+    strokeOpacity: 1.0
+    })
+
+  _map.fitBounds(circle.getBounds());
 }
