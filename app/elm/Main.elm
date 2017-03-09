@@ -1,11 +1,11 @@
-port module Main exposing (..)
+module Main exposing (..)
 
 import Html exposing (program)
 import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
 import Data.Dates exposing (..)
-import Data.Maps exposing (..)
+import Data.Ports exposing (..)
 
 
 main : Program Never Model Msg

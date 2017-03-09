@@ -1,10 +1,10 @@
-port module Update exposing (..)
+module Update exposing (..)
 
 import Model exposing (..)
 import Data.Events exposing (getEvents)
 import Data.Location exposing (..)
 import Data.Dates exposing (..)
-import Data.Maps exposing (..)
+import Data.Ports exposing (..)
 import Date exposing (..)
 
 

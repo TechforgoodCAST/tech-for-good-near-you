@@ -36,3 +36,9 @@ floatToDate =
 defaultImgUrl : String
 defaultImgUrl =
     "https://benrmatthews.com/wp-content/uploads/2015/05/tech-for-good.jpg"
+
+
+eventMarkers : List Event -> List Marker
+eventMarkers events =
+    events
+        |> List.map (\{ lat, lng, description, url } -> { url = url, lat = lat, lng = lng, description = description })
