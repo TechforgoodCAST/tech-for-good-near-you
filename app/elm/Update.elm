@@ -4,6 +4,7 @@ import Model exposing (..)
 import Data.Events exposing (getEvents)
 import Data.Location exposing (..)
 import Data.Dates exposing (..)
+import Data.Events exposing (..)
 import Data.Ports exposing (..)
 import Date exposing (..)
 
