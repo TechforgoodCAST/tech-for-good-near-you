@@ -13,7 +13,7 @@ search model =
         [ h2 [ class "green" ] [ text "Tech for good events near you" ]
         , locationSearch model
         , dateSearch model
-        , div [ class "bg-green white pa2 ma2", onClick GetSearchResults ] [ text "Search" ]
+        , div [ class "bg-green white pa2 ma2 pointer", onClick GetEvents ] [ text "Search" ]
         ]
 
 
@@ -21,7 +21,7 @@ locationSearch : Model -> Html Msg
 locationSearch model =
     div [ class "flex" ]
         [ h3 [ class "green" ] [ text "Where are you based?" ]
-        , input [ class "ba b--green", onInput UpdatePostcode ] []
+        , input [ class "ba b--green", onInput SetPostcode ] []
         ]
 
 
@@ -34,8 +34,8 @@ dateSearch model =
 dateButton : Model -> String -> Html Msg
 dateButton model date =
     div
-        [ class "white pa2 ma2"
-        , classList [ ( "bg-yellow", date == model.date ), ( "bg-blue", date /= model.date ) ]
+        [ class "white pa2 ma2 pointer"
+        , classList [ ( "bg-yellow", date == model.selectedDate ), ( "bg-blue", date /= model.selectedDate ) ]
         , onClick (SetDate date)
         ]
         [ text date ]

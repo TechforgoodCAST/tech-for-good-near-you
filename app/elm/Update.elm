@@ -1,27 +1,48 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import Data.Request exposing (getResults)
+import Data.Events exposing (getEvents)
+import Data.Location exposing (..)
+import Data.Dates exposing (..)
+import Data.Events exposing (..)
+import Data.Ports exposing (..)
+import Date exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdatePostcode postcode ->
+        SetPostcode postcode ->
             { model | postcode = postcode } ! []
 
         SetDate date ->
-            { model | date = date } ! []
+            toggleSelectedDate model date
 
-        GetSearchResults ->
-            model ! [ getResults ]
+        GetEvents ->
+            model ! [ getEvents ]
 
-        SearchResults (Ok results) ->
-            { model | events = results } ! []
+        Events (Ok events) ->
+            { model | events = events } ! [ updateMarkers (eventMarkers events) ]
 
-        SearchResults (Err err) ->
+        Events (Err err) ->
             let
                 log =
                     Debug.log "Request Error" err
             in
                 model ! []
+
+        GetLocation ->
+            model ! [ getLocation ]
+
+        Location (Ok location) ->
+            { model | userLocation = Just (getCoords location) } ! []
+
+        Location (Err err) ->
+            let
+                log =
+                    Debug.log "Location Error" err
+            in
+                model ! []
+
+        CurrentDate currentDate ->
+            { model | currentDate = Just (fromTime currentDate) } ! []

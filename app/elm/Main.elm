@@ -4,6 +4,8 @@ import Html exposing (program)
 import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
+import Data.Dates exposing (..)
+import Data.Ports exposing (..)
 
 
 main : Program Never Model Msg
@@ -18,12 +20,19 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, Cmd.batch commands )
+
+
+commands : List (Cmd Msg)
+commands =
+    [ getCurrentDate, initMap (Marker "1" "hello" 51.5062 0.1164) ]
 
 
 initialModel : Model
 initialModel =
     { postcode = ""
-    , date = ""
+    , selectedDate = ""
     , events = []
+    , userLocation = Nothing
+    , currentDate = Nothing
     }

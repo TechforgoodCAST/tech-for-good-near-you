@@ -6,7 +6,9 @@
   "scripts": {
     "live": "elm-live app/elm/Main.elm --output=public/main.js --dir=public --open --pushstate",
     "css": "postcss --watch --config postcss-config.js",
-    "start": "nodemon lib/"
+    "watch": "npm run css & npm run live",
+    "start": "nodemon lib/",
+    "dev": "npm start & npm run css & npm run live"
   },
   "repository": {
     "type": "git",
