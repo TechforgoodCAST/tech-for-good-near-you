@@ -1,4 +1,4 @@
-module Data.Request exposing (..)
+module Data.Events exposing (..)
 
 import Http
 import Json.Decode exposing (..)

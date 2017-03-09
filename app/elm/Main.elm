@@ -5,9 +5,7 @@ import Model exposing (..)
 import Update exposing (..)
 import View exposing (..)
 import Data.Dates exposing (..)
-
-
-port initMap : Marker -> Cmd msg
+import Data.Maps exposing (..)
 
 
 main : Program Never Model Msg
