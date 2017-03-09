@@ -28,13 +28,21 @@ update msg model =
             model ! []
 
         GetGeolocation ->
-            model ! [ getGeolocation ]
+            { model | fetchingLocation = True } ! [ getGeolocation ]
 
         Location (Ok location) ->
-            { model | userLocation = Just (getCoords location) } ! []
+            { model
+                | userLocation = Just (getCoords location)
+                , view = MyDates
+                , fetchingLocation = False
+            }
+                ! []
 
         Location (Err err) ->
             model ! []
 
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []
+
+        SetView view ->
+            { model | view = view } ! []

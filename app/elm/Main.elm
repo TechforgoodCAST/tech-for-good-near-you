@@ -29,10 +29,12 @@ commands =
 
 initialModel : Model
 initialModel =
-    { postcode = Valid "W1T 4JE"
+    { postcode = NotEntered
     , selectedDate = ""
     , events = []
     , userLocation = Nothing
+    , fetchingLocation = False
     , currentDate = Nothing
     , mapVisible = False
+    , view = MyLocation
     }

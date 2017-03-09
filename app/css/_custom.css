@@ -6,3 +6,7 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.no-select {
+  user-select: none;
+}

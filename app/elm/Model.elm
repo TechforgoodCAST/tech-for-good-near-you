@@ -14,8 +14,10 @@ type alias Model =
     , selectedDate : String
     , events : List Event
     , userLocation : Maybe Coords
+    , fetchingLocation : Bool
     , currentDate : Maybe Date
     , mapVisible : Bool
+    , view : View
     }
 
 
@@ -33,9 +35,16 @@ type alias Event =
     }
 
 
+type View
+    = MyLocation
+    | MyDates
+    | Results
+
+
 type Postcode
-    = Valid String
+    = NotEntered
     | Invalid String
+    | Valid String
 
 
 type alias Coords =
@@ -60,3 +69,4 @@ type Msg
     | GetGeolocation
     | Location (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
+    | SetView View
