@@ -13,7 +13,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SetPostcode postcode ->
-            { model | postcode = postcode } ! []
+            { model | postcode = Just postcode } ! []
 
         SetDate date ->
             toggleSelectedDate model date
@@ -22,7 +22,7 @@ update msg model =
             model ! [ getEvents ]
 
         Events (Ok events) ->
-            { model | events = events } ! [ updateMarkers (eventMarkers events) ]
+            { model | events = Just events } ! [ updateMarkers (eventMarkers events) ]
 
         Events (Err err) ->
             let

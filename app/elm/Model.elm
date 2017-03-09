@@ -10,9 +10,9 @@ import Date exposing (..)
 
 
 type alias Model =
-    { postcode : String
-    , selectedDate : String
-    , events : List Event
+    { postcode : Maybe String
+    , selectedDate : Maybe String
+    , events : Maybe (List Event)
     , userLocation : Maybe Coords
     , currentDate : Maybe Date
     }
