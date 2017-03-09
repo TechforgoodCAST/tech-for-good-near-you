@@ -16,13 +16,9 @@
   <script>
     var node = document.getElementById('main')
     var app = Elm.Main.embed(node)
-    app.ports.initMap.subscribe(function (center) {
-      initMap(center)
-    })
+    app.ports.initMap.subscribe(initMap)
 
-    app.ports.updateMarkers.subscribe(function (coords) {
-      addMarkers(coords)
-    })
+    app.ports.updateMarkers.subscribe(addMarkers)
 
   </script>
 </html>
