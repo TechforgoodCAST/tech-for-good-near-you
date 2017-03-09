@@ -14,11 +14,7 @@ view model =
     div [ class "flex" ]
         [ navbar model
         , div [ class "w-100" ]
-            [ div [ id "myMap", class "w-100 h5" ] []
-            , div [ class "flex" ]
-                [ search model
-                  -- , location model
-                , events model
-                ]
+            [ div [ class "flex" ] []
+            , location model
             ]
         ]

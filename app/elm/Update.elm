@@ -12,8 +12,8 @@ import Date exposing (..)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SetPostcode postcode ->
-            { model | postcode = postcode } ! []
+        UpdatePostcode postcode ->
+            { model | postcode = validatePostcode postcode } ! []
 
         SetDate date ->
             toggleSelectedDate model date
@@ -25,24 +25,16 @@ update msg model =
             { model | events = events } ! [ updateMarkers (eventMarkers events) ]
 
         Events (Err err) ->
-            let
-                log =
-                    Debug.log "Request Error" err
-            in
-                model ! []
+            model ! []
 
-        GetLocation ->
-            model ! [ getLocation ]
+        GetGeolocation ->
+            model ! [ getGeolocation ]
 
         Location (Ok location) ->
             { model | userLocation = Just (getCoords location) } ! []
 
         Location (Err err) ->
-            let
-                log =
-                    Debug.log "Location Error" err
-            in
-                model ! []
+            model ! []
 
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []

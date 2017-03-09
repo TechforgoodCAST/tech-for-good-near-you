@@ -9,7 +9,8 @@ import Date exposing (..)
 
 getEvents : Cmd Msg
 getEvents =
-    Http.send Events (Http.get "http://localhost:3000/events" (list decodeEvent))
+    Http.get "http://localhost:3000/events" (list decodeEvent)
+        |> Http.send Events
 
 
 decodeEvent : Decoder Event
@@ -39,6 +40,10 @@ defaultImgUrl =
 
 
 eventMarkers : List Event -> List Marker
-eventMarkers events =
-    events
-        |> List.map (\{ lat, lng, description, url } -> { url = url, lat = lat, lng = lng, description = description })
+eventMarkers =
+    List.map makeMarker
+
+
+makeMarker : Event -> Marker
+makeMarker { url, description, lat, lng } =
+    Marker url description lat lng

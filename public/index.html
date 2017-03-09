@@ -16,6 +16,7 @@
   <script>
     var node = document.getElementById('main')
     var app = Elm.Main.embed(node)
+
     app.ports.initMap.subscribe(initMap)
 
     app.ports.updateMarkers.subscribe(addMarkers)
