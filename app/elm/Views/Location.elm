@@ -11,5 +11,5 @@ location model =
     div [ class "tc w-100 mt5-ns" ]
         [ h2 [ class "green" ] [ text "Find Tech for Good Events near you" ]
         , p [ class "green f6 mt5" ] [ text "get my location" ]
-        , div [ class "w3 center", onClick GetLocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
+        , div [ class "w3 center pointer", onClick SetUserLocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
         ]

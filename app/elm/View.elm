@@ -17,8 +17,8 @@ view model =
             [ div [ id "myMap", class "w-100 h5" ] []
             , div [ class "flex" ]
                 [ search model
-                  -- , location model
-                , events model
+                , location model
+                  -- , events model
                 ]
             ]
         ]
