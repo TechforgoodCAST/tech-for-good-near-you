@@ -2,7 +2,6 @@ module Update exposing (..)
 
 import Model exposing (..)
 import Data.Events exposing (getEvents)
-import Data.Location exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Ports exposing (..)
@@ -31,18 +30,8 @@ update msg model =
             in
                 model ! []
 
-        GetLocation ->
-            model ! [ getLocation ]
-
-        Location (Ok location) ->
-            { model | userLocation = Just (getCoords location) } ! []
-
-        Location (Err err) ->
-            let
-                log =
-                    Debug.log "Location Error" err
-            in
-                model ! []
-
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []
+
+        SetUserLocation ->
+            model ! [ setUserLocation () ]

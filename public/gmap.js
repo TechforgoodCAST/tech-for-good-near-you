@@ -68,7 +68,7 @@ function normalizeZoom (n) {
   }
 }
 
-function addMarkers (newMarkers) {
+function updateMarkers (newMarkers) {
   clearVisibleMarkers()
   newMarkers.forEach(m => visibleMarkers.push(makeMarker(m)))
   visibleMarkers.forEach(m => addMarkerListener(m))
@@ -77,4 +77,8 @@ function addMarkers (newMarkers) {
     fitBounds(visibleMarkers)
     normalizeZoom(13)
   }
+}
+
+function updateUserLocation () {
+  new GeolocationMarker(_map)
 }

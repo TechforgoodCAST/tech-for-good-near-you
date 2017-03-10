@@ -33,6 +33,5 @@ initialModel =
     { postcode = ""
     , selectedDate = ""
     , events = []
-    , userLocation = Nothing
     , currentDate = Nothing
     }

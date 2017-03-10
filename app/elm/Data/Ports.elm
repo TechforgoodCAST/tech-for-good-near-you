@@ -7,3 +7,6 @@ port initMap : Marker -> Cmd msg
 
 
 port updateMarkers : List Marker -> Cmd msg
+
+
+port setUserLocation : () -> Cmd msg
