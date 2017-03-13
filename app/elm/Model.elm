@@ -15,6 +15,7 @@ type alias Model =
     , currentDate : Maybe Date
     , mapVisible : Bool
     , view : View
+    , searchRadius : Int
     }
 
 
@@ -80,3 +81,4 @@ type Msg
     | PostcodeToLatLng (Result Http.Error Coords)
     | GetLatLngFromPostcode
     | GoToDates
+    | SetSearchRadius Int

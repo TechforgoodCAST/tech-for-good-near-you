@@ -30,3 +30,13 @@ getDistanceFromLatLngInMiles c1 c2 =
             2 * atan2 (sqrt a) (sqrt (1 - a))
     in
         round (r * c)
+
+
+filterByDistance : Model -> List Event -> List Event
+filterByDistance model =
+    List.filter (filterEventByDistance model.searchRadius)
+
+
+filterEventByDistance : Int -> Event -> Bool
+filterEventByDistance searchRadius event =
+    event.distance <= searchRadius

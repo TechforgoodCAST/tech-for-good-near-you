@@ -69,3 +69,6 @@ update msg model =
             (model ! [])
                 :> update (SetView MyDates)
                 :> update GetLatLngFromPostcode
+
+        SetSearchRadius radius ->
+            { model | searchRadius = radius } ! []
