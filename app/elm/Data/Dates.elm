@@ -9,13 +9,12 @@ import Data.Ports exposing (..)
 import Data.Events exposing (..)
 
 
-datesList : List String
+datesList : List DateRange
 datesList =
-    List.map dateRangeToString
-        [ Today
-        , ThisWeek
-        , ThisMonth
-        ]
+    [ Today
+    , ThisWeek
+    , ThisMonth
+    ]
 
 
 getCurrentDate : Cmd Msg

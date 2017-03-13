@@ -28,7 +28,7 @@ update msg model =
             model ! []
 
         Events (Ok events) ->
-            { model | events = events } ! [ updateMarkers (extractMarkers events) ]
+            { model | events = addDistanceToEvents model events } ! [ updateMarkers (extractMarkers events) ]
 
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]

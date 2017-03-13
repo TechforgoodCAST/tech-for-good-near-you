@@ -16,4 +16,4 @@ events model =
 
 eventView : Event -> Html Msg
 eventView event =
-    div [ class "ma2 green" ] [ text event.name, text (toString event.time) ]
+    div [ class "ma2 green" ] [ text event.name, text (toString event.time), text (toString event.distance) ]

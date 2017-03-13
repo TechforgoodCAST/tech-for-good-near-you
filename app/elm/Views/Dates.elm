@@ -39,7 +39,7 @@ dateSideOptions model =
     div [ class "mt5-ns" ] <| List.map (dateButton SideBar model) datesList
 
 
-dateButton : DateButton -> Model -> String -> Html Msg
+dateButton : DateButton -> Model -> DateRange -> Html Msg
 dateButton componentType model date =
     let
         ( bodyClasses, offClasses, onClasses ) =
@@ -53,9 +53,9 @@ dateButton componentType model date =
         div
             [ class ("br2 ba pointer no-select " ++ bodyClasses)
             , classList
-                [ ( offClasses, date == dateRangeToString model.selectedDate )
-                , ( onClasses, date /= dateRangeToString model.selectedDate )
+                [ ( offClasses, date == model.selectedDate )
+                , ( onClasses, date /= model.selectedDate )
                 ]
             , onClick (SetDate date)
             ]
-            [ span [ class "f6 fw4" ] [ text date ] ]
+            [ span [ class "f6 fw4" ] [ text (dateRangeToString date) ] ]

@@ -68,7 +68,7 @@ type alias Marker =
 
 type Msg
     = UpdatePostcode String
-    | SetDate String
+    | SetDate DateRange
     | GetEvents
     | Events (Result Http.Error (List Event))
     | GetGeolocation

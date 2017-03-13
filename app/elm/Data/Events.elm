@@ -59,3 +59,13 @@ extractMarkers =
 makeMarker : Event -> Marker
 makeMarker { url, description, lat, lng } =
     Marker url description lat lng
+
+
+addDistanceToEvents : Model -> List Event -> List Event
+addDistanceToEvents model events =
+    case model.userLocation of
+        Nothing ->
+            events
+
+        Just c1 ->
+            List.map (calculateEventDistance c1) events
