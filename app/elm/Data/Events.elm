@@ -39,6 +39,11 @@ defaultImgUrl =
     "https://benrmatthews.com/wp-content/uploads/2015/05/tech-for-good.jpg"
 
 
+centerAtLondon : Marker
+centerAtLondon =
+    Marker "" "" 51.5062 0.1164
+
+
 eventMarkers : List Event -> List Marker
 eventMarkers =
     List.map makeMarker

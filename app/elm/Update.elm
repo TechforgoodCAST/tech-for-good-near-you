@@ -7,6 +7,7 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Ports exposing (..)
 import Date exposing (..)
+import Helpers.Delay exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -38,6 +39,9 @@ update msg model =
             }
                 ! []
 
+        InitMap ->
+            model ! [ initMap centerAtLondon ]
+
         Location (Err err) ->
             model ! []
 
@@ -46,3 +50,6 @@ update msg model =
 
         SetView view ->
             { model | view = view } ! []
+
+        NavigateToResults ->
+            { model | view = Results } ! [ getEvents, delay 10 InitMap ]

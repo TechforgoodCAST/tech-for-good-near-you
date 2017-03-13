@@ -7,17 +7,26 @@ import Model exposing (..)
 import Data.Dates exposing (datesList)
 
 
-type DateComponent
+type DateButton
     = SideBar
     | Main
 
 
 dates : Model -> Html Msg
 dates model =
-    div [ class "mt5-ns" ]
+    div [ class "mt5-ns tc" ]
         [ h3 [ class "green" ] [ text "See events from:" ]
         , dateMainOptions model
+        , showNext model
         ]
+
+
+showNext : Model -> Html Msg
+showNext { selectedDate } =
+    if selectedDate /= "" then
+        p [ class "green pointer no-select", onClick NavigateToResults ] [ text "find events" ]
+    else
+        span [] []
 
 
 dateMainOptions : Model -> Html Msg
@@ -30,7 +39,7 @@ dateSideOptions model =
     div [ class "mt5-ns" ] <| List.map (dateButton SideBar model) datesList
 
 
-dateButton : DateComponent -> Model -> String -> Html Msg
+dateButton : DateButton -> Model -> String -> Html Msg
 dateButton componentType model date =
     let
         ( bodyClasses, offClasses, onClasses ) =

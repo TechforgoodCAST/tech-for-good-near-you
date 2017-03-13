@@ -70,3 +70,5 @@ type Msg
     | Location (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
     | SetView View
+    | InitMap
+    | NavigateToResults
