@@ -44,7 +44,7 @@ showNext : Model -> Html Msg
 showNext model =
     case model.postcode of
         Valid _ ->
-            p [ onClick (SetView MyDates), class "green" ] [ text "next" ]
+            p [ onClick (SetView MyDates), class "green pointer" ] [ text "next" ]
 
         _ ->
             span [] []

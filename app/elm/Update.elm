@@ -23,7 +23,7 @@ update msg model =
             model ! [ getEvents ]
 
         Events (Ok events) ->
-            { model | events = events } ! [ updateMarkers (eventMarkers events) ]
+            { model | events = events } ! [ updateMarkers (extractMarkers events) ]
 
         Events (Err err) ->
             model ! []

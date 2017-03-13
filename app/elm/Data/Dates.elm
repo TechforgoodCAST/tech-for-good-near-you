@@ -49,7 +49,7 @@ updateFilteredMarkers : Model -> Cmd Msg
 updateFilteredMarkers model =
     model.events
         |> filterByDate model
-        |> eventMarkers
+        |> extractMarkers
         |> updateMarkers
 
 

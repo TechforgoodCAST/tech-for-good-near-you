@@ -44,8 +44,8 @@ centerAtLondon =
     Marker "" "" 51.5062 0.1164
 
 
-eventMarkers : List Event -> List Marker
-eventMarkers =
+extractMarkers : List Event -> List Marker
+extractMarkers =
     List.map makeMarker
 
 
