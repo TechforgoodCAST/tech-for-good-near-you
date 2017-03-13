@@ -18,14 +18,13 @@ function initMap(center) {
 }
 
 function makeMarker (options) {
-  var _options = Object.assign(
-    {},
-    { map: _map },
-    { position: {
+  var _options = {
+    map: _map,
+    position: {
       lat: options.lat,
-      lng: options.lng }
+      lng: options.lng
     }
-  )
+  }
 
   return {
     url: options.url,
@@ -80,15 +79,14 @@ function updateMarkers (newMarkers) {
 }
 
 function updateUserLocation (coords) {
-  var circle = new google.maps.Circle({
-    center: { lat: coords.lat, lng: coords.lng },
-    radius: coords.accuracy,
+  var _options = {
     map: _map,
-    fillColor: '#0000FF',
-    fillOpacity: 0.5,
-    strokeColor: '#0000FF',
-    strokeOpacity: 1.0
-    })
+    icon: 'https://cloud.githubusercontent.com/assets/14013616/23849995/8989fe0a-07d5-11e7-9e81-c3786679d312.png',
+    position: {
+      lat: coords.lat,
+      lng: coords.lng
+    }
+  }
 
-  _map.fitBounds(circle.getBounds());
+  return { instance: new google.maps.Marker(_options) }
 }
