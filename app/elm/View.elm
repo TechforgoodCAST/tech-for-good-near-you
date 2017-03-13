@@ -11,7 +11,7 @@ view : Model -> Html Msg
 view model =
     div [ class "flex" ]
         [ navbar model
-        , div [ class "w-100" ]
+        , div [ class "w-100 ml6 pl4" ]
             [ div [ class "flex justify-center" ] [ router model ]
             ]
         ]

@@ -11,10 +11,11 @@ import Data.Events exposing (..)
 
 datesList : List String
 datesList =
-    [ "Today"
-    , "This week"
-    , "This month"
-    ]
+    List.map dateRangeToString
+        [ Today
+        , ThisWeek
+        , ThisMonth
+        ]
 
 
 getCurrentDate : Cmd Msg
@@ -25,16 +26,16 @@ getCurrentDate =
 filterByDate : Model -> List Event -> List Event
 filterByDate { selectedDate, currentDate } =
     case selectedDate of
-        "Today" ->
+        Today ->
             List.filter (isEventBefore Day currentDate)
 
-        "This week" ->
+        ThisWeek ->
             List.filter (isEventBefore Week currentDate)
 
-        "This month" ->
+        ThisMonth ->
             List.filter (isEventBefore Month currentDate)
 
-        _ ->
+        NoDate ->
             List.filter (always True)
 
 
@@ -53,11 +54,11 @@ updateFilteredMarkers model =
         |> updateMarkers
 
 
-toggleSelectedDate : Model -> String -> ( Model, Cmd Msg )
+toggleSelectedDate : Model -> DateRange -> ( Model, Cmd Msg )
 toggleSelectedDate model date =
     let
         noDateSelected =
-            { model | selectedDate = "" }
+            { model | selectedDate = NoDate }
 
         newDateSelected =
             { model | selectedDate = date }
@@ -66,3 +67,19 @@ toggleSelectedDate model date =
             noDateSelected ! [ updateFilteredMarkers noDateSelected ]
         else
             newDateSelected ! [ updateFilteredMarkers newDateSelected ]
+
+
+dateRangeToString : DateRange -> String
+dateRangeToString date =
+    case date of
+        Today ->
+            "Today"
+
+        ThisWeek ->
+            "This week"
+
+        ThisMonth ->
+            "This month"
+
+        NoDate ->
+            ""

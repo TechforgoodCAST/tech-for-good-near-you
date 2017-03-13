@@ -30,7 +30,7 @@ commands =
 initialModel : Model
 initialModel =
     { postcode = NotEntered
-    , selectedDate = ""
+    , selectedDate = NoDate
     , events = []
     , userLocation = Nothing
     , fetchingLocation = False
