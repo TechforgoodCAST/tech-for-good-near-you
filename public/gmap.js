@@ -18,14 +18,13 @@ function initMap(center) {
 }
 
 function makeMarker (options) {
-  var _options = Object.assign(
-    {},
-    { map: _map },
-    { position: {
+  var _options = {
+    map: _map,
+    position: {
       lat: options.lat,
-      lng: options.lng }
+      lng: options.lng
     }
-  )
+  }
 
   return {
     url: options.url,
@@ -68,7 +67,7 @@ function normalizeZoom (n) {
   }
 }
 
-function addMarkers (newMarkers) {
+function updateMarkers (newMarkers) {
   clearVisibleMarkers()
   newMarkers.forEach(m => visibleMarkers.push(makeMarker(m)))
   visibleMarkers.forEach(m => addMarkerListener(m))
@@ -77,4 +76,17 @@ function addMarkers (newMarkers) {
     fitBounds(visibleMarkers)
     normalizeZoom(13)
   }
+}
+
+function updateUserLocation (coords) {
+  var _options = {
+    map: _map,
+    icon: 'https://cloud.githubusercontent.com/assets/14013616/23849995/8989fe0a-07d5-11e7-9e81-c3786679d312.png',
+    position: {
+      lat: coords.lat,
+      lng: coords.lng
+    }
+  }
+
+  return { instance: new google.maps.Marker(_options) }
 }

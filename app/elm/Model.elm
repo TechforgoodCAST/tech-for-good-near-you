@@ -35,6 +35,7 @@ type alias Event =
 type alias Coords =
     { lat : Float
     , lng : Float
+    , accuracy : Float
     }
 
 

@@ -14,4 +14,5 @@ getCoords : Geolocation.Location -> Coords
 getCoords location =
     { lat = location.latitude
     , lng = location.longitude
+    , accuracy = location.accuracy
     }
