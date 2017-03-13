@@ -57,7 +57,7 @@ viewPostcode x =
             [ placeholder "W1T 4JE", class "green tc bn outline-0 f5 fw4" ]
 
         Valid postcode ->
-            [ class "green tc bn outline-0 f5 fw4" ]
+            [ class "green tc bn outline-0 f5 fw4", value (String.toUpper postcode) ]
 
         Invalid postcode ->
-            [ class "red tc bn outline-0 f5 fw4" ]
+            [ class "red tc bn outline-0 f5 fw4", value (String.toUpper postcode) ]

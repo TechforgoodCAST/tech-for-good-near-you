@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Model exposing (..)
-import Data.Dates exposing (datesList)
+import Data.Dates exposing (datesList, dateRangeToString)
 
 
 type DateButton
@@ -23,7 +23,7 @@ dates model =
 
 showNext : Model -> Html Msg
 showNext { selectedDate } =
-    if selectedDate /= "" then
+    if selectedDate /= NoDate then
         p [ class "green pointer no-select", onClick NavigateToResults ] [ text "find events" ]
     else
         span [] []
@@ -53,8 +53,8 @@ dateButton componentType model date =
         div
             [ class ("br2 ba pointer no-select " ++ bodyClasses)
             , classList
-                [ ( offClasses, date == model.selectedDate )
-                , ( onClasses, date /= model.selectedDate )
+                [ ( offClasses, date == dateRangeToString model.selectedDate )
+                , ( onClasses, date /= dateRangeToString model.selectedDate )
                 ]
             , onClick (SetDate date)
             ]

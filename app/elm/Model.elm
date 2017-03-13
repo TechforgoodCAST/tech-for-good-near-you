@@ -11,7 +11,7 @@ import Date exposing (..)
 
 type alias Model =
     { postcode : Postcode
-    , selectedDate : String
+    , selectedDate : DateRange
     , events : List Event
     , userLocation : Maybe Coords
     , fetchingLocation : Bool
@@ -45,6 +45,13 @@ type Postcode
     = NotEntered
     | Invalid String
     | Valid String
+
+
+type DateRange
+    = NoDate
+    | Today
+    | ThisWeek
+    | ThisMonth
 
 
 type alias Coords =
