@@ -2,12 +2,14 @@ module Update exposing (..)
 
 import Model exposing (..)
 import Data.Events exposing (getEvents)
-import Data.Location exposing (..)
+import Data.Location.Geo exposing (..)
+import Data.Location.Postcode exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Ports exposing (..)
 import Date exposing (..)
 import Helpers.Delay exposing (..)
+import Update.Extra.Infix exposing ((:>))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -22,14 +24,17 @@ update msg model =
         GetEvents ->
             model ! [ getEvents ]
 
-        Events (Ok events) ->
-            { model | events = events } ! [ updateMarkers (extractMarkers events) ]
-
         Events (Err err) ->
             model ! []
 
+        Events (Ok events) ->
+            { model | events = events } ! [ updateMarkers (extractMarkers events) ]
+
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]
+
+        Location (Err err) ->
+            model ! []
 
         Location (Ok location) ->
             { model
@@ -42,9 +47,6 @@ update msg model =
         InitMap ->
             model ! [ initMap centerAtLondon, setUserLocation model.userLocation ]
 
-        Location (Err err) ->
-            model ! []
-
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []
 
@@ -53,3 +55,25 @@ update msg model =
 
         NavigateToResults ->
             { model | view = Results } ! [ getEvents, delay 10 InitMap ]
+
+        GetLatLngFromPostcode ->
+            model ! [ getLatLng model ]
+
+        PostcodeToLatLng (Err err) ->
+            let
+                log =
+                    Debug.log "err" err
+            in
+                model ! []
+
+        PostcodeToLatLng (Ok coords) ->
+            let
+                log =
+                    Debug.log "coords" coords
+            in
+                { model | userLocation = Just coords } ! []
+
+        GoToDates ->
+            (model ! [])
+                :> update (SetView MyDates)
+                :> update GetLatLngFromPostcode
