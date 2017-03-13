@@ -50,6 +50,7 @@ type Postcode
 type alias Coords =
     { lat : Float
     , lng : Float
+    , accuracy : Float
     }
 
 

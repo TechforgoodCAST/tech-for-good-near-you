@@ -8,7 +8,7 @@ import Data.Dates exposing (..)
 
 events : Model -> Html Msg
 events model =
-    div []
+    div [ class "w-100" ]
         [ div [ id "myMap", class "w-100 vh-50" ] []
         , div [] (List.map eventView (filterByDate model model.events))
         ]

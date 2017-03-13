@@ -40,7 +40,7 @@ update msg model =
                 ! []
 
         InitMap ->
-            model ! [ initMap centerAtLondon ]
+            model ! [ initMap centerAtLondon, setUserLocation model.userLocation ]
 
         Location (Err err) ->
             model ! []

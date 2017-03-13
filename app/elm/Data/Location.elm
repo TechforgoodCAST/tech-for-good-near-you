@@ -4,6 +4,7 @@ import Model exposing (..)
 import Task
 import Geolocation
 import Regex exposing (..)
+import Data.Ports exposing (..)
 
 
 getGeolocation : Cmd Msg
@@ -15,7 +16,18 @@ getCoords : Geolocation.Location -> Coords
 getCoords location =
     { lat = location.latitude
     , lng = location.longitude
+    , accuracy = location.accuracy
     }
+
+
+setUserLocation : Maybe Coords -> Cmd Msg
+setUserLocation userLocation =
+    case userLocation of
+        Just location ->
+            updateUserLocation location
+
+        Nothing ->
+            Cmd.none
 
 
 validatePostcode : String -> Postcode
