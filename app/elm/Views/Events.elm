@@ -8,7 +8,7 @@ import Data.Dates exposing (..)
 
 events : Model -> Html Msg
 events model =
-    div [] (List.map eventView (filterByDate model model.events))
+    div [] (List.map eventView (Maybe.withDefault [] (filterByDate model model.events)))
 
 
 eventView : Event -> Html Msg

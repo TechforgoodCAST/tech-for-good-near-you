@@ -22,20 +22,20 @@ getCurrentDate =
     Task.perform CurrentDate Time.now
 
 
-filterByDate : Model -> List Event -> List Event
+filterByDate : Model -> Maybe (List Event) -> Maybe (List Event)
 filterByDate { selectedDate, currentDate } =
     case selectedDate of
-        "Today" ->
-            List.filter (isEventBefore Day currentDate)
+        Just "Today" ->
+            Maybe.map (List.filter (isEventBefore Day currentDate))
 
-        "This week" ->
-            List.filter (isEventBefore Week currentDate)
+        Just "This week" ->
+            Maybe.map (List.filter (isEventBefore Week currentDate))
 
-        "This month" ->
-            List.filter (isEventBefore Month currentDate)
+        Just "This month" ->
+            Maybe.map (List.filter (isEventBefore Month currentDate))
 
         _ ->
-            List.filter (always True)
+            Maybe.map (List.filter (always True))
 
 
 isEventBefore : Interval -> Maybe Date -> Event -> Bool
@@ -49,12 +49,12 @@ toggleSelectedDate : Model -> String -> ( Model, Cmd Msg )
 toggleSelectedDate model date =
     let
         noDateSelected =
-            { model | selectedDate = "" }
+            { model | selectedDate = Nothing }
 
         newDateSelected =
-            { model | selectedDate = date }
+            { model | selectedDate = Just date }
     in
-        if model.selectedDate == date then
-            noDateSelected ! [ updateMarkers (eventMarkers (filterByDate noDateSelected noDateSelected.events)) ]
+        if model.selectedDate == Just date then
+            noDateSelected ! [ Maybe.withDefault Cmd.none (Maybe.map updateMarkers (Maybe.map eventMarkers (filterByDate noDateSelected noDateSelected.events))) ]
         else
-            newDateSelected ! [ updateMarkers (eventMarkers (filterByDate newDateSelected newDateSelected.events)) ]
+            newDateSelected ! [ Maybe.withDefault Cmd.none (Maybe.map updateMarkers (Maybe.map eventMarkers (filterByDate newDateSelected newDateSelected.events))) ]

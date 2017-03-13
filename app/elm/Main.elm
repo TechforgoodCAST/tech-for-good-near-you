@@ -30,9 +30,9 @@ commands =
 
 initialModel : Model
 initialModel =
-    { postcode = ""
-    , selectedDate = ""
-    , events = []
+    { postcode = Nothing
+    , selectedDate = Nothing
+    , events = Nothing
     , userLocation = Nothing
     , currentDate = Nothing
     }
