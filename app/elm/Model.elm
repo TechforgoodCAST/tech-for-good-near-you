@@ -50,7 +50,6 @@ type Postcode
 type alias Coords =
     { lat : Float
     , lng : Float
-    , accuracy : Float
     }
 
 
@@ -73,3 +72,6 @@ type Msg
     | SetView View
     | InitMap
     | NavigateToResults
+    | PostcodeToLatLng (Result Http.Error Coords)
+    | GetLatLngFromPostcode
+    | GoToDates
