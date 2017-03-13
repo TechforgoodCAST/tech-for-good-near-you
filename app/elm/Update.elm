@@ -7,13 +7,14 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Ports exposing (..)
 import Date exposing (..)
+import Helpers.Delay exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SetPostcode postcode ->
-            { model | postcode = postcode } ! []
+        UpdatePostcode postcode ->
+            { model | postcode = validatePostcode postcode } ! []
 
         SetDate date ->
             toggleSelectedDate model date
@@ -22,27 +23,33 @@ update msg model =
             model ! [ getEvents ]
 
         Events (Ok events) ->
-            { model | events = events } ! [ updateMarkers (eventMarkers events) ]
+            { model | events = events } ! [ updateMarkers (extractMarkers events) ]
 
         Events (Err err) ->
-            let
-                log =
-                    Debug.log "Request Error" err
-            in
-                model ! []
+            model ! []
 
-        GetLocation ->
-            model ! [ getLocation ]
+        GetGeolocation ->
+            { model | fetchingLocation = True } ! [ getGeolocation ]
 
         Location (Ok location) ->
-            { model | userLocation = Just (getCoords location) } ! [ updateUserLocation (getCoords location) ]
+            { model
+                | userLocation = Just (getCoords location)
+                , view = MyDates
+                , fetchingLocation = False
+            }
+                ! []
+
+        InitMap ->
+            model ! [ initMap centerAtLondon, setUserLocation model.userLocation ]
 
         Location (Err err) ->
-            let
-                log =
-                    Debug.log "Location Error" err
-            in
-                model ! []
+            model ! []
 
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []
+
+        SetView view ->
+            { model | view = view } ! []
+
+        NavigateToResults ->
+            { model | view = Results } ! [ getEvents, delay 10 InitMap ]

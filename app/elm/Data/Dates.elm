@@ -45,6 +45,14 @@ isEventBefore interval currentDate event =
         |> Maybe.withDefault False
 
 
+updateFilteredMarkers : Model -> Cmd Msg
+updateFilteredMarkers model =
+    model.events
+        |> filterByDate model
+        |> extractMarkers
+        |> updateMarkers
+
+
 toggleSelectedDate : Model -> String -> ( Model, Cmd Msg )
 toggleSelectedDate model date =
     let
@@ -55,6 +63,6 @@ toggleSelectedDate model date =
             { model | selectedDate = date }
     in
         if model.selectedDate == date then
-            noDateSelected ! [ updateMarkers (eventMarkers (filterByDate noDateSelected noDateSelected.events)) ]
+            noDateSelected ! [ updateFilteredMarkers noDateSelected ]
         else
-            newDateSelected ! [ updateMarkers (eventMarkers (filterByDate newDateSelected newDateSelected.events)) ]
+            newDateSelected ! [ updateFilteredMarkers newDateSelected ]

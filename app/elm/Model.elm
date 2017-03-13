@@ -10,11 +10,14 @@ import Date exposing (..)
 
 
 type alias Model =
-    { postcode : String
+    { postcode : Postcode
     , selectedDate : String
     , events : List Event
     , userLocation : Maybe Coords
+    , fetchingLocation : Bool
     , currentDate : Maybe Date
+    , mapVisible : Bool
+    , view : View
     }
 
 
@@ -30,6 +33,18 @@ type alias Event =
     , rsvpCount : Int
     , groupName : String
     }
+
+
+type View
+    = MyLocation
+    | MyDates
+    | Results
+
+
+type Postcode
+    = NotEntered
+    | Invalid String
+    | Valid String
 
 
 type alias Coords =
@@ -48,10 +63,13 @@ type alias Marker =
 
 
 type Msg
-    = SetPostcode String
+    = UpdatePostcode String
     | SetDate String
     | GetEvents
     | Events (Result Http.Error (List Event))
-    | GetLocation
+    | GetGeolocation
     | Location (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
+    | SetView View
+    | InitMap
+    | NavigateToResults

@@ -3,7 +3,7 @@ let infoWindow
 let mapDiv
 let visibleMarkers = []
 
-function initMap(center) {
+function initMap (center) {
   var mapOptions = {
     zoom: 10,
     center: {
