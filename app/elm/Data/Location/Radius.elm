@@ -1,30 +1,32 @@
 module Data.Location.Radius exposing (..)
 
+import Model exposing (..)
+
 
 degreesToRadians : Float -> Float
 degreesToRadians deg =
     deg * (pi / 180)
 
 
-getDistanceFromLatLngInMiles : Float -> Float -> Float -> Float -> Float
-getDistanceFromLatLngInMiles lat1 lng1 lat2 lng2 =
+getDistanceFromLatLngInMiles : Coords -> Coords -> Int
+getDistanceFromLatLngInMiles c1 c2 =
     let
         r =
             3959
 
         distanceLat =
-            degreesToRadians (lat2 - lat1)
+            degreesToRadians (c2.lat - c1.lat)
 
         distanceLng =
-            degreesToRadians (lng2 - lng1)
+            degreesToRadians (c2.lng - c1.lng)
 
         a =
             ((sin (distanceLat / 2)) ^ 2)
-                + cos (degreesToRadians lat1)
-                * cos (degreesToRadians lat2)
+                + cos (degreesToRadians c1.lat)
+                * cos (degreesToRadians c2.lat)
                 * ((sin (distanceLng / 2)) ^ 2)
 
         c =
             2 * atan2 (sqrt a) (sqrt (1 - a))
     in
-        r * c
+        round (r * c)

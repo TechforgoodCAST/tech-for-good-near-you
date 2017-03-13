@@ -6,9 +6,6 @@ import Time exposing (..)
 import Date exposing (..)
 
 
--- TODO: Change post and selectedDate to Maybes
-
-
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
@@ -32,6 +29,7 @@ type alias Event =
     , lng : Float
     , rsvpCount : Int
     , groupName : String
+    , distance : Int
     }
 
 

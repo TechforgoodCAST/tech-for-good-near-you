@@ -3,6 +3,7 @@ module Data.Events exposing (..)
 import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
+import Data.Location.Radius exposing (..)
 import Model exposing (..)
 import Date exposing (..)
 
@@ -26,6 +27,12 @@ decodeEvent =
         |> optionalAt [ "venue", "lon" ] float 0
         |> required "yes_rsvp_count" int
         |> requiredAt [ "group", "name" ] string
+        |> hardcoded 0
+
+
+calculateEventDistance : Coords -> Event -> Event
+calculateEventDistance c1 event =
+    { event | distance = getDistanceFromLatLngInMiles c1 (Coords event.lat event.lng) }
 
 
 floatToDate : Decoder Date
