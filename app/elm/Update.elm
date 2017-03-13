@@ -60,18 +60,10 @@ update msg model =
             model ! [ getLatLng model ]
 
         PostcodeToLatLng (Err err) ->
-            let
-                log =
-                    Debug.log "err" err
-            in
-                model ! []
+            model ! []
 
         PostcodeToLatLng (Ok coords) ->
-            let
-                log =
-                    Debug.log "coords" coords
-            in
-                { model | userLocation = Just coords } ! []
+            { model | userLocation = Just coords } ! []
 
         GoToDates ->
             (model ! [])
