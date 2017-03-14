@@ -1,16 +1,14 @@
 module Data.Maps exposing (..)
 
 import Model exposing (..)
-import Data.Dates exposing (..)
-import Data.Location.Radius exposing (..)
 import Data.Ports exposing (..)
+import Data.Events exposing (..)
 
 
 updateFilteredMarkers : Model -> Cmd Msg
 updateFilteredMarkers model =
-    model.events
-        |> filterByDate model
-        |> filterByDistance model
+    model
+        |> filterEvents
         |> extractMarkers
         |> updateMarkers
 

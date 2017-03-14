@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Data.Dates exposing (..)
 import Data.Location.Radius exposing (..)
+import Data.Events exposing (..)
 
 
 events : Model -> Html Msg
@@ -18,10 +19,3 @@ events model =
 eventView : Event -> Html Msg
 eventView event =
     div [ class "ma2 green" ] [ text event.name, text (toString event.time), text (toString event.distance) ]
-
-
-filterEvents : Model -> List Event
-filterEvents model =
-    model.events
-        |> filterByDate model
-        |> filterByDistance model

@@ -4,6 +4,7 @@ import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Data.Location.Radius exposing (..)
+import Data.Dates exposing (..)
 import Model exposing (..)
 import Date exposing (..)
 
@@ -54,3 +55,10 @@ addDistanceToEvents model events =
 
         Just c1 ->
             List.map (calculateEventDistance c1) events
+
+
+filterEvents : Model -> List Event
+filterEvents model =
+    model.events
+        |> filterByDate model
+        |> filterByDistance model
