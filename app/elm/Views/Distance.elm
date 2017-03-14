@@ -6,10 +6,20 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
+distances : List ( String, Int )
+distances =
+    [ ( "Within 5 miles", 5 )
+    , ( "Within 10 miles", 10 )
+    , ( "+10 miles", 300 )
+    ]
+
+
 distanceOptions : Model -> Html Msg
 distanceOptions model =
     div []
-        [ div [ class "pa2", onClick (SetSearchRadius 5) ] [ text "Within 5 miles" ]
-        , div [ class "pa2", onClick (SetSearchRadius 10) ] [ text "Within 10 miles" ]
-        , div [ class "pa2", onClick (SetSearchRadius 300) ] [ text "+10 miles" ]
-        ]
+        (List.map distanceOption distances)
+
+
+distanceOption : ( String, Int ) -> Html Msg
+distanceOption ( distanceLabel, distance ) =
+    div [ class "pa2 pointer", onClick (SetSearchRadius distance) ] [ text distanceLabel ]

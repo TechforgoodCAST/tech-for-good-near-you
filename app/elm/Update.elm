@@ -7,6 +7,7 @@ import Data.Location.Postcode exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Ports exposing (..)
+import Data.Maps exposing (..)
 import Date exposing (..)
 import Helpers.Delay exposing (..)
 import Update.Extra.Infix exposing ((:>))
@@ -19,7 +20,11 @@ update msg model =
             { model | postcode = validatePostcode postcode } ! []
 
         SetDate date ->
-            toggleSelectedDate model date
+            let
+                newModel =
+                    toggleSelectedDate model date
+            in
+                newModel ! [ updateFilteredMarkers newModel ]
 
         GetEvents ->
             model ! [ getEvents ]
@@ -57,7 +62,7 @@ update msg model =
             { model | view = Results } ! [ getEvents, delay 10 InitMap ]
 
         GetLatLngFromPostcode ->
-            model ! [ getLatLng model ]
+            model ! [ getLatLngFromPostcode model ]
 
         PostcodeToLatLng (Err err) ->
             model ! []
@@ -71,4 +76,8 @@ update msg model =
                 :> update GetLatLngFromPostcode
 
         SetSearchRadius radius ->
-            { model | searchRadius = radius } ! []
+            let
+                newModel =
+                    { model | searchRadius = radius }
+            in
+                newModel ! [ updateFilteredMarkers newModel ]

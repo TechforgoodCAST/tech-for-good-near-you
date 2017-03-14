@@ -20,8 +20,8 @@ postcodeRegex =
     regex "^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$"
 
 
-getLatLng : Model -> Cmd Msg
-getLatLng model =
+getLatLngFromPostcode : Model -> Cmd Msg
+getLatLngFromPostcode model =
     case model.postcode of
         NotEntered ->
             Cmd.none
@@ -30,11 +30,11 @@ getLatLng model =
             Cmd.none
 
         Valid postcode ->
-            getLatLngRequest postcode
+            postcodeRequest postcode
 
 
-getLatLngRequest : String -> Cmd Msg
-getLatLngRequest postcode =
+postcodeRequest : String -> Cmd Msg
+postcodeRequest postcode =
     Http.get ("http://api.postcodes.io/postcodes/" ++ postcode) (at [ "result" ] postcodeDecoder)
         |> Http.send PostcodeToLatLng
 

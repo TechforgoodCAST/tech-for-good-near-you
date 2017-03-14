@@ -8,8 +8,8 @@ degreesToRadians deg =
     deg * (pi / 180)
 
 
-getDistanceFromLatLngInMiles : Coords -> Coords -> Int
-getDistanceFromLatLngInMiles c1 c2 =
+latLngToMiles : Coords -> Coords -> Int
+latLngToMiles c1 c2 =
     let
         r =
             3959

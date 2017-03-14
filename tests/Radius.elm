@@ -8,7 +8,7 @@ import Model exposing (..)
 
 suite : Test
 suite =
-    describe "getDistanceFromLatLngInMiles should"
+    describe "latLngToMiles should"
         [ test "should convert two pairs of lat lngs to a distance in miles" <|
             \_ ->
                 let
@@ -19,7 +19,7 @@ suite =
                         Coords 51.529902 0.042044
 
                     actual =
-                        getDistanceFromLatLngInMiles c1 c2
+                        latLngToMiles c1 c2
                 in
                     Expect.equal (round actual) 6
         ]

@@ -30,35 +30,20 @@ decodeEvent =
         |> hardcoded 0
 
 
-calculateEventDistance : Coords -> Event -> Event
-calculateEventDistance c1 event =
-    { event | distance = getDistanceFromLatLngInMiles c1 (Coords event.lat event.lng) }
-
-
 floatToDate : Decoder Date
 floatToDate =
     float
         |> andThen (\x -> (succeed (fromTime x)))
 
 
+calculateEventDistance : Coords -> Event -> Event
+calculateEventDistance c1 event =
+    { event | distance = latLngToMiles c1 (Coords event.lat event.lng) }
+
+
 defaultImgUrl : String
 defaultImgUrl =
     "https://benrmatthews.com/wp-content/uploads/2015/05/tech-for-good.jpg"
-
-
-centerAtLondon : Marker
-centerAtLondon =
-    Marker "" "" 51.5062 0.1164
-
-
-extractMarkers : List Event -> List Marker
-extractMarkers =
-    List.map makeMarker
-
-
-makeMarker : Event -> Marker
-makeMarker { url, description, lat, lng } =
-    Marker url description lat lng
 
 
 addDistanceToEvents : Model -> List Event -> List Event
