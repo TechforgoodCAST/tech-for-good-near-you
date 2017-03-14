@@ -6,9 +6,6 @@ import Time exposing (..)
 import Date exposing (..)
 
 
--- TODO: Change post and selectedDate to Maybes
-
-
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
@@ -18,6 +15,7 @@ type alias Model =
     , currentDate : Maybe Date
     , mapVisible : Bool
     , view : View
+    , searchRadius : Int
     }
 
 
@@ -32,6 +30,7 @@ type alias Event =
     , lng : Float
     , rsvpCount : Int
     , groupName : String
+    , distance : Int
     }
 
 
@@ -70,7 +69,7 @@ type alias Marker =
 
 type Msg
     = UpdatePostcode String
-    | SetDate String
+    | SetDate DateRange
     | GetEvents
     | Events (Result Http.Error (List Event))
     | GetGeolocation
@@ -82,3 +81,4 @@ type Msg
     | PostcodeToLatLng (Result Http.Error Coords)
     | GetLatLngFromPostcode
     | GoToDates
+    | SetSearchRadius Int

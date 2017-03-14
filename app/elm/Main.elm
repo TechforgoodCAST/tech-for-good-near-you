@@ -37,4 +37,5 @@ initialModel =
     , currentDate = Nothing
     , mapVisible = False
     , view = MyLocation
+    , searchRadius = 300
     }

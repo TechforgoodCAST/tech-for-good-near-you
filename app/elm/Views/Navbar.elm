@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Model exposing (..)
 import Views.Dates exposing (..)
+import Views.Distance exposing (..)
 
 
 navbar : Model -> Html Msg
@@ -12,6 +13,7 @@ navbar model =
         [ logo
         , p [ class "mt0 ml1" ] [ text "near you" ]
         , dateSideOptions model
+        , distanceOptions model
         ]
 
 

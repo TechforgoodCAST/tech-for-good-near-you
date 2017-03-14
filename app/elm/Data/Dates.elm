@@ -5,17 +5,14 @@ import Date.Extra exposing (..)
 import Date exposing (..)
 import Task
 import Time exposing (..)
-import Data.Ports exposing (..)
-import Data.Events exposing (..)
 
 
-datesList : List String
+datesList : List DateRange
 datesList =
-    List.map dateRangeToString
-        [ Today
-        , ThisWeek
-        , ThisMonth
-        ]
+    [ Today
+    , ThisWeek
+    , ThisMonth
+    ]
 
 
 getCurrentDate : Cmd Msg
@@ -46,29 +43,6 @@ isEventBefore interval currentDate event =
         |> Maybe.withDefault False
 
 
-updateFilteredMarkers : Model -> Cmd Msg
-updateFilteredMarkers model =
-    model.events
-        |> filterByDate model
-        |> extractMarkers
-        |> updateMarkers
-
-
-toggleSelectedDate : Model -> DateRange -> ( Model, Cmd Msg )
-toggleSelectedDate model date =
-    let
-        noDateSelected =
-            { model | selectedDate = NoDate }
-
-        newDateSelected =
-            { model | selectedDate = date }
-    in
-        if model.selectedDate == date then
-            noDateSelected ! [ updateFilteredMarkers noDateSelected ]
-        else
-            newDateSelected ! [ updateFilteredMarkers newDateSelected ]
-
-
 dateRangeToString : DateRange -> String
 dateRangeToString date =
     case date of
@@ -83,3 +57,11 @@ dateRangeToString date =
 
         NoDate ->
             ""
+
+
+toggleSelectedDate : Model -> DateRange -> Model
+toggleSelectedDate model date =
+    if model.selectedDate == date then
+        { model | selectedDate = NoDate }
+    else
+        { model | selectedDate = date }

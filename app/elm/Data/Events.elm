@@ -3,6 +3,8 @@ module Data.Events exposing (..)
 import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
+import Data.Location.Radius exposing (..)
+import Data.Dates exposing (..)
 import Model exposing (..)
 import Date exposing (..)
 
@@ -26,6 +28,7 @@ decodeEvent =
         |> optionalAt [ "venue", "lon" ] float 0
         |> required "yes_rsvp_count" int
         |> requiredAt [ "group", "name" ] string
+        |> hardcoded 0
 
 
 floatToDate : Decoder Date
@@ -34,21 +37,28 @@ floatToDate =
         |> andThen (\x -> (succeed (fromTime x)))
 
 
+calculateEventDistance : Coords -> Event -> Event
+calculateEventDistance c1 event =
+    { event | distance = latLngToMiles c1 (Coords event.lat event.lng) }
+
+
 defaultImgUrl : String
 defaultImgUrl =
     "https://benrmatthews.com/wp-content/uploads/2015/05/tech-for-good.jpg"
 
 
-centerAtLondon : Marker
-centerAtLondon =
-    Marker "" "" 51.5062 0.1164
+addDistanceToEvents : Model -> List Event -> List Event
+addDistanceToEvents model events =
+    case model.userLocation of
+        Nothing ->
+            events
+
+        Just c1 ->
+            List.map (calculateEventDistance c1) events
 
 
-extractMarkers : List Event -> List Marker
-extractMarkers =
-    List.map makeMarker
-
-
-makeMarker : Event -> Marker
-makeMarker { url, description, lat, lng } =
-    Marker url description lat lng
+filterEvents : Model -> List Event
+filterEvents model =
+    model.events
+        |> filterByDate model
+        |> filterByDistance model
