@@ -4,7 +4,6 @@ import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Data.Dates exposing (..)
-import Data.Location.Radius exposing (..)
 import Data.Events exposing (..)
 
 
@@ -12,10 +11,15 @@ events : Model -> Html Msg
 events model =
     div [ class "w-100" ]
         [ div [ id "myMap", class "w-100 vh-50" ] []
-        , div [] (List.map eventView (filterEvents model))
+        , div [ class "" ] (List.map eventView (filterEvents model))
         ]
 
 
 eventView : Event -> Html Msg
 eventView event =
-    div [ class "ma2 green" ] [ text event.name, text (toString event.time), text (toString event.distance) ]
+    div [ class "green ph4 pv3 mw7 center" ]
+        [ a [ href event.url, class "green no-underline", target "_blank" ] [ h3 [] [ text event.name ] ]
+        , p [ class "gray" ] [ (displayDate event.time) |> String.toUpper |> text ]
+        , p [] [ text event.address ]
+        , p [] [ text event.venueName ]
+        ]

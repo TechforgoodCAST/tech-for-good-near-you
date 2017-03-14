@@ -27,7 +27,7 @@ handleLocationFetch model =
 
 fetchingLocation : Html Msg
 fetchingLocation =
-    div [] [ p [] [ text "finding your location" ] ]
+    div [] [ p [ class "green" ] [ text "finding your location" ] ]
 
 
 enterPostcode : Model -> Html Msg
