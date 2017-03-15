@@ -50,4 +50,5 @@
 @import './_variables';
 @import './_transitions';
 @import './_animations';
+@import './_range';
 @import './_custom';

@@ -80,4 +80,4 @@ type Msg
     | PostcodeToLatLng (Result Http.Error Coords)
     | GetLatLngFromPostcode
     | GoToDates
-    | SetSearchRadius Int
+    | SetSearchRadius String
