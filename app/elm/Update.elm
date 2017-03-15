@@ -81,3 +81,6 @@ update msg model =
                     { model | searchRadius = radius }
             in
                 newModel ! [ updateFilteredMarkers newModel ]
+
+        CenterMap ->
+            model ! [ centerMap () ]

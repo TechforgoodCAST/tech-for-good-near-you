@@ -81,3 +81,4 @@ type Msg
     | GetLatLngFromPostcode
     | GoToDates
     | SetSearchRadius Int
+    | CenterMap

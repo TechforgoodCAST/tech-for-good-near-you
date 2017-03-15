@@ -31,3 +31,11 @@ distanceOption model ( distance, distanceLabel ) =
         [ div [ class "pointer br-100 bg-white", style [ ( "width", "10px" ), ( "height", "10px" ) ] ] []
         , p [ class "f6", classList [ ( "white", model.searchRadius == distance ), ( "green", model.searchRadius /= distance ) ] ] [ text distanceLabel ]
         ]
+
+
+centerMap : Html Msg
+centerMap =
+    div []
+        [ p [ class "white" ] [ text "center map" ]
+        , div [ class "w3 center pointer spin", onClick CenterMap ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ]
+        ]
