@@ -91,8 +91,8 @@ update msg model =
             in
                 newModel ! [ updateFilteredMarkers newModel ]
 
-        CenterMapUserLocation ->
-            model ! [ centerMapUserLocation () ]
+        CenterMapOnUser ->
+            model ! [ centerMapOnUser () ]
 
         CenterEvent marker ->
             model ! [ centerEvent marker ]

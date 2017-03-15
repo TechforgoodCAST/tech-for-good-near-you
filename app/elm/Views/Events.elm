@@ -20,8 +20,8 @@ events model =
 eventView : Event -> Html Msg
 eventView event =
     div [ class "green ph4 pv3 mw7 center" ]
-        [ h3 [ class "green pointer", onClick <| CenterEvent <| makeMarker <| event ] [ text event.title ]
-        , p [ class "gray" ] [ (displayDate event.time) |> text ]
+        [ h3 [ class "green pointer", onClick <| CenterEvent <| makeMarker event ] [ text event.title ]
+        , p [ class "gray" ] [ text <| displayDate event.time ]
         , p [] [ text event.address ]
         , p [] [ text event.venueName ]
         ]

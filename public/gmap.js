@@ -1,8 +1,8 @@
-let _map
-let infoWindow
-let mapDiv
-let userPosition
-let visibleMarkers = []
+var _map
+var infoWindow
+var mapDiv
+var userPosition
+var visibleMarkers = []
 
 function initMap (center) {
   var mapOptions = {
@@ -92,19 +92,21 @@ function updateUserLocation (coords) {
   userPosition = new google.maps.Marker(_options)
 }
 
-function centerMapUserLocation () {
+function centerMapOnUser () {
   _map.setCenter(userPosition.getPosition())
   _map.setZoom(13)
 }
 
 function centerEvent (event) {
-  var selectedMarkerObj = visibleMarkers.find(function(marker) {
+  var selectedMarkerArr = visibleMarkers.filter(function(marker) {
     return marker.title === event.title
   })
 
-  var selectedMarker = selectedMarkerObj.instance
+  var selectedMarker = selectedMarkerArr.length
+    ? selectedMarkerArr[0].instance
+    : {}
 
-  _map.setCenter(selectedMarker.getPosition())
+  _map.setCenter(event)
   _map.setZoom(13)
   infoWindow.setContent(makeDescription(event))
   infoWindow.open(_map, selectedMarker)

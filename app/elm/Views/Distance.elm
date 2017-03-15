@@ -29,7 +29,5 @@ distanceOptions model =
 
 centerMap : Html Msg
 centerMap =
-    div []
-        [ p [ class "white" ] [ text "center map" ]
-        , div [ class "w3 center pointer", onClick CenterMapUserLocation ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ]
-        ]
+    div [ class "w3 h3 pa2 absolute bottom-2 mb4 left-0 right-0 center" ]
+        [ div [ class "center pointer", onClick CenterMapOnUser ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ] ]
