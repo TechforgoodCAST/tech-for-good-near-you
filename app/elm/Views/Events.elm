@@ -13,7 +13,7 @@ events : Model -> Html Msg
 events model =
     div [ class "w-100" ]
         [ div [ id "myMap", class "w-100 vh-50" ] []
-        , div [ class "" ] (List.map eventView (filterEvents model))
+        , div [ class "vh-50 overflow-y-scroll" ] (List.map eventView (filterEvents model))
         ]
 
 
