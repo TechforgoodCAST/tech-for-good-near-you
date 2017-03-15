@@ -24,14 +24,14 @@ dates model =
 showNext : Model -> Html Msg
 showNext { selectedDate } =
     if selectedDate /= NoDate then
-        p [ class "green pointer no-select", onClick NavigateToResults ] [ text "find events" ]
+        p [ class "gold tracked mt4 pointer no-select", onClick NavigateToResults ] [ text "FIND EVENTS" ]
     else
         span [] []
 
 
 dateMainOptions : Model -> Html Msg
 dateMainOptions model =
-    div [ class "tc" ] <| List.map (dateButton Main model) datesList
+    div [ class "tc mt4" ] <| List.map (dateButton Main model) datesList
 
 
 dateSideOptions : Model -> Html Msg
@@ -51,7 +51,7 @@ dateButton componentType model date =
                     ( "b--white pv1 ph2 ma2 ml0", "bg-white green", "white" )
 
                 Main ->
-                    ( "b--green pv1 pa2 ma2", "bg-green white", "green" )
+                    ( "b--green pv2 ph5 ma2", "bg-green white", "green" )
     in
         div
             [ class ("br2 ba pointer no-select " ++ bodyClasses)

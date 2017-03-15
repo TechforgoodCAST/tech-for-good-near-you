@@ -33,7 +33,7 @@ fetchingLocation =
 enterPostcode : Model -> Html Msg
 enterPostcode model =
     div []
-        [ p [ class "green" ] [ text "-- OR --" ]
+        [ p [ class "green mv4 mv5-ns" ] [ text "-- OR --" ]
         , p [ class "green" ] [ text "Enter your postcode" ]
         , input ([ onInput UpdatePostcode ] ++ viewPostcode model.postcode) []
         , showNext model
@@ -44,7 +44,7 @@ showNext : Model -> Html Msg
 showNext model =
     case model.postcode of
         Valid _ ->
-            p [ onClick GoToDates, class "green pointer" ] [ text "next" ]
+            p [ onClick GoToDates, class "gold mt4 tracked pointer tracked" ] [ text "NEXT" ]
 
         _ ->
             span [] []
