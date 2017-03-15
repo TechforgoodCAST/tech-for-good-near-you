@@ -19,7 +19,6 @@ decodeEvent : Decoder Event
 decodeEvent =
     decode Event
         |> required "name" string
-        |> optional "description" string ""
         |> required "event_url" string
         |> required "time" floatToDate
         |> optionalAt [ "venue", "address_1" ] string ""

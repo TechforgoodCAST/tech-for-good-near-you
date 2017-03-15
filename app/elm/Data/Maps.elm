@@ -19,8 +19,8 @@ extractMarkers =
 
 
 makeMarker : Event -> Marker
-makeMarker { url, description, lat, lng } =
-    Marker url description lat lng
+makeMarker { url, title, lat, lng } =
+    Marker url title lat lng
 
 
 centerAtLondon : Marker

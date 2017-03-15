@@ -6,20 +6,28 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
-distances : List ( String, Int )
+distances : List ( Int, String )
 distances =
-    [ ( "Within 5 miles", 5 )
-    , ( "Within 10 miles", 10 )
-    , ( "+10 miles", 300 )
+    [ ( 5, "5" )
+    , ( 10, "10" )
+    , ( 15, "15" )
+    , ( 20, "20" )
+    , ( 25, "25" )
+    , ( 300, "+30" )
     ]
 
 
 distanceOptions : Model -> Html Msg
 distanceOptions model =
-    div []
-        (List.map distanceOption distances)
+    div [ class "mt4" ]
+        [ p [ class "white" ] [ text "events within (mi):" ]
+        , div [ class "flex justify-around" ] (List.map (distanceOption model) distances)
+        ]
 
 
-distanceOption : ( String, Int ) -> Html Msg
-distanceOption ( distanceLabel, distance ) =
-    div [ class "pa2 pointer", onClick (SetSearchRadius distance) ] [ text distanceLabel ]
+distanceOption : Model -> ( Int, String ) -> Html Msg
+distanceOption model ( distance, distanceLabel ) =
+    div [ onClick (SetSearchRadius distance), class "flex justify-center items-center flex-column w2" ]
+        [ div [ class "pointer br-100 bg-white", style [ ( "width", "10px" ), ( "height", "10px" ) ] ] []
+        , p [ class "f6", classList [ ( "white", model.searchRadius == distance ), ( "green", model.searchRadius /= distance ) ] ] [ text distanceLabel ]
+        ]

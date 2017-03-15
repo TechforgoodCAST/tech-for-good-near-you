@@ -65,3 +65,8 @@ toggleSelectedDate model date =
         { model | selectedDate = NoDate }
     else
         { model | selectedDate = date }
+
+
+displayDate : Date -> String
+displayDate date =
+    Date.Extra.toFormattedString "MMMM d, h:mm a" date

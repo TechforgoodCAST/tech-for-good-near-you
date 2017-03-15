@@ -20,8 +20,7 @@ type alias Model =
 
 
 type alias Event =
-    { name : String
-    , description : String
+    { title : String
     , url : String
     , time : Date
     , address : String
@@ -61,7 +60,7 @@ type alias Coords =
 
 type alias Marker =
     { url : String
-    , description : String
+    , title : String
     , lat : Float
     , lng : Float
     }

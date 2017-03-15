@@ -12,7 +12,7 @@ location model =
         [ class "tc w-100 mt5-ns" ]
         [ h2 [ class "green" ] [ text "Find Tech for Good Events near you" ]
         , p [ class "green f6 mt5" ] [ text "Get my location" ]
-        , div [ class "w3 center spin", onClick GetGeolocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
+        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
         , handleLocationFetch model
         ]
 
@@ -27,7 +27,7 @@ handleLocationFetch model =
 
 fetchingLocation : Html Msg
 fetchingLocation =
-    div [] [ p [] [ text "finding your location" ] ]
+    div [] [ p [ class "green" ] [ text "finding your location" ] ]
 
 
 enterPostcode : Model -> Html Msg

@@ -28,7 +28,7 @@ function makeMarker (options) {
 
   return {
     url: options.url,
-    description: options.description,
+    title: options.title,
     instance: new google.maps.Marker(_options)
   }
 }
@@ -42,7 +42,7 @@ function makeDescription (_marker) {
   return `
     <div>
       <a class="no-underline green" href="${_marker.url}" target="_blank">
-        <p>${_marker.description}</p>
+        <p>${_marker.title}</p>
       </a>
     </div>
   `
