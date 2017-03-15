@@ -77,7 +77,12 @@ update msg model =
 
         SetSearchRadius radius ->
             let
+                newRadius =
+                    radius
+                        |> String.toInt
+                        |> Result.withDefault 300
+
                 newModel =
-                    { model | searchRadius = radius }
+                    { model | searchRadius = newRadius }
             in
                 newModel ! [ updateFilteredMarkers newModel ]
