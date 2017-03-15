@@ -12,4 +12,7 @@ port updateMarkers : List Marker -> Cmd msg
 port updateUserLocation : Coords -> Cmd msg
 
 
-port centerMap : () -> Cmd msg
+port centerMapUserLocation : () -> Cmd msg
+
+
+port centerEvent : Marker -> Cmd msg

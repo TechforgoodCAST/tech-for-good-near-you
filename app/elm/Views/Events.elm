@@ -3,8 +3,10 @@ module Views.Events exposing (..)
 import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
+import Data.Maps exposing (..)
 
 
 events : Model -> Html Msg
@@ -18,7 +20,7 @@ events model =
 eventView : Event -> Html Msg
 eventView event =
     div [ class "green ph4 pv3 mw7 center" ]
-        [ a [ href event.url, class "green no-underline", target "_blank" ] [ h3 [] [ text event.title ] ]
+        [ h3 [ class "green pointer", onClick <| CenterEvent <| makeMarker <| event ] [ text event.title ]
         , p [ class "gray" ] [ (displayDate event.time) |> text ]
         , p [] [ text event.address ]
         , p [] [ text event.venueName ]

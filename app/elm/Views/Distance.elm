@@ -37,5 +37,5 @@ centerMap : Html Msg
 centerMap =
     div []
         [ p [ class "white" ] [ text "center map" ]
-        , div [ class "w3 center pointer spin", onClick CenterMap ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ]
+        , div [ class "w3 center pointer", onClick CenterMapUserLocation ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ]
         ]
