@@ -3,7 +3,6 @@ let infoWindow
 let mapDiv
 let userPosition
 let visibleMarkers = []
-let selectedMarker
 
 function initMap (center) {
   var mapOptions = {
