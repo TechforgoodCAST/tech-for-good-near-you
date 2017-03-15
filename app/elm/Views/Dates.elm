@@ -36,7 +36,10 @@ dateMainOptions model =
 
 dateSideOptions : Model -> Html Msg
 dateSideOptions model =
-    div [ class "mt5-ns" ] <| List.map (dateButton SideBar model) datesList
+    div [ class "mt5-ns" ]
+        [ p [ class "white" ] [ text "events from:" ]
+        , div [] (List.map (dateButton SideBar model) datesList)
+        ]
 
 
 dateButton : DateButton -> Model -> DateRange -> Html Msg

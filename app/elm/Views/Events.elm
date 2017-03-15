@@ -19,7 +19,7 @@ eventView : Event -> Html Msg
 eventView event =
     div [ class "green ph4 pv3 mw7 center" ]
         [ a [ href event.url, class "green no-underline", target "_blank" ] [ h3 [] [ text event.title ] ]
-        , p [ class "gray" ] [ (displayDate event.time) |> String.toUpper |> text ]
+        , p [ class "gray" ] [ (displayDate event.time) |> text ]
         , p [] [ text event.address ]
         , p [] [ text event.venueName ]
         ]
