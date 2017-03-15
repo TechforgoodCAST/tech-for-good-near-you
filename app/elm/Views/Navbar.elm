@@ -14,7 +14,7 @@ navbar model =
         , p [ class "mt0 ml1" ] [ text "near you" ]
         , dateSideOptions model
         , distanceOptions model
-        , centerMap
+        , centerMap model
         ]
 
 
