@@ -33,7 +33,11 @@ update msg model =
             model ! []
 
         Events (Ok events) ->
-            { model | events = addDistanceToEvents model events } ! [ updateMarkers (extractMarkers events) ]
+            let
+                newModel =
+                    { model | events = addDistanceToEvents model events }
+            in
+                newModel ! [ updateFilteredMarkers newModel ]
 
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]
@@ -59,7 +63,7 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            { model | view = Results } ! [ getEvents, delay 10 InitMap ]
+            { model | view = Results } ! [ getEvents, delay 100 InitMap ]
 
         GetLatLngFromPostcode ->
             model ! [ getLatLngFromPostcode model ]
@@ -86,3 +90,9 @@ update msg model =
                     { model | searchRadius = newRadius }
             in
                 newModel ! [ updateFilteredMarkers newModel ]
+
+        CenterMapOnUser ->
+            model ! [ centerMapOnUser () ]
+
+        CenterEvent marker ->
+            model ! [ centerEvent marker ]

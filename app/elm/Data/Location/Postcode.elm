@@ -35,7 +35,7 @@ getLatLngFromPostcode model =
 
 postcodeRequest : String -> Cmd Msg
 postcodeRequest postcode =
-    Http.get ("http://api.postcodes.io/postcodes/" ++ postcode) (at [ "result" ] postcodeDecoder)
+    Http.get ("http://api.postcodes.io/postcodes/" ++ (String.filter ((/=) ' ') postcode)) (at [ "result" ] postcodeDecoder)
         |> Http.send PostcodeToLatLng
 
 

@@ -25,3 +25,9 @@ distanceOptions model =
             , p [ class "dib fr f6" ] [ text "300mi" ]
             ]
         ]
+
+
+centerMap : Html Msg
+centerMap =
+    div [ class "w3 h3 pa2 absolute bottom-2 mb4 left-0 right-0 center" ]
+        [ div [ class "center pointer", onClick CenterMapOnUser ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ] ]

@@ -80,4 +80,6 @@ type Msg
     | PostcodeToLatLng (Result Http.Error Coords)
     | GetLatLngFromPostcode
     | GoToDates
+    | CenterMapOnUser
+    | CenterEvent Marker
     | SetSearchRadius String
