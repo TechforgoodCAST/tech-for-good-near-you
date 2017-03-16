@@ -14,7 +14,7 @@ type DateButton
 
 dates : Model -> Html Msg
 dates model =
-    div [ class "mt5-ns tc" ]
+    div [ class "mt5-ns tc fade-in" ]
         [ h3 [ class "green" ] [ text "See events from:" ]
         , dateMainOptions model
         , showNext model
@@ -54,7 +54,7 @@ dateButton componentType model date =
                     ( "b--green pv2 ph5 ma2", "bg-green white", "green" )
     in
         div
-            [ class ("br2 ba pointer no-select " ++ bodyClasses)
+            [ class ("br2 ba pointer t-3 all ease no-select " ++ bodyClasses)
             , classList
                 [ ( offClasses, date == model.selectedDate )
                 , ( onClasses, date /= model.selectedDate )

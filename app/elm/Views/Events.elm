@@ -30,7 +30,7 @@ eventView event =
             , div []
                 [ p [] [ text event.address ]
                 , p [] [ text event.venueName ]
-                , a [ href event.url, target "_blank" ] [ button [ class "pv2 ph3 bg-gold br2 f6 tracked gray bn outline-0" ] [ text "SEE MORE" ] ]
+                , a [ href event.url, target "_blank" ] [ button [ class "pv2 ph3 bg-gold br2 f6 tracked gray bn outline-0 pointer" ] [ text "SEE MORE" ] ]
                 ]
             ]
         ]
