@@ -26,16 +26,16 @@ update msg model =
             in
                 newModel ! [ updateFilteredMarkers newModel ]
 
-        GetEvents ->
-            model ! [ getEvents ]
-
         Events (Err err) ->
-            model ! []
+            { model | fetchingEvents = False } ! []
 
         Events (Ok events) ->
             let
                 newModel =
-                    { model | events = addDistanceToEvents model events }
+                    { model
+                        | events = addDistanceToEvents model events
+                        , fetchingEvents = False
+                    }
             in
                 newModel ! [ updateFilteredMarkers newModel ]
 
@@ -68,7 +68,7 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            { model | view = Results } ! [ getEvents, delay 100 InitMap ]
+            { model | view = Results, fetchingEvents = True } ! [ getEvents, delay 100 InitMap ]
 
         GetLatLngFromPostcode ->
             model ! [ getLatLngFromPostcode model ]

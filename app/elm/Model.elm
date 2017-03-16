@@ -10,6 +10,7 @@ type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
     , events : List Event
+    , fetchingEvents : Bool
     , userLocation : Maybe Coords
     , userLocationError : Bool
     , fetchingLocation : Bool
@@ -71,7 +72,6 @@ type alias Marker =
 type Msg
     = UpdatePostcode String
     | SetDate DateRange
-    | GetEvents
     | Events (Result Http.Error (List Event))
     | GetGeolocation
     | Location (Result Geolocation.Error Geolocation.Location)
