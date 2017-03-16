@@ -7,14 +7,27 @@ import Html.Events exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
+import Views.Dates exposing (dateMainOptions)
 
 
 events : Model -> Html Msg
 events model =
     div [ class "w-100" ]
         [ div [ id "myMap", class "w-100 vh-50-ns vh-25 fade-in bg-light-gray" ] []
-        , div [ class "vh-75 vh-50-ns overflow-y-scroll" ] (List.map eventView (filterEvents model))
+        , handleEventView model
         ]
+
+
+handleEventView : Model -> Html Msg
+handleEventView model =
+    if List.isEmpty (filterEvents model) && not model.fetchingEvents then
+        div [ class "green tc" ]
+            [ p [ class "fade-in f4 mt5-ns mt4" ] [ text ("No events " ++ (String.toLower <| dateRangeToString <| model.selectedDate)) ]
+            , p [ class "f6" ] [ text "Choose another date" ]
+            , div [ class "center mw5" ] [ dateMainOptions model ]
+            ]
+    else
+        div [ class "vh-75 vh-50-ns overflow-y-scroll" ] (List.map eventView (filterEvents model))
 
 
 eventView : Event -> Html Msg

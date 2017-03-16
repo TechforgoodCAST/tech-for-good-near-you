@@ -11,7 +11,7 @@ location : Model -> Html Msg
 location model =
     div
         [ class "tc w-100 mt5-ns fade-in" ]
-        [ h2 [ class "green mt4" ] [ text "Find Tech for Good Events near you" ]
+        [ h2 [ class "green mt4 ph3" ] [ text "Find Tech for Good Events near you" ]
         , handleUserLocationError model
         , handleLocationFetch model
         ]

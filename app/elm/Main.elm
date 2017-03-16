@@ -32,6 +32,7 @@ initialModel =
     { postcode = NotEntered
     , selectedDate = NoDate
     , events = []
+    , fetchingEvents = False
     , userLocation = Nothing
     , userLocationError = False
     , fetchingLocation = False
