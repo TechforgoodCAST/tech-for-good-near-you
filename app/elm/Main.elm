@@ -33,6 +33,7 @@ initialModel =
     , selectedDate = NoDate
     , events = []
     , userLocation = Nothing
+    , userLocationError = False
     , fetchingLocation = False
     , currentDate = Nothing
     , mapVisible = False

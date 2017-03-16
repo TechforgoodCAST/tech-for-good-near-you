@@ -11,6 +11,7 @@ type alias Model =
     , selectedDate : DateRange
     , events : List Event
     , userLocation : Maybe Coords
+    , userLocationError : Bool
     , fetchingLocation : Bool
     , currentDate : Maybe Date
     , mapVisible : Bool
