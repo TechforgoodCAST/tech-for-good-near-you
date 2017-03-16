@@ -4,6 +4,7 @@ import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Helpers.Events exposing (onEnter)
 
 
 location : Model -> Html Msg
@@ -59,7 +60,7 @@ showNext : Model -> Html Msg
 showNext model =
     case model.postcode of
         Valid _ ->
-            p [ onClick GoToDates, class "gold mt4 tracked pointer tracked" ] [ text "NEXT" ]
+            p [ onClick GoToDates, class "gold mt4 tracked pointer tracked fade-in" ] [ text "NEXT" ]
 
         _ ->
             span [] []
@@ -72,7 +73,7 @@ viewPostcode x =
             [ placeholder "W1T 4JE", class "green tc bn outline-0 f5 fw4" ]
 
         Valid postcode ->
-            [ class "green tc bn outline-0 f5 fw4", value (String.toUpper postcode) ]
+            [ class "green tc bn outline-0 f5 fw4", value (String.toUpper postcode), onEnter GoToDates ]
 
         Invalid postcode ->
             [ class "red tc bn outline-0 f5 fw4", value (String.toUpper postcode) ]
