@@ -33,9 +33,9 @@
   "dependencies": {
     "axios": "^0.15.3",
     "hapi": "^16.1.0",
+    "hapi-require-https": "^2.1.0",
     "inert": "^4.1.0",
-    "tachyons-custom": "^4.5.4",
-    "env2": "^2.1.1"
+    "tachyons-custom": "^4.5.4"
   },
   "homepage": "https://github.com/TechforgoodCAST/tech-for-good-near-you#readme"
 }
