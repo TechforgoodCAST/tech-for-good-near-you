@@ -10,7 +10,7 @@ location : Model -> Html Msg
 location model =
     div
         [ class "tc w-100 mt5-ns fade-in" ]
-        [ h2 [ class "green" ] [ text "Find Tech for Good Events near you" ]
+        [ h2 [ class "green mt4" ] [ text "Find Tech for Good Events near you" ]
         , handleUserLocationError model
         , handleLocationFetch model
         ]
@@ -43,7 +43,7 @@ handleLocationFetch model =
 
 fetchingLocation : Html Msg
 fetchingLocation =
-    div [] [ p [ class "green" ] [ text "finding your location" ] ]
+    div [] [ p [ class "green fade-in" ] [ text "finding your location" ] ]
 
 
 enterPostcode : Model -> Html Msg

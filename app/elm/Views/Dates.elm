@@ -24,7 +24,7 @@ dates model =
 showNext : Model -> Html Msg
 showNext { selectedDate } =
     if selectedDate /= NoDate then
-        p [ class "gold tracked mt4 pointer no-select", onClick NavigateToResults ] [ text "FIND EVENTS" ]
+        p [ class "gold tracked mt4 pointer no-select fade-in", onClick NavigateToResults ] [ text "FIND EVENTS" ]
     else
         span [] []
 
