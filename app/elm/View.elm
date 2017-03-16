@@ -9,9 +9,9 @@ import Views.Router exposing (router)
 
 view : Model -> Html Msg
 view model =
-    div [ class "flex" ]
+    div [ class "flex-ns" ]
         [ navbar model
-        , div [ class "w-100 ml6 pl4" ]
+        , div [ class "w-100 ml6-ns pl4-ns" ]
             [ div [ class "flex justify-center" ] [ router model ]
             ]
         ]

@@ -12,8 +12,8 @@ import Data.Maps exposing (..)
 events : Model -> Html Msg
 events model =
     div [ class "w-100" ]
-        [ div [ id "myMap", class "w-100 vh-50" ] []
-        , div [ class "vh-50 overflow-y-scroll" ] (List.map eventView (filterEvents model))
+        [ div [ id "myMap", class "w-100 vh-50-ns vh-25" ] []
+        , div [ class "vh-75 vh-50-ns overflow-y-scroll" ] (List.map eventView (filterEvents model))
         ]
 
 
