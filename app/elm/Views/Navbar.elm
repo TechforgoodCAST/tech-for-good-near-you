@@ -9,12 +9,12 @@ import Views.Distance exposing (..)
 
 navbar : Model -> Html Msg
 navbar model =
-    nav [ class "bg-green pa3 fixed white dib w5-ns vh-100 left-0 top-0" ]
+    nav [ class "bg-green pa3 fixed white dib w5-ns vh-100 left-0 top-0 fade-in" ]
         [ logo
         , p [ class "mt0 ml1" ] [ text "near you" ]
         , dateSideOptions model
         , distanceOptions model
-        , centerMap
+        , centerMap model
         ]
 
 

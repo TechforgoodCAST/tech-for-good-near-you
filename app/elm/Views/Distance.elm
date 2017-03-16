@@ -8,7 +8,7 @@ import Html.Events exposing (..)
 
 distanceOptions : Model -> Html Msg
 distanceOptions model =
-    div [ class "mt5 white pr3" ]
+    div [ class "mt5 white pr3 t-5 all ease", classList [ showAtResults model ] ]
         [ p [] [ text "events within:" ]
         , input
             [ type_ "range"
@@ -27,7 +27,12 @@ distanceOptions model =
         ]
 
 
-centerMap : Html Msg
-centerMap =
-    div [ class "w3 h3 pa2 absolute bottom-2 mb4 left-0 right-0 center" ]
+centerMap : Model -> Html Msg
+centerMap model =
+    div [ class "w3 h3 pa2 absolute bottom-2 mb4 left-0 right-0 center t-5 all ease", classList [ showAtResults model ] ]
         [ div [ class "center pointer", onClick CenterMapOnUser ] [ img [ class "w-100", src "img/crosshair-white.svg" ] [] ] ]
+
+
+showAtResults : Model -> ( String, Bool )
+showAtResults model =
+    ( "o-0", model.view /= Results )

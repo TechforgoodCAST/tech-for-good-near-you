@@ -9,7 +9,7 @@ import Html.Events exposing (..)
 location : Model -> Html Msg
 location model =
     div
-        [ class "tc w-100 mt5-ns" ]
+        [ class "tc w-100 mt5-ns fade-in" ]
         [ h2 [ class "green" ] [ text "Find Tech for Good Events near you" ]
         , p [ class "green f6 mt5" ] [ text "Get my location" ]
         , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
@@ -33,7 +33,7 @@ fetchingLocation =
 enterPostcode : Model -> Html Msg
 enterPostcode model =
     div []
-        [ p [ class "green" ] [ text "-- OR --" ]
+        [ p [ class "green mv4 mv5-ns" ] [ text "-- OR --" ]
         , p [ class "green" ] [ text "Enter your postcode" ]
         , input ([ onInput UpdatePostcode ] ++ viewPostcode model.postcode) []
         , showNext model
@@ -44,7 +44,7 @@ showNext : Model -> Html Msg
 showNext model =
     case model.postcode of
         Valid _ ->
-            p [ onClick GoToDates, class "green pointer" ] [ text "next" ]
+            p [ onClick GoToDates, class "gold mt4 tracked pointer tracked" ] [ text "NEXT" ]
 
         _ ->
             span [] []
