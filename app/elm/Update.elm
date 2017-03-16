@@ -43,11 +43,16 @@ update msg model =
             { model | fetchingLocation = True } ! [ getGeolocation ]
 
         Location (Err err) ->
-            model ! []
+            { model
+                | userLocationError = True
+                , fetchingLocation = False
+            }
+                ! []
 
         Location (Ok location) ->
             { model
                 | userLocation = Just (getCoords location)
+                , userLocationError = False
                 , view = MyDates
                 , fetchingLocation = False
             }
@@ -96,3 +101,6 @@ update msg model =
 
         CenterEvent marker ->
             model ! [ centerEvent marker ]
+
+        ToggleNavbar ->
+            { model | navbarOpen = not model.navbarOpen } ! []

@@ -36,7 +36,7 @@ dateMainOptions model =
 
 dateSideOptions : Model -> Html Msg
 dateSideOptions model =
-    div [ class "mt5-ns" ]
+    div [ class "mt3-ns" ]
         [ p [ class "white" ] [ text "events from:" ]
         , div [] (List.map (dateButton SideBar model) datesList)
         ]

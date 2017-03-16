@@ -33,9 +33,11 @@ initialModel =
     , selectedDate = NoDate
     , events = []
     , userLocation = Nothing
+    , userLocationError = False
     , fetchingLocation = False
     , currentDate = Nothing
     , mapVisible = False
     , view = MyLocation
     , searchRadius = 300
+    , navbarOpen = False
     }

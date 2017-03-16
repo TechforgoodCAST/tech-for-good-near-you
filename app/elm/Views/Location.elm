@@ -11,9 +11,25 @@ location model =
     div
         [ class "tc w-100 mt5-ns fade-in" ]
         [ h2 [ class "green" ] [ text "Find Tech for Good Events near you" ]
-        , p [ class "green f6 mt5" ] [ text "Get my location" ]
-        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
+        , handleUserLocationError model
         , handleLocationFetch model
+        ]
+
+
+handleUserLocationError : Model -> Html Msg
+handleUserLocationError model =
+    if model.userLocationError then
+        div [] [ p [ class "gold mv5" ] [ text "Could not get your location" ] ]
+    else
+        locationCrosshair model
+
+
+locationCrosshair : Model -> Html Msg
+locationCrosshair model =
+    div []
+        [ p [ class "green f6 mt5" ] [ text "Get my location" ]
+        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ img [ class "w-100", src "img/crosshair.svg" ] [] ]
+        , p [ class "green mv4 mv5-ns", classList [ ( "dn", model.fetchingLocation ) ] ] [ text "-- OR --" ]
         ]
 
 
@@ -33,8 +49,7 @@ fetchingLocation =
 enterPostcode : Model -> Html Msg
 enterPostcode model =
     div []
-        [ p [ class "green mv4 mv5-ns" ] [ text "-- OR --" ]
-        , p [ class "green" ] [ text "Enter your postcode" ]
+        [ p [ class "green" ] [ text "Enter your postcode" ]
         , input ([ onInput UpdatePostcode ] ++ viewPostcode model.postcode) []
         , showNext model
         ]
