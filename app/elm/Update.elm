@@ -96,3 +96,6 @@ update msg model =
 
         CenterEvent marker ->
             model ! [ centerEvent marker ]
+
+        ToggleNavbar ->
+            { model | navbarOpen = not model.navbarOpen } ! []

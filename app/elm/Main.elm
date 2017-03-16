@@ -38,4 +38,5 @@ initialModel =
     , mapVisible = False
     , view = MyLocation
     , searchRadius = 300
+    , navbarOpen = False
     }

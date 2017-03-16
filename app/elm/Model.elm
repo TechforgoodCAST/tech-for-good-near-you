@@ -16,6 +16,7 @@ type alias Model =
     , mapVisible : Bool
     , view : View
     , searchRadius : Int
+    , navbarOpen : Bool
     }
 
 
@@ -83,3 +84,4 @@ type Msg
     | CenterMapOnUser
     | CenterEvent Marker
     | SetSearchRadius String
+    | ToggleNavbar
