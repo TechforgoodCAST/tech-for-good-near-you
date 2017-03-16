@@ -24,7 +24,6 @@
     "autoprefixer": "^6.7.3",
     "elm": "^0.18.0",
     "elm-live": "^2.7.4",
-    "env2": "^2.1.1",
     "postcss-clean": "^1.0.2",
     "postcss-cli": "^2.6.0",
     "postcss-custom-media": "^5.0.1",
@@ -35,7 +34,8 @@
     "axios": "^0.15.3",
     "hapi": "^16.1.0",
     "inert": "^4.1.0",
-    "tachyons-custom": "^4.5.4"
+    "tachyons-custom": "^4.5.4",
+    "env2": "^2.1.1"
   },
   "homepage": "https://github.com/TechforgoodCAST/tech-for-good-near-you#readme"
 }
