@@ -21,7 +21,7 @@ events model =
 handleEventView : Model -> Html Msg
 handleEventView model =
     if List.isEmpty (filterEvents model) && not model.fetchingEvents then
-        div [ class "green tc" ]
+        div [ class "green tc fade-in" ]
             [ p [ class "fade-in f4 mt5-ns mt4" ] [ text ("No events " ++ (String.toLower <| dateRangeToString <| model.selectedDate)) ]
             , p [ class "f6" ] [ text "Choose another date" ]
             , div [ class "center mw5" ] [ dateMainOptions model ]
