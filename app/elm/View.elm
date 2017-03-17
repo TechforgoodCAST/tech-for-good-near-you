@@ -10,7 +10,7 @@ import Helpers.Style exposing (toggleNavClasses)
 
 view : Model -> Html Msg
 view model =
-    div [ class "flex-ns" ]
+    div [ class "flex-ns vh-100" ]
         [ navbar model
         , div [ class "w-100 ml6-ns pl4-ns t-5 all ease", classList <| toggleNavClasses model ]
             [ div [ class "flex justify-center" ] [ router model ]

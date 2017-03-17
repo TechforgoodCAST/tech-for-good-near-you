@@ -15,6 +15,13 @@ body {
   margin-top: -var(--spacing-large);
 }
 
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+.vh-60 {
+  height: 60vh;
+}
 
 @media (--breakpoint-not-small) {
   .bg-green-ns {
