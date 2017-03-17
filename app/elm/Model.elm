@@ -53,6 +53,7 @@ type DateRange
     | Today
     | ThisWeek
     | ThisMonth
+    | All
 
 
 type alias Coords =

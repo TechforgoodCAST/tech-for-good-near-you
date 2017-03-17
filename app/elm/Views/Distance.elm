@@ -10,7 +10,7 @@ import Helpers.Style exposing (showAtResults)
 distanceOptions : Model -> Html Msg
 distanceOptions model =
     div [ class "mt5 white pr3 t-5 all ease", classList [ showAtResults model ] ]
-        [ p [] [ text "events within:" ]
+        [ p [] [ text "meetups within:" ]
         , input
             [ type_ "range"
             , Atr.min "5"

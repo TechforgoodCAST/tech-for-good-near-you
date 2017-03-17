@@ -12,6 +12,7 @@ datesList =
     [ Today
     , ThisWeek
     , ThisMonth
+    , All
     ]
 
 
@@ -24,16 +25,19 @@ filterByDate : Model -> List Event -> List Event
 filterByDate { selectedDate, currentDate } =
     case selectedDate of
         Today ->
-            List.filter (isEventBefore Day currentDate)
+            List.filter <| isEventBefore Day currentDate
 
         ThisWeek ->
-            List.filter (isEventBefore Week currentDate)
+            List.filter <| isEventBefore Week currentDate
 
         ThisMonth ->
-            List.filter (isEventBefore Month currentDate)
+            List.filter <| isEventBefore Month currentDate
+
+        All ->
+            List.filter <| always True
 
         NoDate ->
-            List.filter (always True)
+            List.filter <| always True
 
 
 isEventBefore : Interval -> Maybe Date -> Event -> Bool
@@ -54,6 +58,9 @@ dateRangeToString date =
 
         ThisMonth ->
             "This month"
+
+        All ->
+            "All meetups"
 
         NoDate ->
             ""
