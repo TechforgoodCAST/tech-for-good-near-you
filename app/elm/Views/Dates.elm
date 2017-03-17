@@ -15,7 +15,7 @@ type DateButton
 dates : Model -> Html Msg
 dates model =
     div [ class "mt5-ns tc fade-in" ]
-        [ h3 [ class "green" ] [ text "See events from:" ]
+        [ h3 [ class "green" ] [ text "See meetups from:" ]
         , dateMainOptions model
         , showNext model
         ]
@@ -37,7 +37,7 @@ dateMainOptions model =
 dateSideOptions : Model -> Html Msg
 dateSideOptions model =
     div [ class "mt3-ns" ]
-        [ p [ class "white" ] [ text "events from:" ]
+        [ p [ class "white" ] [ text "meetups from:" ]
         , div [] (List.map (dateButton SideBar model) datesList)
         ]
 
