@@ -18,8 +18,8 @@
   transform: translateY(0);
 }
 
-.trans-y--320 {
-  transform: translateY(-320px);
+.trans-y--350 {
+  transform: translateY(-350px);
 }
 
 @media (--breakpoint-not-small) {
