@@ -27,7 +27,7 @@ handleEventView model =
             , div [ class "center mw5" ] [ dateMainOptions model ]
             ]
     else
-        div [ class "vh-75 vh-50-ns overflow-y-scroll" ] (List.map eventView (filterEvents model))
+        div [ class "vh-60 vh-50-ns overflow-y-scroll smooth-scroll" ] (List.map eventView (filterEvents model))
 
 
 eventView : Event -> Html Msg
