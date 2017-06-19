@@ -11,7 +11,7 @@ import Date exposing (..)
 
 getEvents : Cmd Msg
 getEvents =
-    Http.get "/events" (list decodeEvent)
+    Http.get "/api/events" (list decodeEvent)
         |> Http.send Events
 
 
