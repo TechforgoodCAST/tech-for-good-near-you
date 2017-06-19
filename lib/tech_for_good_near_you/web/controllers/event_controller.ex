@@ -36,7 +36,7 @@ defmodule TechForGoodNearYou.Web.EventController do
 
   def index(conn, _params) do
     response =
-      HTTPotion.get("https://api.meetup.com/2/events", query: %{group_id: Enum.join(@group_ids, ",")})
+      HTTPoison.get!("https://api.meetup.com/2/events", [], params: [{"group_id", Enum.join(@group_ids, ",")}])
       |> Map.get(:body)
       |> Poison.decode!
 
