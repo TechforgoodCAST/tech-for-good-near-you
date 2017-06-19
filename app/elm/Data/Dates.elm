@@ -1,8 +1,8 @@
 module Data.Dates exposing (..)
 
-import Model exposing (..)
-import Date.Extra exposing (..)
 import Date exposing (..)
+import Date.Extra exposing (..)
+import Model exposing (..)
 import Task
 import Time exposing (..)
 
@@ -34,10 +34,10 @@ filterByDate { selectedDate, currentDate } =
             List.filter <| isEventBefore Month currentDate
 
         All ->
-            List.filter <| always True
+            identity
 
         NoDate ->
-            List.filter <| always True
+            identity
 
 
 isEventBefore : Interval -> Maybe Date -> Event -> Bool

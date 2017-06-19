@@ -12,22 +12,19 @@ import Views.Dates exposing (dateMainOptions)
 
 events : Model -> Html Msg
 events model =
-    div [ class "w-100" ]
-        [ div [ id "myMap", class "w-100 vh-50-ns vh-25 fade-in bg-light-gray" ] []
-        , handleEventView model
-        ]
+    handleEventView model
 
 
 handleEventView : Model -> Html Msg
 handleEventView model =
     if List.isEmpty (filterEvents model) && not model.fetchingEvents then
-        div [ class "green tc fade-in" ]
+        div [ class "green tc fade-in", style [ ( "margin-top", "50vh" ) ] ]
             [ p [ class "fade-in f4 mt5-ns mt4" ] [ text ("No events " ++ (String.toLower <| dateRangeToString <| model.selectedDate)) ]
             , p [ class "f6" ] [ text "Choose another date" ]
             , div [ class "center mw5" ] [ dateMainOptions model ]
             ]
     else
-        div [ class "vh-60 vh-50-ns overflow-y-scroll smooth-scroll" ] (List.map eventView (filterEvents model))
+        div [ class "smooth-scroll", style [ ( "margin-top", "50vh" ) ] ] (List.map eventView (filterEvents model))
 
 
 eventView : Event -> Html Msg

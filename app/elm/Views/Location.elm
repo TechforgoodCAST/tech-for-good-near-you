@@ -20,7 +20,10 @@ location model =
 handleUserLocationError : Model -> Html Msg
 handleUserLocationError model =
     if model.userLocationError then
-        div [] [ p [ class "gold mv5" ] [ text "Could not get your location" ] ]
+        div [ class "gold mv5" ]
+            [ p [] [ text "Could not get your location" ]
+            , p [] [ text "Try entering your postcode" ]
+            ]
     else
         locationCrosshair model
 

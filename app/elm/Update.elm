@@ -1,16 +1,35 @@
 module Update exposing (..)
 
-import Model exposing (..)
-import Data.Events exposing (getEvents)
-import Data.Location.Geo exposing (..)
-import Data.Location.Postcode exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
-import Data.Ports exposing (..)
+import Data.Location.Geo exposing (..)
+import Data.Location.Postcode exposing (..)
 import Data.Maps exposing (..)
-import Date exposing (..)
-import Helpers.Delay exposing (..)
-import Update.Extra.Infix exposing ((:>))
+import Data.Ports exposing (..)
+import Date exposing (fromTime)
+import Model exposing (..)
+
+
+init : ( Model, Cmd Msg )
+init =
+    initialModel ! [ getCurrentDate ]
+
+
+initialModel : Model
+initialModel =
+    { postcode = NotEntered
+    , selectedDate = NoDate
+    , events = []
+    , fetchingEvents = False
+    , userLocation = Nothing
+    , userLocationError = False
+    , fetchingLocation = False
+    , currentDate = Nothing
+    , mapVisible = False
+    , view = MyLocation
+    , searchRadius = 300
+    , navbarOpen = False
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -42,24 +61,11 @@ update msg model =
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]
 
-        Location (Err err) ->
-            { model
-                | userLocationError = True
-                , fetchingLocation = False
-            }
-                ! []
+        ReceiveGeolocation (Err _) ->
+            (model |> handleGeolocationError) ! []
 
-        Location (Ok location) ->
-            { model
-                | userLocation = Just (getCoords location)
-                , userLocationError = False
-                , view = MyDates
-                , fetchingLocation = False
-            }
-                ! []
-
-        InitMap ->
-            model ! [ initMap centerAtLondon, setUserLocation model.userLocation ]
+        ReceiveGeolocation (Ok location) ->
+            (model |> handleGeolocation location) ! []
 
         CurrentDate currentDate ->
             { model | currentDate = Just (fromTime currentDate) } ! []
@@ -68,10 +74,12 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            { model | view = Results, fetchingEvents = True } ! [ getEvents, delay 100 InitMap ]
-
-        GetLatLngFromPostcode ->
-            model ! [ getLatLngFromPostcode model ]
+            { model
+                | view = Results
+                , fetchingEvents = True
+                , mapVisible = True
+            }
+                ! [ getEvents, initMap centerAtLondon, setUserLocation model.userLocation ]
 
         PostcodeToLatLng (Err err) ->
             model ! []
@@ -80,9 +88,7 @@ update msg model =
             { model | userLocation = Just coords } ! []
 
         GoToDates ->
-            (model ! [])
-                :> update (SetView MyDates)
-                :> update GetLatLngFromPostcode
+            { model | view = MyDates } ! [ getLatLngFromPostcode model ]
 
         SetSearchRadius radius ->
             let
@@ -98,6 +104,9 @@ update msg model =
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser () ]
+
+        Restart ->
+            { model | view = MyLocation, mapVisible = False } ! []
 
         CenterEvent marker ->
             model ! [ centerEvent marker ]
