@@ -13,6 +13,5 @@ Currently `Tech for good` events are publicised in a range of mediums such as Tw
 The event data will come primarily from the Eventbrite and Meetup APIs. The technologies will be -
 
 * Elm
-* Node.js
+* Phoenix
 * Tachyons
- 
