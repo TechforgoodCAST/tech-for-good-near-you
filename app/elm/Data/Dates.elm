@@ -7,6 +7,19 @@ import Task
 import Time exposing (..)
 
 
+handleCurrentDate : Time -> Model -> Model
+handleCurrentDate currentDate model =
+    { model | currentDate = Just <| fromTime currentDate }
+
+
+handleSelectedDate : DateRange -> Model -> Model
+handleSelectedDate dateRange model =
+    if model.selectedDate == dateRange then
+        { model | selectedDate = NoDate }
+    else
+        { model | selectedDate = dateRange }
+
+
 datesList : List DateRange
 datesList =
     [ Today
@@ -64,14 +77,6 @@ dateRangeToString date =
 
         NoDate ->
             ""
-
-
-toggleSelectedDate : Model -> DateRange -> Model
-toggleSelectedDate model date =
-    if model.selectedDate == date then
-        { model | selectedDate = NoDate }
-    else
-        { model | selectedDate = date }
 
 
 displayDate : Date -> String

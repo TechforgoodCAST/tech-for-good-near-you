@@ -1,3 +1,5 @@
+/*globals google*/
+
 var _map
 var infoWindow
 var mapDiv
@@ -98,7 +100,7 @@ function centerMapOnUser () {
 }
 
 function centerEvent (event) {
-  var selectedMarkerArr = visibleMarkers.filter(function(marker) {
+  var selectedMarkerArr = visibleMarkers.filter(function (marker) {
     return marker.title === event.title
   })
 
@@ -110,4 +112,9 @@ function centerEvent (event) {
   _map.setZoom(13)
   infoWindow.setContent(makeDescription(event))
   infoWindow.open(_map, selectedMarker)
+}
+
+function resizeMap () {
+  google.maps.event.trigger(_map, 'resize')
+  fitBounds(visibleMarkers)
 }

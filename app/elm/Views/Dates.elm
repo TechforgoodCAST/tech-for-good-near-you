@@ -43,15 +43,10 @@ dateSideOptions model =
 
 
 dateButton : DateButton -> Model -> DateRange -> Html Msg
-dateButton componentType model date =
+dateButton buttonType model date =
     let
         ( bodyClasses, offClasses, onClasses ) =
-            case componentType of
-                SideBar ->
-                    ( "b--white pv1 ph2 ma2 ml0", "bg-white green", "white" )
-
-                Main ->
-                    ( "b--green pv2 ph5 ma2", "bg-green white", "green" )
+            buttonClasses buttonType
     in
         div
             [ class ("br2 ba pointer t-3 all ease no-select " ++ bodyClasses)
@@ -59,6 +54,16 @@ dateButton componentType model date =
                 [ ( offClasses, date == model.selectedDate )
                 , ( onClasses, date /= model.selectedDate )
                 ]
-            , onClick (SetDate date)
+            , onClick (SetDateRange date)
             ]
             [ span [ class "f6 fw4" ] [ text (dateRangeToString date) ] ]
+
+
+buttonClasses : DateButton -> ( String, String, String )
+buttonClasses buttonType =
+    case buttonType of
+        SideBar ->
+            ( "b--white pv1 ph2 ma2 ml0", "bg-white green", "white" )
+
+        Main ->
+            ( "b--green pv2 ph5 ma2", "bg-green white", "green" )

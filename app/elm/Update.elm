@@ -1,18 +1,20 @@
 module Update exposing (..)
 
-import Data.Dates exposing (..)
-import Data.Events exposing (..)
-import Data.Location.Geo exposing (..)
-import Data.Location.Postcode exposing (..)
-import Data.Maps exposing (..)
-import Data.Ports exposing (..)
-import Date exposing (fromTime)
+import Data.Dates exposing (getCurrentDate, handleCurrentDate, handleSelectedDate)
+import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError)
+import Data.Location.Postcode exposing (validatePostcode)
+import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
+import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap)
+import Data.Results exposing (handleSearchRadius, handleSearchResults)
 import Model exposing (..)
+import Request.Events exposing (getEvents, handleReceiveEvents)
+import Request.Postcode exposing (handleGetLatLngFromPostcode)
+import Update.Extra exposing (addCmd, andThen)
 
 
 init : ( Model, Cmd Msg )
 init =
-    initialModel ! [ getCurrentDate ]
+    initialModel ! [ getCurrentDate, initMapAtLondon ]
 
 
 initialModel : Model
@@ -38,25 +40,9 @@ update msg model =
         UpdatePostcode postcode ->
             { model | postcode = validatePostcode postcode } ! []
 
-        SetDate date ->
-            let
-                newModel =
-                    toggleSelectedDate model date
-            in
-                newModel ! [ updateFilteredMarkers newModel ]
-
-        Events (Err err) ->
-            { model | fetchingEvents = False } ! []
-
-        Events (Ok events) ->
-            let
-                newModel =
-                    { model
-                        | events = addDistanceToEvents model events
-                        , fetchingEvents = False
-                    }
-            in
-                newModel ! [ updateFilteredMarkers newModel ]
+        SetDateRange date ->
+            (handleSelectedDate date model ! [])
+                |> andThen update FilteredMarkers
 
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]
@@ -68,42 +54,34 @@ update msg model =
             (model |> handleGeolocation location) ! []
 
         CurrentDate currentDate ->
-            { model | currentDate = Just (fromTime currentDate) } ! []
+            (model |> handleCurrentDate currentDate) ! []
 
         SetView view ->
             { model | view = view } ! []
 
         NavigateToResults ->
-            { model
-                | view = Results
-                , fetchingEvents = True
-                , mapVisible = True
-            }
-                ! [ getEvents, initMap centerAtLondon, setUserLocation model.userLocation ]
+            (model |> handleSearchResults)
 
-        PostcodeToLatLng (Err err) ->
-            model ! []
+        ReceiveEvents (Err err) ->
+            { model | fetchingEvents = False } ! []
 
-        PostcodeToLatLng (Ok coords) ->
-            { model | userLocation = Just coords } ! []
+        ReceiveEvents (Ok events) ->
+            (handleReceiveEvents events model ! [])
+                |> addCmd resizeMap
+                |> andThen update FilteredMarkers
 
         GoToDates ->
-            { model | view = MyDates } ! [ getLatLngFromPostcode model ]
+            { model | view = MyDates } ! [ handleGetLatLngFromPostcode model ]
+
+        RecievePostcodeLatLng (Err err) ->
+            model ! []
+
+        RecievePostcodeLatLng (Ok coords) ->
+            { model | userLocation = Just coords } ! []
 
         SetSearchRadius radius ->
-            let
-                newRadius =
-                    radius
-                        |> String.toInt
-                        |> Result.withDefault 300
-
-                newModel =
-                    { model | searchRadius = newRadius }
-            in
-                newModel ! [ updateFilteredMarkers newModel ]
-
-        CenterMapOnUser ->
-            model ! [ centerMapOnUser () ]
+            (handleSearchRadius radius model ! [])
+                |> andThen update FilteredMarkers
 
         Restart ->
             { model | view = MyLocation, mapVisible = False } ! []
@@ -113,3 +91,9 @@ update msg model =
 
         ToggleNavbar ->
             { model | navbarOpen = not model.navbarOpen } ! []
+
+        FilteredMarkers ->
+            model ! [ updateFilteredMarkers model ]
+
+        CenterMapOnUser ->
+            model ! [ centerMapOnUser ]

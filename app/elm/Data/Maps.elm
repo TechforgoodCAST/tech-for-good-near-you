@@ -1,8 +1,13 @@
 module Data.Maps exposing (..)
 
+import Data.Events exposing (filterEvents)
+import Data.Ports exposing (initMap, updateMarkers)
 import Model exposing (..)
-import Data.Ports exposing (..)
-import Data.Events exposing (..)
+
+
+initMapAtLondon : Cmd Msg
+initMapAtLondon =
+    initMap centerAtLondon
 
 
 updateFilteredMarkers : Model -> Cmd Msg

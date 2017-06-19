@@ -72,17 +72,18 @@ type alias Marker =
 
 type Msg
     = UpdatePostcode String
-    | SetDate DateRange
-    | Events (Result Http.Error (List Event))
+    | SetDateRange DateRange
+    | ReceiveEvents (Result Http.Error (List Event))
     | GetGeolocation
     | ReceiveGeolocation (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
     | SetView View
     | NavigateToResults
-    | PostcodeToLatLng (Result Http.Error Coords)
+    | RecievePostcodeLatLng (Result Http.Error Coords)
     | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
     | SetSearchRadius String
     | ToggleNavbar
     | Restart
+    | FilteredMarkers

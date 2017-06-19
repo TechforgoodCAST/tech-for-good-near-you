@@ -4,7 +4,7 @@ import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Helpers.Events exposing (onEnter)
+import Helpers.HtmlEvents exposing (onEnter)
 
 
 location : Model -> Html Msg
