@@ -1,4 +1,4 @@
-defmodule TechForGoodNearYou.Web.PageController do
+defmodule TechForGoodNearYou.Web.ElmController do
   use TechForGoodNearYou.Web, :controller
 
   def index(conn, _params) do

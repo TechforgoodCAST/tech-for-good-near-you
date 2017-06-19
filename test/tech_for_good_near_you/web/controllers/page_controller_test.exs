@@ -1,4 +1,4 @@
-defmodule TechForGoodNearYou.Web.PageControllerTest do
+defmodule TechForGoodNearYou.Web.ElmControllerTest do
   use TechForGoodNearYou.Web.ConnCase
 
   test "GET /", %{conn: conn} do
