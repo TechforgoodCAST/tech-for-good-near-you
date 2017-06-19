@@ -17,6 +17,7 @@ defmodule TechForGoodNearYou.Web.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", ElmController, :index
+    get "/events", EventController, :index
   end
 
   # Other scopes may use custom stacks.
