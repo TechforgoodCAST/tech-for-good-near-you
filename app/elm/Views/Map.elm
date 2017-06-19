@@ -11,7 +11,7 @@ renderMap : Model -> Html Msg
 renderMap model =
     if model.mapVisible then
         div [ class <| classes [ "flex w-100 z-5", mapPositioning model ] ]
-            [ div [ class "w5-ns mr4-ns" ] []
+            [ div [ class "ml6-ns pl4-ns" ] []
             , div [ id "myMap", class mapBaseClasses ] []
             ]
     else
