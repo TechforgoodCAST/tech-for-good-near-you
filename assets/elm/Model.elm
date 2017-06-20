@@ -16,9 +16,10 @@ type alias Model =
     , fetchingLocation : Bool
     , currentDate : Maybe Date
     , mapVisible : Bool
+    , navbarOpen : Bool
     , view : View
     , searchRadius : Int
-    , navbarOpen : Bool
+    , mapId : String
     }
 
 
@@ -62,6 +63,12 @@ type alias Coords =
     }
 
 
+type alias MapOptions =
+    { marker : Marker
+    , mapId : String
+    }
+
+
 type alias Marker =
     { url : String
     , title : String
@@ -72,18 +79,18 @@ type alias Marker =
 
 type Msg
     = UpdatePostcode String
-    | SetDate DateRange
-    | Events (Result Http.Error (List Event))
+    | SetDateRange DateRange
+    | ReceiveEvents (Result Http.Error (List Event))
     | GetGeolocation
-    | Location (Result Geolocation.Error Geolocation.Location)
+    | ReceiveGeolocation (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
     | SetView View
-    | InitMap
     | NavigateToResults
-    | PostcodeToLatLng (Result Http.Error Coords)
-    | GetLatLngFromPostcode
+    | RecievePostcodeLatLng (Result Http.Error Coords)
     | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
     | SetSearchRadius String
     | ToggleNavbar
+    | Restart
+    | FilteredMarkers

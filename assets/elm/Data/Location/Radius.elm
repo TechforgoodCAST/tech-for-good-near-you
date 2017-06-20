@@ -3,6 +3,22 @@ module Data.Location.Radius exposing (..)
 import Model exposing (..)
 
 
+handleSearchRadius : String -> Model -> Model
+handleSearchRadius radius model =
+    setSearchRadius radius model
+
+
+setSearchRadius : String -> Model -> Model
+setSearchRadius radius model =
+    let
+        newRadius =
+            radius
+                |> String.toInt
+                |> Result.withDefault 300
+    in
+        { model | searchRadius = newRadius }
+
+
 degreesToRadians : Float -> Float
 degreesToRadians deg =
     deg * (pi / 180)

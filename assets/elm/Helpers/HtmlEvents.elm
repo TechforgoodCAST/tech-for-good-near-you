@@ -1,4 +1,4 @@
-module Helpers.Events exposing (..)
+module Helpers.HtmlEvents exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)

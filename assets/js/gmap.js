@@ -1,19 +1,20 @@
-var _map
-var infoWindow
-var mapDiv
-var userPosition
-var visibleMarkers = []
+const google = window.google
+let _map
+let infoWindow
+let mapDiv
+let userPosition
+let visibleMarkers = []
 
-function initMap (center) {
+function initMap ({ marker, mapId }) {
   var mapOptions = {
     zoom: 10,
     center: {
-      lat: center.lat,
-      lng: center.lng
+      lat: marker.lat,
+      lng: marker.lng
     }
   }
 
-  mapDiv = document.getElementById('myMap')
+  mapDiv = document.getElementById(mapId)
   _map = new google.maps.Map(mapDiv, mapOptions)
   infoWindow = new google.maps.InfoWindow()
 }
@@ -112,10 +113,16 @@ function centerEvent (event) {
   infoWindow.open(_map, selectedMarker)
 }
 
+function resizeMap () {
+  google.maps.event.trigger(_map, 'resize')
+  fitBounds(visibleMarkers)
+}
+
 module.exports = {
   initMap,
   updateMarkers,
   updateUserLocation,
   centerMapOnUser,
-  centerEvent
+  centerEvent,
+  resizeMap
 }

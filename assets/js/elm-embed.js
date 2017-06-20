@@ -3,7 +3,8 @@ import {
   updateMarkers,
   updateUserLocation,
   centerMapOnUser,
-  centerEvent
+  centerEvent,
+  resizeMap
 } from './gmap'
 
 function init (Elm) {
@@ -13,8 +14,9 @@ function init (Elm) {
   app.ports.initMap.subscribe(initMap)
   app.ports.updateMarkers.subscribe(updateMarkers)
   app.ports.updateUserLocation.subscribe(updateUserLocation)
-  app.ports.centerMapOnUser.subscribe(centerMapOnUser)
+  app.ports.centerMapOnUser_.subscribe(centerMapOnUser)
   app.ports.centerEvent.subscribe(centerEvent)
+  app.ports.resizeMap_.subscribe(resizeMap)
 }
 
 module.exports = { init }
