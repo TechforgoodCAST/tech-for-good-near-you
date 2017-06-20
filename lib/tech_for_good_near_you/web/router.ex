@@ -17,12 +17,13 @@ defmodule TechForGoodNearYou.Web.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", ElmController, :index
+    resources "/event", EventController
   end
 
   # Other scopes may use custom stacks.
   scope "/api", TechForGoodNearYou.Web do
     pipe_through :api
 
-    get "/events", EventController, :index
+    get "/events", MeetupController, :index
   end
 end

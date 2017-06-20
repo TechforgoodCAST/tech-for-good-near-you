@@ -1,45 +1,59 @@
 defmodule TechForGoodNearYou.Web.EventController do
   use TechForGoodNearYou.Web, :controller
 
-  @group_ids [
-    "1277423",
-    "19866282",
-    "18854399",
-    "1302479",
-    "16347132",
-    "22407110",
-    "12205442",
-    "22082866",
-    "2503312",
-    "7975692",
-    "19414181",
-    "18542782",
-    "1635343",
-    "18436868",
-    "19911171",
-    "22216274",
-    "18976100",
-    "17833522",
-    "18037392",
-    "19201419",
-    "22434994",
-    "20399973",
-    "22283959",
-    "14592582",
-    "11072312",
-    "466780",
-    "11972762",
-    "20791546",
-    "20232146",
-    "18509845"
-  ]
+  alias TechForGoodNearYou.MeetUps
 
   def index(conn, _params) do
-    response =
-      HTTPoison.get!("https://api.meetup.com/2/events", [], params: [{"group_id", Enum.join(@group_ids, ",")}])
-      |> Map.get(:body)
-      |> Poison.decode!
+    events = MeetUps.list_events()
+    render(conn, "index.html", events: events)
+  end
 
-    json(conn, response["results"])
+  def new(conn, _params) do
+    changeset = MeetUps.change_event(%TechForGoodNearYou.MeetUps.Event{})
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"event" => event_params}) do
+    case MeetUps.create_event(event_params) do
+      {:ok, event} ->
+        conn
+        |> put_flash(:info, "Event created successfully.")
+        |> redirect(to: event_path(conn, :show, event))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  def show(conn, %{"id" => id}) do
+    event = MeetUps.get_event!(id)
+    render(conn, "show.html", event: event)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    event = MeetUps.get_event!(id)
+    changeset = MeetUps.change_event(event)
+    render(conn, "edit.html", event: event, changeset: changeset)
+  end
+
+  def update(conn, %{"id" => id, "event" => event_params}) do
+    event = MeetUps.get_event!(id)
+
+    case MeetUps.update_event(event, event_params) do
+      {:ok, event} ->
+        conn
+        |> put_flash(:info, "Event updated successfully.")
+        |> redirect(to: event_path(conn, :show, event))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", event: event, changeset: changeset)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    event = MeetUps.get_event!(id)
+    {:ok, _event} = MeetUps.delete_event(event)
+
+    conn
+    |> put_flash(:info, "Event deleted successfully.")
+    |> redirect(to: event_path(conn, :index))
   end
 end
