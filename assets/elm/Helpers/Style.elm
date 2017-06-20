@@ -8,11 +8,14 @@ classes =
     String.join " "
 
 
-toggleNavClasses : Model -> List ( String, Bool )
-toggleNavClasses model =
-    [ ( "trans-y--350 trans-y-0-ns", not model.navbarOpen )
-    , ( "trans-y-0", model.navbarOpen )
-    ]
+mobileOnly : String
+mobileOnly =
+    "db dn-ns"
+
+
+desktopOnly : String
+desktopOnly =
+    "dn db-ns"
 
 
 showAtResults : Model -> ( String, Bool )

@@ -22,6 +22,7 @@ type alias Model =
     , searchRadius : Int
     , mapId : String
     , window : Window.Size
+    , mobileNavHeight : Int
     }
 
 

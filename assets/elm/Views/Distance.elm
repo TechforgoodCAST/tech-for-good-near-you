@@ -30,10 +30,10 @@ distanceOptions model =
 
 centerMap : Model -> Html Msg
 centerMap model =
-    div [ class mapClasses, classList [ showAtResults model ] ]
-        [ div [ class "center pointer", onClick CenterMapOnUser ] [ img [ class "w-100", src "images/crosshair-white.svg" ] [] ] ]
+    div [ class crosshairClasses, classList [ showAtResults model ] ]
+        [ div [ class "center", onClick CenterMapOnUser ] [ img [ class "w-100", src "images/crosshair-white.svg" ] [] ] ]
 
 
-mapClasses : String
-mapClasses =
-    "w3 h3 dn db-ns pa2 absolute bottom-2 left-0 right-0 center t-5 all ease"
+crosshairClasses : String
+crosshairClasses =
+    "w3 h3 pa2 center t-5 all ease pointer"

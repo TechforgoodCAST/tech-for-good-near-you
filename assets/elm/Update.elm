@@ -40,6 +40,7 @@ initialModel =
     , navbarOpen = False
     , mapId = "t4g-google-map"
     , window = { width = 0, height = 0 }
+    , mobileNavHeight = 60
     }
 
 
