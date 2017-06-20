@@ -2,6 +2,7 @@ module Request.AdminEvents exposing (..)
 
 import Data.Events exposing (addDistanceToEvents)
 import Date exposing (..)
+import Date.Extra exposing (compare)
 import Http
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
@@ -13,9 +14,13 @@ handleReceiveAdminEvents events model =
     let
         eventsWithDistance =
             addDistanceToEvents model events
+
+        allEvents =
+            (eventsWithDistance ++ model.events)
+                |> sortEventsByDate
     in
         { model
-            | events = eventsWithDistance ++ model.events
+            | events = allEvents
             , fetchingEvents = False
         }
 
@@ -46,3 +51,8 @@ stringToDate =
     string
         |> Json.map fromString
         |> Json.map (Result.withDefault <| fromTime 0)
+
+
+sortEventsByDate : List Event -> List Event
+sortEventsByDate =
+    List.sortWith (\e1 e2 -> Date.Extra.compare e1.time e2.time)
