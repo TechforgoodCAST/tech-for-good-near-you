@@ -4,7 +4,7 @@ import Data.Events exposing (filterEvents)
 import Helpers.Style exposing (classes)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Model exposing (Model, Msg)
+import Model exposing (..)
 
 
 renderMap : Model -> Html Msg

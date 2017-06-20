@@ -33,7 +33,7 @@ getGeolocation =
 geoOptions : Options
 geoOptions =
     { enableHighAccuracy = False
-    , timeout = Just 5000
+    , timeout = Just 8000
     , maximumAge = Nothing
     }
 

@@ -4,6 +4,11 @@ import Model exposing (..)
 import Regex exposing (..)
 
 
+handleUpdatePostcode : String -> Model -> Model
+handleUpdatePostcode postcode model =
+    { model | postcode = validatePostcode postcode }
+
+
 validatePostcode : String -> Postcode
 validatePostcode postcode =
     if Regex.contains postcodeRegex postcode then

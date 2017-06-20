@@ -7,8 +7,8 @@ import Task
 import Time exposing (..)
 
 
-handleCurrentDate : Time -> Model -> Model
-handleCurrentDate currentDate model =
+setCurrentDate : Time -> Model -> Model
+setCurrentDate currentDate model =
     { model | currentDate = Just <| fromTime currentDate }
 
 

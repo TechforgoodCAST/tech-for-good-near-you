@@ -1,11 +1,12 @@
 module Update exposing (..)
 
-import Data.Dates exposing (getCurrentDate, handleCurrentDate, handleSelectedDate)
-import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError)
-import Data.Location.Postcode exposing (validatePostcode)
+import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
+import Data.Events exposing (handleSearchResults)
+import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
+import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
+import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
 import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap)
-import Data.Results exposing (handleSearchRadius, handleSearchResults)
 import Model exposing (..)
 import Request.Events exposing (getEvents, handleReceiveEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode)
@@ -38,7 +39,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UpdatePostcode postcode ->
-            { model | postcode = validatePostcode postcode } ! []
+            (model |> handleUpdatePostcode postcode) ! []
 
         SetDateRange date ->
             (handleSelectedDate date model ! [])
@@ -53,14 +54,14 @@ update msg model =
         ReceiveGeolocation (Ok location) ->
             (model |> handleGeolocation location) ! []
 
-        CurrentDate currentDate ->
-            (model |> handleCurrentDate currentDate) ! []
+        CurrentDate date ->
+            (model |> setCurrentDate date) ! []
 
         SetView view ->
             { model | view = view } ! []
 
         NavigateToResults ->
-            (model |> handleSearchResults)
+            (model |> handleSearchResults) ! [ getEvents, setUserLocation model.userLocation ]
 
         ReceiveEvents (Err err) ->
             { model | fetchingEvents = False } ! []

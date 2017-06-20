@@ -1,8 +1,17 @@
 module Data.Events exposing (..)
 
 import Data.Dates exposing (filterByDate)
-import Data.Location.Radius exposing (..)
+import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
 import Model exposing (..)
+
+
+handleSearchResults : Model -> Model
+handleSearchResults model =
+    { model
+        | view = Results
+        , fetchingEvents = True
+        , mapVisible = True
+    }
 
 
 calculateEventDistance : Coords -> Event -> Event
