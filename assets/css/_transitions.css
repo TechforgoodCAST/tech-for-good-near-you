@@ -13,17 +13,3 @@
 .ease {
   transition-timing-function: ease!important;
 }
-
-.trans-y-0 {
-  transform: translateY(0);
-}
-
-.trans-y--350 {
-  transform: translateY(-350px);
-}
-
-@media (--breakpoint-not-small) {
-  .trans-y-0-ns {
-    transform: translateY(0);
-  }
-}
