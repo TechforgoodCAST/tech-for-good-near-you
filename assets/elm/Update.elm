@@ -9,6 +9,7 @@ import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
 import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap)
 import Model exposing (..)
 import Request.Events exposing (getEvents, handleReceiveEvents)
+import Request.InternalEvents exposing (getInternalEvents, handleReceiveInternalEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode)
 import Update.Extra exposing (addCmd, andThen)
 
@@ -69,6 +70,13 @@ update msg model =
 
         ReceiveEvents (Ok events) ->
             (handleReceiveEvents events model ! [])
+                |> addCmd getInternalEvents
+
+        ReceiveInternalEvents (Err err) ->
+            { model | fetchingEvents = False } ! []
+
+        ReceiveInternalEvents (Ok events) ->
+            (handleReceiveInternalEvents events model ! [])
                 |> addCmd resizeMap
                 |> andThen update FilteredMarkers
 
