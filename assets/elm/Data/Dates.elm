@@ -47,10 +47,15 @@ filterByDate { selectedDate, currentDate } =
             List.filter <| isEventBefore Month currentDate
 
         All ->
-            identity
+            allEvents
 
         NoDate ->
-            identity
+            allEvents
+
+
+allEvents : List Event -> List Event
+allEvents =
+    identity
 
 
 isEventBefore : Interval -> Maybe Date -> Event -> Bool

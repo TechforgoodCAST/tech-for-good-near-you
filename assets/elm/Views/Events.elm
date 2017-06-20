@@ -29,7 +29,11 @@ selectOtherDates model =
 
 noEventsInRangeText : Model -> String
 noEventsInRangeText model =
-    "No events " ++ (model.selectedDate |> dateRangeToString |> String.toLower)
+    "No events "
+        ++ (model.selectedDate
+                |> dateRangeToString
+                |> String.toLower
+           )
 
 
 event : Event -> Html Msg
