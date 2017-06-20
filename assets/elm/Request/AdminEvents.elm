@@ -1,4 +1,4 @@
-module Request.InternalEvents exposing (..)
+module Request.AdminEvents exposing (..)
 
 import Data.Events exposing (addDistanceToEvents)
 import Date exposing (..)
@@ -8,8 +8,8 @@ import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
 
 
-handleReceiveInternalEvents : List Event -> Model -> Model
-handleReceiveInternalEvents events model =
+handleReceiveAdminEvents : List Event -> Model -> Model
+handleReceiveAdminEvents events model =
     let
         eventsWithDistance =
             addDistanceToEvents model events
@@ -20,10 +20,10 @@ handleReceiveInternalEvents events model =
         }
 
 
-getInternalEvents : Cmd Msg
-getInternalEvents =
+getAdminEvents : Cmd Msg
+getAdminEvents =
     Http.get "api/internal-events" (field "data" (list decodeInternalEvent))
-        |> Http.send ReceiveInternalEvents
+        |> Http.send ReceiveAdminEvents
 
 
 decodeInternalEvent : Decoder Event
@@ -43,4 +43,6 @@ decodeInternalEvent =
 
 stringToDate : Decoder Date
 stringToDate =
-    string |> Json.map fromString |> Json.map (Result.withDefault <| fromTime 0)
+    string
+        |> Json.map fromString
+        |> Json.map (Result.withDefault <| fromTime 0)

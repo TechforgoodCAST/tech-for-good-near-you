@@ -5,23 +5,25 @@ defmodule TechForGoodNearYou.MeetUps.Event do
 
 
   schema "meet_ups_events" do
-    field :address, :string
-    field :group_name, :string
     field :name, :string
     field :url, :string
-    field :postcode, :string
     field :time, :utc_datetime
+    field :address, :string
+    field :postcode, :string
     field :venue_name, :string
+    field :group_name, :string
     field :latitude, :float
     field :longitude, :float
 
     timestamps()
   end
 
-  @doc false
+  @valid_fields [:name, :url, :time, :address, :postcode, :venue_name, :group_name, :latitude, :longitude]
+  @required_fields [:name, :time, :address, :postcode, :url]
+
   def changeset(%Event{} = event, attrs) do
     event
-    |> cast(attrs, [:name, :url, :time, :address, :postcode, :venue_name, :group_name, :latitude, :longitude])
-    |> validate_required([:name, :time, :address, :postcode])
+    |> cast(attrs, @valid_fields)
+    |> validate_required(@required_fields)
   end
 end

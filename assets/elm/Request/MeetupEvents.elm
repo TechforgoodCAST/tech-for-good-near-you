@@ -1,4 +1,4 @@
-module Request.Events exposing (..)
+module Request.MeetupEvents exposing (..)
 
 import Data.Events exposing (addDistanceToEvents)
 import Date exposing (..)
@@ -8,15 +8,15 @@ import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
 
 
-handleReceiveEvents : List Event -> Model -> Model
-handleReceiveEvents events model =
+handleReceiveMeetupEvents : List Event -> Model -> Model
+handleReceiveMeetupEvents events model =
     { model | events = addDistanceToEvents model events }
 
 
-getEvents : Cmd Msg
-getEvents =
+getMeetupEvents : Cmd Msg
+getMeetupEvents =
     Http.get "api/events" (list decodeEvent)
-        |> Http.send ReceiveEvents
+        |> Http.send ReceiveMeetupEvents
 
 
 decodeEvent : Decoder Event

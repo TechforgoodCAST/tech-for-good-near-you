@@ -8,8 +8,8 @@ import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
 import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap)
 import Model exposing (..)
-import Request.Events exposing (getEvents, handleReceiveEvents)
-import Request.InternalEvents exposing (getInternalEvents, handleReceiveInternalEvents)
+import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
+import Request.AdminEvents exposing (getAdminEvents, handleReceiveAdminEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode)
 import Update.Extra exposing (addCmd, andThen)
 
@@ -63,20 +63,20 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            (model |> handleSearchResults) ! [ getEvents, setUserLocation model.userLocation ]
+            (model |> handleSearchResults) ! [ getMeetupEvents, setUserLocation model.userLocation ]
 
-        ReceiveEvents (Err err) ->
+        ReceiveMeetupEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
-        ReceiveEvents (Ok events) ->
-            (handleReceiveEvents events model ! [])
-                |> addCmd getInternalEvents
+        ReceiveMeetupEvents (Ok events) ->
+            (handleReceiveMeetupEvents events model ! [])
+                |> addCmd getAdminEvents
 
-        ReceiveInternalEvents (Err err) ->
+        ReceiveAdminEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
-        ReceiveInternalEvents (Ok events) ->
-            (handleReceiveInternalEvents events model ! [])
+        ReceiveAdminEvents (Ok events) ->
+            (handleReceiveAdminEvents events model ! [])
                 |> addCmd resizeMap
                 |> andThen update FilteredMarkers
 

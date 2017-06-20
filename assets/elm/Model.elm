@@ -80,8 +80,8 @@ type alias Marker =
 type Msg
     = UpdatePostcode String
     | SetDateRange DateRange
-    | ReceiveEvents (Result Http.Error (List Event))
-    | ReceiveInternalEvents (Result Http.Error (List Event))
+    | ReceiveMeetupEvents (Result Http.Error (List Event))
+    | ReceiveAdminEvents (Result Http.Error (List Event))
     | GetGeolocation
     | ReceiveGeolocation (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
