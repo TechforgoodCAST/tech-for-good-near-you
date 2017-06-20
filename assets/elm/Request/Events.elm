@@ -10,10 +10,7 @@ import Model exposing (..)
 
 handleReceiveEvents : List Event -> Model -> Model
 handleReceiveEvents events model =
-    { model
-        | events = addDistanceToEvents model events
-        , fetchingEvents = False
-    }
+    { model | events = addDistanceToEvents model events }
 
 
 getEvents : Cmd Msg
@@ -40,8 +37,3 @@ decodeEvent =
 floatToDate : Decoder Date
 floatToDate =
     float |> Json.map fromTime
-
-
-defaultImgUrl : String
-defaultImgUrl =
-    "https://benrmatthews.com/wp-content/uploads/2015/05/tech-for-good.jpg"
