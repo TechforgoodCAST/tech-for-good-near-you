@@ -2,16 +2,43 @@ module Data.Location.Geo exposing (..)
 
 import Model exposing (..)
 import Task
-import Geolocation
-import Data.Ports exposing (..)
+import Geolocation exposing (Location, Options)
+import Data.Ports exposing (updateUserLocation)
+
+
+handleGeolocationError : Model -> Model
+handleGeolocationError model =
+    { model
+        | userLocationError = True
+        , fetchingLocation = False
+    }
+
+
+handleGeolocation : Location -> Model -> Model
+handleGeolocation location model =
+    { model
+        | userLocation = Just (getCoords location)
+        , userLocationError = False
+        , view = MyDates
+        , fetchingLocation = False
+    }
 
 
 getGeolocation : Cmd Msg
 getGeolocation =
-    Task.attempt Location Geolocation.now
+    Geolocation.nowWith geoOptions
+        |> Task.attempt ReceiveGeolocation
 
 
-getCoords : Geolocation.Location -> Coords
+geoOptions : Options
+geoOptions =
+    { enableHighAccuracy = False
+    , timeout = Just 8000
+    , maximumAge = Nothing
+    }
+
+
+getCoords : Location -> Coords
 getCoords location =
     { lat = location.latitude
     , lng = location.longitude

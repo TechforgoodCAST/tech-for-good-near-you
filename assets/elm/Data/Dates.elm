@@ -1,10 +1,23 @@
 module Data.Dates exposing (..)
 
-import Model exposing (..)
-import Date.Extra exposing (..)
 import Date exposing (..)
+import Date.Extra exposing (..)
+import Model exposing (..)
 import Task
 import Time exposing (..)
+
+
+setCurrentDate : Time -> Model -> Model
+setCurrentDate currentDate model =
+    { model | currentDate = Just <| fromTime currentDate }
+
+
+handleSelectedDate : DateRange -> Model -> Model
+handleSelectedDate dateRange model =
+    if model.selectedDate == dateRange then
+        { model | selectedDate = NoDate }
+    else
+        { model | selectedDate = dateRange }
 
 
 datesList : List DateRange
@@ -34,10 +47,15 @@ filterByDate { selectedDate, currentDate } =
             List.filter <| isEventBefore Month currentDate
 
         All ->
-            List.filter <| always True
+            allEvents
 
         NoDate ->
-            List.filter <| always True
+            allEvents
+
+
+allEvents : List Event -> List Event
+allEvents =
+    identity
 
 
 isEventBefore : Interval -> Maybe Date -> Event -> Bool
@@ -64,14 +82,6 @@ dateRangeToString date =
 
         NoDate ->
             ""
-
-
-toggleSelectedDate : Model -> DateRange -> Model
-toggleSelectedDate model date =
-    if model.selectedDate == date then
-        { model | selectedDate = NoDate }
-    else
-        { model | selectedDate = date }
 
 
 displayDate : Date -> String

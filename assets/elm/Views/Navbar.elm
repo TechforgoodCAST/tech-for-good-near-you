@@ -11,9 +11,9 @@ import Helpers.Style exposing (toggleNavClasses)
 
 navbar : Model -> Html Msg
 navbar model =
-    nav [ class "fixed-ns bg-green-ns w5-ns white dib-ns vh-100-ns left-0 top-0 fade-in w-100 z-5" ]
+    nav [ class "fixed bg-green-ns w5-ns white dib-ns vh-100-ns left-0 top-0 fade-in w-100 z-5" ]
         [ div [ class "flex justify-between pa3 pb0 pb3-ns bg-green relative z-5" ]
-            [ div [ class "pointer", onClick <| SetView MyLocation ]
+            [ div [ class "pointer", onClick Restart ]
                 [ logo
                 , p [ class "mt0 ml1" ] [ text "near you" ]
                 ]
