@@ -8,6 +8,11 @@
   </li>
 
   <li>
+    <strong>Url:</strong>
+    <%= @event.url %>
+  </li>
+
+  <li>
     <strong>Time:</strong>
     <%= @event.time %>
   </li>

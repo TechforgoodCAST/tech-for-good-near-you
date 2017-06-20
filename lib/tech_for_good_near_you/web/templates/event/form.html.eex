@@ -12,6 +12,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :url, class: "control-label" %>
+    <%= text_input f, :url, class: "form-control" %>
+    <%= error_tag f, :url %>
+  </div>
+
+  <div class="form-group">
     <%= label f, :time, class: "control-label" %>
     <%= datetime_select f, :time, class: "form-control" %>
     <%= error_tag f, :time %>

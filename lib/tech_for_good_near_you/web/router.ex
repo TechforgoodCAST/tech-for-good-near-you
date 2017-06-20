@@ -24,5 +24,6 @@ defmodule TechForGoodNearYou.Web.Router do
     pipe_through :api
 
     get "/events", MeetupController, :index
+    get "/internal-events", ElmController, :events
   end
 end

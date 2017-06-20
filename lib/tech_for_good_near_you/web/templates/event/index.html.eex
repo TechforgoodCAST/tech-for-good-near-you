@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Url</th>
       <th>Time</th>
       <th>Address</th>
       <th>Postcode</th>
@@ -17,6 +18,7 @@
 <%= for event <- @events do %>
     <tr>
       <td><%= event.name %></td>
+      <td><%= event.url %></td>
       <td><%= event.time %></td>
       <td><%= event.address %></td>
       <td><%= event.postcode %></td>
