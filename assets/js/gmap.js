@@ -1,10 +1,9 @@
-/*globals google*/
-
-var _map
-var infoWindow
-var mapDiv
-var userPosition
-var visibleMarkers = []
+const google = window.google
+let _map
+let infoWindow
+let mapDiv
+let userPosition
+let visibleMarkers = []
 
 function initMap ({ marker, mapId }) {
   var mapOptions = {
