@@ -12,29 +12,38 @@ import Views.Dates exposing (dateMainOptions)
 
 events : Model -> Html Msg
 events model =
-    handleEventView model
-
-
-handleEventView : Model -> Html Msg
-handleEventView model =
     if List.isEmpty (filterEvents model) && not model.fetchingEvents then
-        div [ class "green tc fade-in", style [ ( "margin-top", "50vh" ) ] ]
-            [ p [ class "fade-in f4 mt5-ns mt4" ] [ text ("No events " ++ (String.toLower <| dateRangeToString <| model.selectedDate)) ]
-            , p [ class "f6" ] [ text "Choose another date" ]
-            , div [ class "center mw5" ] [ dateMainOptions model ]
-            ]
+        selectOtherDates model
     else
-        div [ class "smooth-scroll", style [ ( "margin-top", "50vh" ) ] ] (List.map eventView (filterEvents model))
+        div [ style [ ( "margin-top", "50vh" ) ] ] (List.map event (filterEvents model))
 
 
-eventView : Event -> Html Msg
-eventView event =
+selectOtherDates : Model -> Html Msg
+selectOtherDates model =
+    div [ class "green tc fade-in", style [ ( "margin-top", "50vh" ) ] ]
+        [ p [ class "fade-in f4 mt5-ns mt4" ] [ text <| noEventsInRangeText model ]
+        , p [ class "f6" ] [ text "Choose another date" ]
+        , div [ class "center mw5" ] [ dateMainOptions model ]
+        ]
+
+
+noEventsInRangeText : Model -> String
+noEventsInRangeText model =
+    "No events " ++ (model.selectedDate |> dateRangeToString |> String.toLower)
+
+
+event : Event -> Html Msg
+event event =
     div [ class "green ph4 pt3 pb4 mw7 center fade-in" ]
-        [ h3 [ class "green pointer mv2", onClick <| CenterEvent <| makeMarker event ] [ text event.title ]
+        [ h3
+            [ class "green pointer mv2"
+            , onClick <| CenterEvent (makeMarker event)
+            ]
+            [ text event.title ]
         , p [ class "ma0 gold f6" ] [ text <| String.toUpper event.groupName ]
         , p []
             [ span [ class "fw4 light-silver mr3" ] [ text "When? " ]
-            , span [ class "fw7 gray" ] [ text <| String.toUpper <| displayDate event.time ]
+            , span [ class "fw7 gray" ] [ text <| String.toUpper (displayDate event.time) ]
             ]
         , div [ class "flex" ]
             [ p [ class "fw4 light-silver mr3" ] [ text "Where? " ]
