@@ -12,13 +12,18 @@ renderMap model =
     if model.mapVisible then
         div [ class <| classes [ "flex w-100 z-5", mapPositioning model ] ]
             [ div [ class "ml6-ns pl4-ns" ] []
-            , div [ id "myMap", class mapBaseClasses ] []
+            , div [ id model.mapId, class mapBaseClasses ] []
             ]
     else
-        div []
-            [ div [] []
-            , div [ id "myMap", class "dn" ] []
-            ]
+        mapPlaceholder model
+
+
+mapPlaceholder : Model -> Html msg
+mapPlaceholder model =
+    div []
+        [ div [] []
+        , div [ id model.mapId, class "dn" ] []
+        ]
 
 
 mapPositioning : Model -> String

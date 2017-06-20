@@ -5,9 +5,12 @@ import Data.Ports exposing (initMap, updateMarkers)
 import Model exposing (..)
 
 
-initMapAtLondon : Cmd Msg
-initMapAtLondon =
-    initMap centerAtLondon
+initMapAtLondon : Model -> Cmd Msg
+initMapAtLondon model =
+    initMap
+        { marker = centerAtLondon
+        , mapId = model.mapId
+        }
 
 
 updateFilteredMarkers : Model -> Cmd Msg

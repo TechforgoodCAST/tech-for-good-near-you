@@ -15,7 +15,7 @@ import Update.Extra exposing (addCmd, andThen)
 
 init : ( Model, Cmd Msg )
 init =
-    initialModel ! [ getCurrentDate, initMapAtLondon ]
+    initialModel ! [ getCurrentDate, initMapAtLondon initialModel ]
 
 
 initialModel : Model
@@ -32,6 +32,7 @@ initialModel =
     , view = MyLocation
     , searchRadius = 300
     , navbarOpen = False
+    , mapId = "t4g-google-map"
     }
 
 

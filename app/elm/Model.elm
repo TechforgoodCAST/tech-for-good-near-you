@@ -19,6 +19,7 @@ type alias Model =
     , navbarOpen : Bool
     , view : View
     , searchRadius : Int
+    , mapId : String
     }
 
 
@@ -59,6 +60,12 @@ type DateRange
 type alias Coords =
     { lat : Float
     , lng : Float
+    }
+
+
+type alias MapOptions =
+    { marker : Marker
+    , mapId : String
     }
 
 

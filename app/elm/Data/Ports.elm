@@ -11,7 +11,7 @@ port module Data.Ports
 import Model exposing (..)
 
 
-port initMap : Marker -> Cmd msg
+port initMap : MapOptions -> Cmd msg
 
 
 port updateMarkers : List Marker -> Cmd msg
