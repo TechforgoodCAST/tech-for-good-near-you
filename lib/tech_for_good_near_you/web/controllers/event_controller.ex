@@ -14,6 +14,15 @@ defmodule TechForGoodNearYou.Web.EventController do
   end
 
   def create(conn, %{"event" => event_params}) do
+    latLon =
+      HTTPoison.get!("https://api.postcodes.io/postcodes/#{event_params["postcode"] |> String.replace(" ", "")}")
+      |> Map.get(:body)
+      |> Poison.decode!
+      |> Map.get("result")
+      |> Map.take(["latitude", "longitude"])
+
+    event_params = Map.merge(event_params, latLon)
+
     case MeetUps.create_event(event_params) do
       {:ok, event} ->
         conn
