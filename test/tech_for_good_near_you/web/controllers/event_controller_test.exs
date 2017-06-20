@@ -3,9 +3,9 @@ defmodule TechForGoodNearYou.Web.EventControllerTest do
 
   alias TechForGoodNearYou.MeetUps
 
-  @create_attrs %{address: "some address", group_name: "some group_name", name: "some name", postcode: "some postcode", time: %DateTime{calendar: Calendar.ISO, day: 17, hour: 14, microsecond: {0, 6}, minute: 0, month: 4, second: 0, std_offset: 0, time_zone: "Etc/UTC", utc_offset: 0, year: 2010, zone_abbr: "UTC"}, venue_name: "some venue_name"}
-  @update_attrs %{address: "some updated address", group_name: "some updated group_name", name: "some updated name", postcode: "some updated postcode", time: %DateTime{calendar: Calendar.ISO, day: 18, hour: 15, microsecond: {0, 6}, minute: 1, month: 5, second: 1, std_offset: 0, time_zone: "Etc/UTC", utc_offset: 0, year: 2011, zone_abbr: "UTC"}, venue_name: "some updated venue_name"}
-  @invalid_attrs %{address: nil, group_name: nil, name: nil, postcode: nil, time: nil, venue_name: nil}
+  @create_attrs %{address: "some address", group_name: "some group_name", name: "some name", postcode: "sw99ng", url: "www.event.com", time: %DateTime{calendar: Calendar.ISO, day: 17, hour: 14, microsecond: {0, 6}, minute: 0, month: 4, second: 0, std_offset: 0, time_zone: "Etc/UTC", utc_offset: 0, year: 2010, zone_abbr: "UTC"}, venue_name: "some venue_name"}
+  @update_attrs %{address: "some updated address", group_name: "some updated group_name", name: "some updated name", postcode: "e20sy", url: "www.event.com", time: %DateTime{calendar: Calendar.ISO, day: 18, hour: 15, microsecond: {0, 6}, minute: 1, month: 5, second: 1, std_offset: 0, time_zone: "Etc/UTC", utc_offset: 0, year: 2011, zone_abbr: "UTC"}, venue_name: "some updated venue_name"}
+  @invalid_attrs %{address: nil, group_name: nil, name: nil, time: nil, venue_name: nil}
 
   def fixture(:event) do
     {:ok, event} = MeetUps.create_event(@create_attrs)
@@ -30,11 +30,6 @@ defmodule TechForGoodNearYou.Web.EventControllerTest do
 
     conn = get conn, event_path(conn, :show, id)
     assert html_response(conn, 200) =~ "Show Event"
-  end
-
-  test "does not create event and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, event_path(conn, :create), event: @invalid_attrs
-    assert html_response(conn, 200) =~ "New Event"
   end
 
   test "renders form for editing chosen event", %{conn: conn} do
