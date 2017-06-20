@@ -27,7 +27,9 @@ desktopNavbar model =
                     , p [ class "mt0 ml1" ] [ text "near you" ]
                     ]
                 , navbarOptions model
-                , div [ class "absolute center bottom-2 left-0 right-0" ] [ centerMap model ]
+                , div [ class "absolute center bottom-2 left-0 right-0 t-3 all ease", classList [ showAtResults model ] ]
+                    [ div [ class "spin" ] [ centerMap model ]
+                    ]
                 ]
             ]
         ]
@@ -74,7 +76,7 @@ logo =
 
 navbarOptions : Model -> Html Msg
 navbarOptions model =
-    div [ class "pt1 pb3-ns t-3 all ease bg-green" ]
+    div [ class "pt1 pb3-ns t-5 all ease bg-green" ]
         [ dateSideOptions model
         , distanceOptions model
         ]

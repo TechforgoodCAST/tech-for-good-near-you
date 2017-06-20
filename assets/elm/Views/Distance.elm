@@ -30,7 +30,7 @@ distanceOptions model =
 
 centerMap : Model -> Html Msg
 centerMap model =
-    div [ class crosshairClasses, classList [ showAtResults model ] ]
+    div [ class crosshairClasses ]
         [ div [ class "center", onClick CenterMapOnUser ] [ img [ class "w-100", src "images/crosshair-white.svg" ] [] ] ]
 
 

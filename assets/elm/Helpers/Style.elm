@@ -20,4 +20,4 @@ desktopOnly =
 
 showAtResults : Model -> ( String, Bool )
 showAtResults model =
-    ( "o-0", model.view /= Results )
+    ( "no-select o-0", model.view /= Results )
