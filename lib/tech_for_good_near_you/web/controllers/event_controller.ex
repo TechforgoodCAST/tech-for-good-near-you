@@ -13,18 +13,16 @@ defmodule TechForGoodNearYou.Web.EventController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"event" => %{"postcode" => postcode} = event_params}) do
-    case LatLon.get_lat_lon(postcode) do
-      {:ok, lat_lon} ->
-        event_params = Map.merge(event_params, lat_lon)
-        case MeetUps.create_event(event_params) do
-          {:ok, event} ->
-            conn
-            |> put_flash(:info, "Event created successfully.")
-            |> redirect(to: event_path(conn, :show, event))
-          {:error, %Ecto.Changeset{} = changeset} ->
-            render(conn, "new.html", changeset: changeset)
-        end
+  def create(conn, %{"event" => event_params}) do
+    with {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
+         event_params = Map.merge(event_params, lat_lon),
+         {:ok, event} <- MeetUps.create_event(event_params) do
+      conn
+      |> put_flash(:info, "Event created successfully.")
+      |> redirect(to: event_path(conn, :show, event))
+    else
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
       {:error, _reason} ->
         conn
         |> put_flash(:error, "There was a problem adding the event, please try again")
@@ -45,17 +43,16 @@ defmodule TechForGoodNearYou.Web.EventController do
 
   def update(conn, %{"id" => id, "event" => %{"postcode" => postcode} = event_params}) do
     event = MeetUps.get_event!(id)
-    case LatLon.get_lat_lon(postcode) do
-      {:ok, lat_lon} ->
-        event_params = Map.merge(event_params, lat_lon)
-        case MeetUps.update_event(event, event_params) do
-          {:ok, event} ->
-            conn
-            |> put_flash(:info, "Event updated successfully.")
-            |> redirect(to: event_path(conn, :show, event))
-          {:error, %Ecto.Changeset{} = changeset} ->
-            render(conn, "edit.html", event: event, changeset: changeset)
-        end
+
+    with {:ok, lat_lon} <- LatLon.get_lat_lon(postcode),
+         event_params = Map.merge(event_params, lat_lon),
+         {:ok, event} <- MeetUps.update_event(event, event_params) do
+      conn
+      |> put_flash(:info, "Event updated successfully.")
+      |> redirect(to: event_path(conn, :show, event))
+    else
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", event: event, changeset: changeset)
       {:error, _reason} ->
         conn
         |> put_flash(:error, "There was a problem updating the event, please try again")
