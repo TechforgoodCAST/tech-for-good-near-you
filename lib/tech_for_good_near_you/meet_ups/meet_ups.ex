@@ -22,6 +22,21 @@ defmodule TechForGoodNearYou.MeetUps do
   end
 
   @doc """
+  Returns the list of future events.
+
+  ## Examples
+
+      iex> list_future_events()
+      [%Event{}, ...]
+
+  """
+  def list_future_events do
+    query = from e in Event, where: e.time > from_now(0, "day")
+    Repo.all(query)
+  end
+
+
+  @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.

@@ -7,7 +7,7 @@ defmodule TechForGoodNearYou.Web.ElmController do
   end
 
   def events(conn, _params) do
-    events = MeetUps.list_events()
+    events = MeetUps.list_future_events()
     render conn, "events.json", %{events: events}
   end
 end
