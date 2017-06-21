@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Tech for Good Near You!</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <p class="blue pv3 ph4 ma0 right-0 top-0 absolute" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="red pv3 ph4 ma0 right-0 top-0 absolute" role="alert"><%= get_flash(@conn, :error) %></p>
+      <main class="ma3">
+        <div class="mw9 center">
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+      </main>
+  </body>
+    <script>
+      window.ElmApp = {
+        boot: false
+      }
+    </script>
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</html>

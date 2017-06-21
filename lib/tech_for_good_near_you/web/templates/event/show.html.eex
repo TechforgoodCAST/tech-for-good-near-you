@@ -1,0 +1,43 @@
+<h2>Show Event</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @event.name %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @event.url %>
+  </li>
+
+  <li>
+    <strong>Time:</strong>
+    <%= @event.time %>
+  </li>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @event.address %>
+  </li>
+
+  <li>
+    <strong>Postcode:</strong>
+    <%= @event.postcode %>
+  </li>
+
+  <li>
+    <strong>Venue name:</strong>
+    <%= @event.venue_name %>
+  </li>
+
+  <li>
+    <strong>Group name:</strong>
+    <%= @event.group_name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: event_path(@conn, :edit, @event) %></span>
+<span><%= link "Back", to: event_path(@conn, :index) %></span>

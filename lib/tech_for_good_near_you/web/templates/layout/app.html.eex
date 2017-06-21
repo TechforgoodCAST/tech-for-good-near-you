@@ -14,6 +14,11 @@
 
   <body>
     <%= render @view_module, @view_template, assigns %>
+    <script>
+      window.ElmApp = {
+        boot: true
+      }
+    </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmUAx0BR-nEKDDUnf7wWqXO7E03HzNJoo"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script>
