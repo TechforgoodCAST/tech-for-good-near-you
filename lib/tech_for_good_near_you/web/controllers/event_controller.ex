@@ -1,7 +1,7 @@
 defmodule TechForGoodNearYou.Web.EventController do
   use TechForGoodNearYou.Web, :controller
 
-  alias TechForGoodNearYou.{MeetUps, LatLon}
+  alias TechForGoodNearYou.{MeetUps, Web.LatLon}
 
   def index(conn, _params) do
     events = MeetUps.list_events()
@@ -60,7 +60,7 @@ defmodule TechForGoodNearYou.Web.EventController do
       {:error, _reason} ->
         conn
         |> put_flash(:error, "There was a problem updating the event, please try again")
-        |> redirect(to: event_path(conn, :new))
+        |> redirect(to: event_path(conn, :edit, event))
     end
   end
 
@@ -84,5 +84,10 @@ defmodule TechForGoodNearYou.Web.EventController do
     conn
     |> put_flash(:info, "Event deleted successfully.")
     |> redirect(to: event_path(conn, :index))
+  end
+
+  def custom_events(conn, _params) do
+    events = MeetUps.list_future_events()
+    render conn, "events.json", %{events: events}
   end
 end

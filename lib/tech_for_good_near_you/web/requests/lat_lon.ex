@@ -1,4 +1,4 @@
-defmodule TechForGoodNearYou.LatLon do
+defmodule TechForGoodNearYou.Web.LatLon do
 
   def get_lat_lon(""), do: {:ok, %{}}
 
