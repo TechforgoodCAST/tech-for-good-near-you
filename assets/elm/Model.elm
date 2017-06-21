@@ -35,8 +35,10 @@ type alias Event =
     , time : Date
     , address : String
     , venueName : String
-    , lat : Float
-    , lng : Float
+    , lat : Maybe Float
+    , lng : Maybe Float
+    , groupLat : Maybe Float
+    , groupLng : Maybe Float
     , rsvpCount : Int
     , groupName : String
     , distance : Int
