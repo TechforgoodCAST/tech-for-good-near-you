@@ -27,7 +27,7 @@ handleReceiveAdminEvents events model =
 
 getAdminEvents : Cmd Msg
 getAdminEvents =
-    Http.get "api/internal-events" (field "data" (list decodeInternalEvent))
+    Http.get "api/admin-events" (field "data" (list decodeInternalEvent))
         |> Http.send ReceiveAdminEvents
 
 
@@ -49,7 +49,7 @@ decodeInternalEvent =
 stringToDate : Decoder Date
 stringToDate =
     string
-        |> Json.map fromString
+        |> Json.map Date.fromString
         |> Json.map (Result.withDefault <| fromTime 0)
 
 

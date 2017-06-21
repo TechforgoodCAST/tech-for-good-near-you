@@ -15,7 +15,7 @@ handleReceiveMeetupEvents events model =
 
 getMeetupEvents : Cmd Msg
 getMeetupEvents =
-    Http.get "api/events" (list decodeEvent)
+    Http.get "api/meetup-events" (list decodeEvent)
         |> Http.send ReceiveMeetupEvents
 
 

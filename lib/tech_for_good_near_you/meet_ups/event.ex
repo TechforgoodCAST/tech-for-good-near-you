@@ -7,7 +7,7 @@ defmodule TechForGoodNearYou.MeetUps.Event do
   schema "meet_ups_events" do
     field :name, :string
     field :url, :string
-    field :time, :utc_datetime
+    field :time, :naive_datetime
     field :address, :string
     field :postcode, :string
     field :venue_name, :string

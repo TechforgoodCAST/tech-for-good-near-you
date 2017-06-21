@@ -23,7 +23,7 @@ defmodule TechForGoodNearYou.Web.Router do
   scope "/api", TechForGoodNearYou.Web do
     pipe_through :api
 
-    get "/events", MeetupController, :index
-    get "/internal-events", ElmController, :events
+    get "/meetup-events", MeetupController, :index
+    get "/admin-events", ElmController, :events
   end
 end
