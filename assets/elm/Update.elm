@@ -7,16 +7,22 @@ import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
 import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap)
+import Helpers.Window exposing (getWindowSize)
 import Model exposing (..)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
 import Request.AdminEvents exposing (getAdminEvents, handleReceiveAdminEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode)
 import Update.Extra exposing (addCmd, andThen)
+import Window exposing (resizes)
 
 
 init : ( Model, Cmd Msg )
 init =
-    initialModel ! [ getCurrentDate, initMapAtLondon initialModel ]
+    initialModel
+        ! [ getCurrentDate
+          , initMapAtLondon initialModel
+          , getWindowSize
+          ]
 
 
 initialModel : Model
@@ -34,6 +40,8 @@ initialModel =
     , searchRadius = 300
     , navbarOpen = False
     , mapId = "t4g-google-map"
+    , window = { width = 0, height = 0 }
+    , mobileNavHeight = 60
     }
 
 
@@ -107,3 +115,12 @@ update msg model =
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser ]
+
+        WindowSize size ->
+            { model | window = size } ! []
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ resizes WindowSize ]

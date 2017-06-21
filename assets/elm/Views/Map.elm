@@ -10,12 +10,23 @@ import Model exposing (..)
 renderMap : Model -> Html Msg
 renderMap model =
     if model.mapVisible then
-        div [ class <| classes [ "flex w-100 z-5", mapPositioning model ] ]
+        div
+            [ class <| classes [ "flex w-100 z-5", mapPositioning model ]
+            , style [ ( "height", (mapHeight model) ++ "px" ) ]
+            ]
             [ div [ class "ml6-ns pl4-ns" ] []
             , div [ id model.mapId, class mapBaseClasses ] []
             ]
     else
         mapPlaceholder model
+
+
+mapHeight : Model -> String
+mapHeight { window, mobileNavHeight } =
+    if window.width < 480 then
+        window.height - mobileNavHeight |> toString
+    else
+        window.height // 2 |> toString
 
 
 mapPlaceholder : Model -> Html msg
@@ -40,4 +51,4 @@ mapPositioning model =
 
 mapBaseClasses : String
 mapBaseClasses =
-    "vh-50-ns vh-25 fade-in bg-light-gray w-100"
+    "fade-in bg-light-gray w-100"

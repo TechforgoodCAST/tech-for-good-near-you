@@ -1,9 +1,10 @@
 module Model exposing (..)
 
-import Http
-import Geolocation
-import Time exposing (..)
 import Date exposing (..)
+import Geolocation
+import Http
+import Time exposing (..)
+import Window
 
 
 type alias Model =
@@ -20,6 +21,8 @@ type alias Model =
     , view : View
     , searchRadius : Int
     , mapId : String
+    , window : Window.Size
+    , mobileNavHeight : Int
     }
 
 
@@ -95,3 +98,4 @@ type Msg
     | ToggleNavbar
     | Restart
     | FilteredMarkers
+    | WindowSize Window.Size

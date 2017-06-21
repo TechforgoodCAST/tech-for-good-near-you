@@ -16,3 +16,7 @@
   animation: fade-in 1s ease;
   animation-fill-mode: forwards;
 }
+
+.a-3 {
+  animation-duration: 0.3s!important;
+}
