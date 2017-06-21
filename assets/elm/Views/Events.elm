@@ -1,12 +1,13 @@
 module Views.Events exposing (..)
 
-import Model exposing (..)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
+import Helpers.Style exposing (classes, desktopOnly, px)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Model exposing (..)
 import Views.Dates exposing (dateMainOptions)
 
 
@@ -17,9 +18,13 @@ events model =
     else
         let
             mapMargin =
-                model.window.height // 2 |> toString
+                model.window.height // 2
         in
-            div [ class "w-50-m", style [ ( "margin-top", mapMargin ++ "px" ) ] ] (List.map event (filterEvents model))
+            div
+                [ class <| classes [ "w-50", desktopOnly ]
+                , style [ ( "margin-top", px mapMargin ) ]
+                ]
+                (List.map event <| filterEvents model)
 
 
 selectOtherDates : Model -> Html Msg

@@ -11,7 +11,10 @@ function initMap ({ marker, mapId }) {
     center: {
       lat: marker.lat,
       lng: marker.lng
-    }
+    },
+    gestureHandling: 'greedy',
+    mapTypeControl: false,
+    streetViewControl: false
   }
 
   mapDiv = document.getElementById(mapId)

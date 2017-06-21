@@ -40,8 +40,14 @@ initialModel =
     , searchRadius = 300
     , navbarOpen = False
     , mapId = "t4g-google-map"
-    , window = { width = 0, height = 0 }
-    , mobileNavHeight = 60
+    , window =
+        { width = 0
+        , height = 0
+        }
+    , mobileNav =
+        { topHeight = 60
+        , bottomHeight = 50
+        }
     }
 
 

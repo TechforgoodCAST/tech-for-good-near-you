@@ -1,7 +1,7 @@
 module Views.Map exposing (..)
 
 import Data.Events exposing (filterEvents)
-import Helpers.Style exposing (classes)
+import Helpers.Style exposing (classes, isMobile, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Model exposing (..)
@@ -12,7 +12,7 @@ renderMap model =
     if model.mapVisible then
         div
             [ class <| classes [ "flex w-100 z-5", mapPositioning model ]
-            , style [ ( "height", (mapHeight model) ++ "px" ) ]
+            , style [ ( "height", px <| mapHeight model ) ]
             ]
             [ div [ class "ml6-ns pl4-ns" ] []
             , div [ id model.mapId, class mapBaseClasses ] []
@@ -21,12 +21,12 @@ renderMap model =
         mapPlaceholder model
 
 
-mapHeight : Model -> String
-mapHeight { window, mobileNavHeight } =
-    if window.width < 480 then
-        window.height - mobileNavHeight |> toString
+mapHeight : Model -> Int
+mapHeight ({ window, mobileNav } as model) =
+    if isMobile model then
+        window.height - mobileNav.topHeight - mobileNav.bottomHeight
     else
-        window.height // 2 |> toString
+        window.height // 2
 
 
 mapPlaceholder : Model -> Html msg

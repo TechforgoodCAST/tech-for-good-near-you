@@ -9,12 +9,13 @@ import Data.Dates exposing (datesList, dateRangeToString)
 
 type DateButton
     = SideBar
-    | Main
+    | BottomBar
+    | FullPage
 
 
 dates : Model -> Html Msg
 dates model =
-    div [ class "mt5-ns tc fade-in" ]
+    div [ class "mt5 tc fade-in" ]
         [ h3 [ class "green" ] [ text "See meetups from:" ]
         , dateMainOptions model
         , showNext model
@@ -29,9 +30,14 @@ showNext { selectedDate } =
         span [] []
 
 
+dateBottomBarOptions : Model -> Html Msg
+dateBottomBarOptions model =
+    div [] <| List.map (dateButton BottomBar model) datesList
+
+
 dateMainOptions : Model -> Html Msg
 dateMainOptions model =
-    div [ class "tc mt4" ] <| List.map (dateButton Main model) datesList
+    div [ class "tc mt4" ] <| List.map (dateButton FullPage model) datesList
 
 
 dateSideOptions : Model -> Html Msg
@@ -65,5 +71,8 @@ buttonClasses buttonType =
         SideBar ->
             ( "b--white pv1 ph2 ma2 ml0", "bg-white green", "white" )
 
-        Main ->
+        BottomBar ->
+            ( "b--white dib ma1 ph1 pb1", "bg-white green", "white" )
+
+        FullPage ->
             ( "b--green pv2 ph5 ma2", "bg-green white", "green" )

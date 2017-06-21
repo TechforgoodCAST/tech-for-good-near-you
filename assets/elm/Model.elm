@@ -22,7 +22,10 @@ type alias Model =
     , searchRadius : Int
     , mapId : String
     , window : Window.Size
-    , mobileNavHeight : Int
+    , mobileNav :
+        { topHeight : Int
+        , bottomHeight : Int
+        }
     }
 
 
@@ -99,3 +102,7 @@ type Msg
     | Restart
     | FilteredMarkers
     | WindowSize Window.Size
+
+
+type alias Style =
+    ( String, String )
