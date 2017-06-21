@@ -1,6 +1,6 @@
 <h2>Listing Events</h2>
 
-<table class="table">
+<table>
   <thead>
     <tr>
       <th>Name</th>
@@ -25,10 +25,10 @@
       <td><%= event.venue_name %></td>
       <td><%= event.group_name %></td>
 
-      <td class="text-right">
-        <span><%= link "Show", to: event_path(@conn, :show, event), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: event_path(@conn, :edit, event), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      <td>
+        <span><%= link "Show", to: event_path(@conn, :show, event)%></span>
+        <span><%= link "Edit", to: event_path(@conn, :edit, event)%></span>
+        <span><%= link "Delete", to: event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"]%></span>
       </td>
     </tr>
 <% end %>

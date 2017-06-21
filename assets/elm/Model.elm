@@ -84,7 +84,7 @@ type Msg
     = UpdatePostcode String
     | SetDateRange DateRange
     | ReceiveMeetupEvents (Result Http.Error (List Event))
-    | ReceiveAdminEvents (Result Http.Error (List Event))
+    | ReceiveCustomEvents (Result Http.Error (List Event))
     | GetGeolocation
     | ReceiveGeolocation (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time

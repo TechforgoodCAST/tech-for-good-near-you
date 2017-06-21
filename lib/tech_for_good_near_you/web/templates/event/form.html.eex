@@ -5,49 +5,49 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= label f, :name, class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
-    <%= error_tag f, :name %>
+  <div>
+    <%= label f, :name%>
+    <%= text_input f, :name%>
+    <%= error_tag f, :name%>
   </div>
 
-  <div class="form-group">
-    <%= label f, :url, class: "control-label" %>
-    <%= text_input f, :url, class: "form-control" %>
-    <%= error_tag f, :url %>
+  <div>
+    <%= label f, :url%>
+    <%= text_input f, :url%>
+    <%= error_tag f, :url%>
   </div>
 
-  <div class="form-group">
-    <%= label f, :time, class: "control-label" %>
-    <%= datetime_select f, :time, class: "form-control" %>
-    <%= error_tag f, :time %>
+  <div>
+    <%= label f, :time%>
+    <%= datetime_select f, :time%>
+    <%= error_tag f, :time%>
   </div>
 
-  <div class="form-group">
-    <%= label f, :address, class: "control-label" %>
-    <%= text_input f, :address, class: "form-control" %>
-    <%= error_tag f, :address %>
+  <div>
+    <%= label f, :address%>
+    <%= text_input f, :address%>
+    <%= error_tag f, :address%>
   </div>
 
-  <div class="form-group">
-    <%= label f, :postcode, class: "control-label" %>
-    <%= text_input f, :postcode, class: "form-control" %>
-    <%= error_tag f, :postcode %>
+  <div>
+    <%= label f, :postcode%>
+    <%= text_input f, :postcode%>
+    <%= error_tag f, :postcode%>
   </div>
 
-  <div class="form-group">
-    <%= label f, :venue_name, class: "control-label" %>
-    <%= text_input f, :venue_name, class: "form-control" %>
-    <%= error_tag f, :venue_name %>
+  <div>
+    <%= label f, :venue_name%>
+    <%= text_input f, :venue_name%>
+    <%= error_tag f, :venue_name%>
   </div>
 
-  <div class="form-group">
-    <%= label f, :group_name, class: "control-label" %>
-    <%= text_input f, :group_name, class: "form-control" %>
-    <%= error_tag f, :group_name %>
+  <div>
+    <%= label f, :group_name%>
+    <%= text_input f, :group_name%>
+    <%= error_tag f, :group_name%>
   </div>
 
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+  <div>
+    <%= submit "Submit"%>
   </div>
 <% end %>

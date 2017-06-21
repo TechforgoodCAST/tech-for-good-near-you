@@ -16,7 +16,7 @@
     <%= render @view_module, @view_template, assigns %>
     <script>
       window.ElmApp = {
-        show: true
+        boot: true
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmUAx0BR-nEKDDUnf7wWqXO7E03HzNJoo"></script>

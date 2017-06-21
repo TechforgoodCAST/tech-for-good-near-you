@@ -10,7 +10,7 @@ import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap)
 import Helpers.Window exposing (getWindowSize)
 import Model exposing (..)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
-import Request.AdminEvents exposing (getAdminEvents, handleReceiveAdminEvents)
+import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode)
 import Update.Extra exposing (addCmd, andThen)
 import Window exposing (resizes)
@@ -78,13 +78,13 @@ update msg model =
 
         ReceiveMeetupEvents (Ok events) ->
             (handleReceiveMeetupEvents events model ! [])
-                |> addCmd getAdminEvents
+                |> addCmd getCustomEvents
 
-        ReceiveAdminEvents (Err err) ->
+        ReceiveCustomEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
-        ReceiveAdminEvents (Ok events) ->
-            (handleReceiveAdminEvents events model ! [])
+        ReceiveCustomEvents (Ok events) ->
+            (handleReceiveCustomEvents events model ! [])
                 |> addCmd resizeMap
                 |> andThen update FilteredMarkers
 

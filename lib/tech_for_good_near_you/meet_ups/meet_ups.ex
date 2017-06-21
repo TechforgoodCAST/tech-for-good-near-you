@@ -127,7 +127,6 @@ defmodule TechForGoodNearYou.MeetUps do
       %Ecto.Changeset{valid?: true} = changeset ->
         {:ok, changeset}
       changeset ->
-        IO.inspect changeset
         {:error, changeset}
     end
   end

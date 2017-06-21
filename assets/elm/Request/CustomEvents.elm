@@ -1,4 +1,4 @@
-module Request.AdminEvents exposing (..)
+module Request.CustomEvents exposing (..)
 
 import Data.Events exposing (addDistanceToEvents)
 import Date exposing (..)
@@ -9,8 +9,8 @@ import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
 
 
-handleReceiveAdminEvents : List Event -> Model -> Model
-handleReceiveAdminEvents events model =
+handleReceiveCustomEvents : List Event -> Model -> Model
+handleReceiveCustomEvents events model =
     let
         eventsWithDistance =
             addDistanceToEvents model events
@@ -25,10 +25,10 @@ handleReceiveAdminEvents events model =
         }
 
 
-getAdminEvents : Cmd Msg
-getAdminEvents =
-    Http.get "api/admin-events" (field "data" (list decodeInternalEvent))
-        |> Http.send ReceiveAdminEvents
+getCustomEvents : Cmd Msg
+getCustomEvents =
+    Http.get "api/custom-events" (field "data" (list decodeInternalEvent))
+        |> Http.send ReceiveCustomEvents
 
 
 decodeInternalEvent : Decoder Event

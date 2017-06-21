@@ -22,7 +22,7 @@
   </body>
     <script>
       window.ElmApp = {
-        show: false
+        boot: false
       }
     </script>
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
