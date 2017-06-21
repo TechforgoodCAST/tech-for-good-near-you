@@ -9,6 +9,10 @@ defmodule TechForGoodNearYou.Web.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :admin do
+    plug :put_layout, {TechForGoodNearYou.Web.LayoutView, :admin}
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,7 +21,13 @@ defmodule TechForGoodNearYou.Web.Router do
     pipe_through :browser
 
     get "/", ElmController, :index
-    resources "/event", EventController
+  end
+
+  scope "/admin", TechForGoodNearYou.Web do
+    pipe_through :browser
+    pipe_through :admin
+
+    resources "/events", EventController
   end
 
   scope "/api", TechForGoodNearYou.Web do
