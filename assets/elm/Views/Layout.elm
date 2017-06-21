@@ -1,10 +1,10 @@
 module Views.Layout exposing (..)
 
-import Helpers.Style exposing (ifMobile, mobileFullHeight, percentScreenHeight)
+import Helpers.Style exposing (isMobile, mobileFullHeight, percentScreenHeight)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Views.Navigation exposing (bottomNav, topNav)
 import Model exposing (..)
+import Views.Navigation exposing (bottomNav, topNav)
 
 
 layout : Model -> Html Msg -> Html Msg
@@ -23,7 +23,7 @@ layout model content =
 
 mobileContainer : Model -> Html Msg -> Html Msg
 mobileContainer model content =
-    div
-        [ style [ percentScreenHeight 80 model |> ifMobile model ]
-        ]
-        [ content ]
+    if isMobile model then
+        div [ style [ percentScreenHeight 80 model ] ] [ content ]
+    else
+        content

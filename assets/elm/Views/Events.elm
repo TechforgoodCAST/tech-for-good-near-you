@@ -21,7 +21,7 @@ events model =
                 model.window.height // 2
         in
             div
-                [ class <| classes [ "w-50-m", desktopOnly ]
+                [ class <| classes [ "w-50", desktopOnly ]
                 , style [ ( "margin-top", px mapMargin ) ]
                 ]
                 (List.map event <| filterEvents model)
