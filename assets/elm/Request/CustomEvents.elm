@@ -27,12 +27,12 @@ handleReceiveCustomEvents events model =
 
 getCustomEvents : Cmd Msg
 getCustomEvents =
-    Http.get "api/custom-events" (field "data" (list decodeInternalEvent))
+    Http.get "api/custom-events" (field "data" (list decodeCustomEvent))
         |> Http.send ReceiveCustomEvents
 
 
-decodeInternalEvent : Decoder Event
-decodeInternalEvent =
+decodeCustomEvent : Decoder Event
+decodeCustomEvent =
     decode Event
         |> required "name" string
         |> required "url" string
