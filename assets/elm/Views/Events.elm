@@ -61,9 +61,19 @@ event event =
         , div [ class "flex" ]
             [ p [ class "fw4 light-silver mr3" ] [ text "Where? " ]
             , div []
-                [ p [] [ text event.venueName ]
-                , p [] [ text event.address ]
+                [ venueAddress event
                 , a [ href event.url, target "_blank" ] [ button [ class "pv2 ph3 bg-gold br2 f6 tracked white bn outline-0 pointer" ] [ text "SEE MORE" ] ]
                 ]
             ]
         ]
+
+
+venueAddress : Event -> Html Msg
+venueAddress event =
+    if isPrivateEvent event then
+        p [ class "orange" ] [ text "join the meetup group to see the location" ]
+    else
+        div []
+            [ p [] [ text event.venueName ]
+            , p [] [ text event.address ]
+            ]

@@ -39,8 +39,10 @@ decodeCustomEvent =
         |> required "time" stringToDate
         |> optional "address" string ""
         |> optional "venue_name" string ""
-        |> optional "latitude" float 51
-        |> optional "longitude" float 0
+        |> optional "latitude" (maybe float) Nothing
+        |> optional "longitude" (maybe float) Nothing
+        |> optional "group_lat" (maybe float) Nothing
+        |> optional "goup_lng" (maybe float) Nothing
         |> optional "yes_rsvp_count" int 0
         |> optional "group_name" string ""
         |> hardcoded 0

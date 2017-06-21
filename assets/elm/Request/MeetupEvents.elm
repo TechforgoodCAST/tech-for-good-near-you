@@ -27,8 +27,10 @@ decodeEvent =
         |> required "time" floatToDate
         |> optionalAt [ "venue", "address_1" ] string ""
         |> optionalAt [ "venue", "name" ] string ""
-        |> optionalAt [ "venue", "lat" ] float 51
-        |> optionalAt [ "venue", "lon" ] float 0
+        |> optionalAt [ "venue", "lat" ] (maybe float) Nothing
+        |> optionalAt [ "venue", "lon" ] (maybe float) Nothing
+        |> optionalAt [ "group", "group_lat" ] (maybe float) Nothing
+        |> optionalAt [ "group", "group_lon" ] (maybe float) Nothing
         |> required "yes_rsvp_count" int
         |> requiredAt [ "group", "name" ] string
         |> hardcoded 0

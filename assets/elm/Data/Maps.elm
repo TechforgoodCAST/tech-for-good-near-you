@@ -1,6 +1,6 @@
 module Data.Maps exposing (..)
 
-import Data.Events exposing (filterEvents)
+import Data.Events exposing (eventLat, eventLng, filterEvents)
 import Data.Ports exposing (initMap, updateMarkers)
 import Model exposing (..)
 
@@ -27,8 +27,8 @@ extractMarkers =
 
 
 makeMarker : Event -> Marker
-makeMarker { url, title, lat, lng } =
-    Marker url title lat lng
+makeMarker e =
+    Marker e.url e.title (eventLat e) (eventLng e)
 
 
 centerAtLondon : Marker
