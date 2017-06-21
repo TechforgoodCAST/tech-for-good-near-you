@@ -15,7 +15,11 @@ events model =
     if List.isEmpty (filterEvents model) && not model.fetchingEvents then
         selectOtherDates model
     else
-        div [ style [ ( "margin-top", "50vh" ) ] ] (List.map event (filterEvents model))
+        let
+            mapMargin =
+                model.window.height // 2 |> toString
+        in
+            div [ class "w-50-m", style [ ( "margin-top", mapMargin ++ "px" ) ] ] (List.map event (filterEvents model))
 
 
 selectOtherDates : Model -> Html Msg
