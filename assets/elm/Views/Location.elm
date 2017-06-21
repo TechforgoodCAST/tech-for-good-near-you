@@ -32,7 +32,7 @@ locationCrosshair : Model -> Html Msg
 locationCrosshair model =
     div []
         [ p [ class "green f6 mt5" ] [ text "Get my location" ]
-        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ img [ class "w-100", src "images/crosshair.svg" ] [] ]
+        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ img [ class "w-100", src "/images/crosshair.svg" ] [] ]
         , p [ class "green mv4 mv5-ns", classList [ ( "dn", model.fetchingLocation ) ] ] [ text "-- OR --" ]
         ]
 
