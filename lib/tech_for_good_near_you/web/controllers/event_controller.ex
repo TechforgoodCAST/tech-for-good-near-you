@@ -14,9 +14,11 @@ defmodule TechForGoodNearYou.Web.EventController do
   end
 
   def create(conn, %{"event" => event_params}) do
-    with {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
+    with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
+         {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
          event_params = Map.merge(event_params, lat_lon),
-         {:ok, event} <- MeetUps.create_event(event_params) do
+         {:ok, event} <- MeetUps.create_event(event_params)
+    do
       conn
       |> put_flash(:info, "Event created successfully.")
       |> redirect(to: event_path(conn, :show, event))
@@ -44,9 +46,11 @@ defmodule TechForGoodNearYou.Web.EventController do
   def update(conn, %{"id" => id, "event" => %{"postcode" => postcode} = event_params}) do
     event = MeetUps.get_event!(id)
 
-    with {:ok, lat_lon} <- LatLon.get_lat_lon(postcode),
+    with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
+         {:ok, lat_lon} <- LatLon.get_lat_lon(postcode),
          event_params = Map.merge(event_params, lat_lon),
-         {:ok, event} <- MeetUps.update_event(event, event_params) do
+         {:ok, event} <- MeetUps.update_event(event, event_params)
+    do
       conn
       |> put_flash(:info, "Event updated successfully.")
       |> redirect(to: event_path(conn, :show, event))

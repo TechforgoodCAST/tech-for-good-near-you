@@ -116,4 +116,23 @@ defmodule TechForGoodNearYou.MeetUps do
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
   end
+
+  def validate_postcode(params) do
+    change =
+      %Event{}
+      |> Event.validate_postcode_changeset(params)
+      |> update_changeset_action(:validate_postcode)
+
+    case change do
+      %Ecto.Changeset{valid?: true} = changeset ->
+        {:ok, changeset}
+      changeset ->
+        IO.inspect changeset
+        {:error, changeset}
+    end
+  end
+
+  defp update_changeset_action(changeset, action) do
+    %{changeset | action: action}
+  end
 end
