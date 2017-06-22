@@ -50,7 +50,7 @@ event : Event -> Html Msg
 event event =
     div [ class "ph4 mt3 mb4 mw7 center fade-in flex flex-column items-center" ]
         [ h3
-            [ class "f3 dark-green pointer mt4 mb3 tc"
+            [ class "f3 dark-green hover-gold pointer mt4 mb3 tc t-3 all ease"
             , onClick <| CenterEvent (makeMarker event)
             ]
             [ text event.title ]
