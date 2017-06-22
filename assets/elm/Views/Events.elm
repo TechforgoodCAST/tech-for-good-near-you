@@ -3,6 +3,7 @@ module Views.Events exposing (..)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
+import Helpers.Html exposing (responsiveImg)
 import Helpers.Style exposing (classes, desktopOnly, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -21,7 +22,7 @@ events model =
                 model.window.height // 2
         in
             div
-                [ class <| classes [ "w-50", desktopOnly ]
+                [ class <| classes [ "ph4 w-100", desktopOnly ]
                 , style [ ( "margin-top", px mapMargin ) ]
                 ]
                 (List.map event <| filterEvents model)
@@ -47,25 +48,54 @@ noEventsInRangeText model =
 
 event : Event -> Html Msg
 event event =
-    div [ class "green ph4 pt3 pb4 mw7 center fade-in" ]
+    div [ class "ph4 pt4 mv3 pb5 mw7 center fade-in flex flex-column items-center" ]
         [ h3
-            [ class "green pointer mv2"
+            [ class "f3 dark-green pointer mt4 mb3 tc"
             , onClick <| CenterEvent (makeMarker event)
             ]
             [ text event.title ]
-        , p [ class "ma0 gold f6" ] [ text <| String.toUpper event.groupName ]
-        , p []
-            [ span [ class "fw4 light-silver mr3" ] [ text "When? " ]
-            , span [ class "fw7 gray" ] [ text <| String.toUpper (displayDate event.time) ]
+        , div [ class "flex flex-column flex-row-m items-start w-100" ]
+            [ whenDetails event
+            , whereDetails event
+            , whoDetails event
             ]
-        , div [ class "flex" ]
-            [ p [ class "fw4 light-silver mr3" ] [ text "Where? " ]
-            , div []
-                [ venueAddress event
-                , a [ href event.url, target "_blank" ] [ button [ class "pv2 ph3 bg-gold br2 f6 tracked white bn outline-0 pointer" ] [ text "SEE MORE" ] ]
-                ]
-            ]
+        , seeMore event
         ]
+
+
+whenDetails event =
+    div [ class "gold w-33-m w-100 flex flex-column justify-center items-center tc" ]
+        [ h3 [] [ text "WHEN?" ]
+        , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/calendar.svg" ]
+        , p [] [ text <| displayDate event.time ]
+        ]
+
+
+whereDetails event =
+    div [ class "green w-33-m w-100 flex flex-column justify-center items-center tc pointer", onClick <| CenterEvent (makeMarker event) ]
+        [ h3 [] [ text "WHERE?" ]
+        , div
+            [ style
+                [ ( "width", "35px" )
+                , ( "height", "33px" )
+                ]
+            , class "spin"
+            ]
+            [ responsiveImg "/images/crosshair.svg" ]
+        , venueAddress event
+        ]
+
+
+whoDetails event =
+    div [ class "light-red w-33-m w-100 flex flex-column justify-center items-center tc" ]
+        [ h3 [ class "light-red" ] [ text "WHO?" ]
+        , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/group.svg" ]
+        , p [] [ text event.groupName ]
+        ]
+
+
+seeMore event =
+    a [ href event.url, target "_blank" ] [ button [ class "mt4 pv2 ph3 bg-animate bg-green hover-bg-gold br2 f5 tracked white bn outline-0 pointer" ] [ text "SEE MORE" ] ]
 
 
 venueAddress : Event -> Html Msg
@@ -73,7 +103,8 @@ venueAddress event =
     if isPrivateEvent event then
         p [ class "orange" ] [ text "join the meetup group to see the location" ]
     else
-        div []
-            [ p [] [ text event.venueName ]
-            , p [] [ text event.address ]
+        div [ class "mv3" ]
+            [ span [] [ text <| event.venueName ++ ", " ]
+            , br [] []
+            , span [] [ text event.address ]
             ]

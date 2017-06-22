@@ -12,7 +12,7 @@
   --font-size-subheadline: 5rem;
   --font-size-1: 3rem;
   --font-size-2: 2.25rem;
-  --font-size-3: 1.5rem;
+  --font-size-3: 1.4rem;
   --font-size-4: 1.25rem;
   --font-size-5: 1rem;
   --font-size-6: .8rem;
@@ -24,7 +24,7 @@
   --line-height-solid: 1;
   --line-height-title: 1.25;
   --line-height-copy: 1.5;
-  
+
   --measure: 30em;
   --measure-narrow: 20em;
   --measure-wide: 34em;
@@ -123,7 +123,7 @@
 
   --dark-red:  #e7040f;
   --red:  #ff4136;
-  --light-red:  #ff725c;
+  --light-red:  #f75c50;
   --orange:  #ff6300;
   --gold:  #ffb700;
   --yellow:  #ffd700;
@@ -134,7 +134,7 @@
   --hot-pink: #ff41b4;
   --pink:  #ff80cc;
   --light-pink:  #ffa3d7;
-  --dark-green:  #007459;
+  --dark-green:  #00634c;
   --green:  #19a974;
   --light-green:  #C7FFDF;
   --navy:  #001b44;

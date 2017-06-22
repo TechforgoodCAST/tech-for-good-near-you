@@ -1,5 +1,6 @@
 module Views.Navigation exposing (..)
 
+import Helpers.Html exposing (responsiveImg)
 import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileOnly, px, showAtResults)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -52,7 +53,7 @@ mobileTopBar model =
                 , class "mr3 pointer"
                 , onClick ToggleNavbar
                 ]
-                [ img [ class "w-100", src "/images/plus.png" ] [] ]
+                [ responsiveImg "/images/plus.png" ]
             ]
         , mobileTopBarContent model
         ]
@@ -83,7 +84,7 @@ mobileBottomNav model =
 
 logo : Html Msg
 logo =
-    div [ class "w3 w4-ns" ] [ img [ class "w-100", src "/images/tech-for-good.png" ] [] ]
+    div [ class "w3 w4-ns" ] [ responsiveImg "/images/tech-for-good.png" ]
 
 
 navbarOptions : Model -> Html Msg
