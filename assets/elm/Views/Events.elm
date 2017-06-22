@@ -86,25 +86,27 @@ whereDetails event =
         ]
 
 
+whoDetails : Event -> Html Msg
 whoDetails event =
-    div [ class "light-red w-33-m w-100 flex flex-column justify-center items-center tc" ]
-        [ h3 [ class "light-red" ] [ text "WHO?" ]
+    div [ class <| classes [ "light-red", iconContainerClasses ] ]
+        [ h3 [ class "f6" ] [ text "WHO?" ]
         , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/group.svg" ]
-        , p [] [ text event.groupName ]
+        , p [ class "f6" ] [ text event.groupName ]
         ]
 
 
-seeMore event =
-    a [ href event.url, target "_blank" ] [ button [ class "mt4 pv2 ph3 bg-animate bg-green hover-bg-gold br2 f5 tracked white bn outline-0 pointer" ] [ text "SEE MORE" ] ]
+iconContainerClasses : String
+iconContainerClasses =
+    "w-33-m w-100 flex flex-column justify-center items-center tc"
 
 
 venueAddress : Event -> Html Msg
 venueAddress event =
     if isPrivateEvent event then
-        p [ class "orange" ] [ text "join the meetup group to see the location" ]
+        p [ class "orange f6" ] [ text "join the meetup group to see the location" ]
     else
         div [ class "mv3" ]
-            [ span [] [ text <| event.venueName ++ ", " ]
+            [ span [ class "f6" ] [ text <| event.venueName ++ ", " ]
             , br [] []
-            , span [] [ text event.address ]
+            , span [ class "f6" ] [ text event.address ]
             ]
