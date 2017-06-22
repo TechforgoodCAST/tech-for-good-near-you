@@ -59,10 +59,10 @@ event event =
             , whereDetails event
             , whoDetails event
             ]
-        , seeMore event
         ]
 
 
+whenDetails : Event -> Html Msg
 whenDetails event =
     div [ class "gold w-33-m w-100 flex flex-column justify-center items-center tc" ]
         [ h3 [] [ text "WHEN?" ]
@@ -71,6 +71,7 @@ whenDetails event =
         ]
 
 
+whereDetails : Event -> Html Msg
 whereDetails event =
     div [ class "green w-33-m w-100 flex flex-column justify-center items-center tc pointer", onClick <| CenterEvent (makeMarker event) ]
         [ h3 [] [ text "WHERE?" ]
