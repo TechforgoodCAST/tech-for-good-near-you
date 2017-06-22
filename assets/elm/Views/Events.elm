@@ -48,7 +48,7 @@ noEventsInRangeText model =
 
 event : Event -> Html Msg
 event event =
-    div [ class "ph4 pt4 mv3 pb5 mw7 center fade-in flex flex-column items-center" ]
+    div [ class "ph4 mt3 mb4 mw7 center fade-in flex flex-column items-center" ]
         [ h3
             [ class "f3 dark-green pointer mt4 mb3 tc"
             , onClick <| CenterEvent (makeMarker event)
@@ -65,16 +65,16 @@ event event =
 whenDetails : Event -> Html Msg
 whenDetails event =
     div [ class "gold w-33-m w-100 flex flex-column justify-center items-center tc" ]
-        [ h3 [] [ text "WHEN?" ]
+        [ h3 [ class "f6" ] [ text "WHEN?" ]
         , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/calendar.svg" ]
-        , p [] [ text <| displayDate event.time ]
+        , p [ class "f6" ] [ text <| displayDate event.time ]
         ]
 
 
 whereDetails : Event -> Html Msg
 whereDetails event =
     div [ class "green w-33-m w-100 flex flex-column justify-center items-center tc pointer", onClick <| CenterEvent (makeMarker event) ]
-        [ h3 [] [ text "WHERE?" ]
+        [ h3 [ class "f6" ] [ text "WHERE?" ]
         , div
             [ style
                 [ ( "width", "35px" )
@@ -106,7 +106,7 @@ venueAddress event =
     if isPrivateEvent event then
         p [ class "orange f6" ] [ text "join the meetup group to see the location" ]
     else
-        div [ class "mv3" ]
+        div [ style [ ( "margin-top", "0.65em" ) ] ]
             [ span [ class "f6" ] [ text <| event.venueName ++ ", " ]
             , br [] []
             , span [ class "f6" ] [ text event.address ]
