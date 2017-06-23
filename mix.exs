@@ -17,7 +17,7 @@ defmodule TechForGoodNearYou.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {TechForGoodNearYou.Application, []},
-     extra_applications: [:logger, :runtime_tools, :httpoison]]
+     extra_applications: [:logger, :runtime_tools, :httpoison, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,7 +36,8 @@ defmodule TechForGoodNearYou.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:httpoison, "~> 0.11.2"}]
+     {:httpoison, "~> 0.11.2"},
+     {:comeonin, "~> 3.1.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

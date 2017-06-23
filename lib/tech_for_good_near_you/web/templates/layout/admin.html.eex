@@ -12,9 +12,14 @@
   </head>
 
   <body>
-    <p class="blue pv3 ph4 ma0 right-0 top-0 absolute" role="alert"><%= get_flash(@conn, :info) %></p>
-    <p class="red pv3 ph4 ma0 right-0 top-0 absolute" role="alert"><%= get_flash(@conn, :error) %></p>
-      <main class="ma3">
+    <p class="blue pa3 ma0 left-0 top-0 absolute" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="red pa3 ma0 left-0 top-0 absolute" role="alert"><%= get_flash(@conn, :error) %></p>
+    <div class="mh3 mt2 tr">
+      <%= if @admin do %>
+        <%= link "Log out", to: session_path(@conn, :delete, @admin), method: "delete" %>
+      <% end %>
+    </div>
+      <main class="mt4 mh3">
         <div class="mw9 center">
           <%= render @view_module, @view_template, assigns %>
         </div>
