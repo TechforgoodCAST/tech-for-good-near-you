@@ -92,7 +92,6 @@ function updateUserLocation (coords) {
       lng: coords.lng
     }
   }
-
   userPosition = new google.maps.Marker(_options)
 }
 
@@ -111,7 +110,7 @@ function centerEvent (event) {
     : {}
 
   _map.setCenter(event)
-  _map.setZoom(13)
+  _map.setZoom(16)
   infoWindow.setContent(makeDescription(event))
   infoWindow.open(_map, selectedMarker)
 }

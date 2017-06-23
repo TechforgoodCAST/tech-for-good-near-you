@@ -1,16 +1,17 @@
 module Views.Distance exposing (..)
 
-import Model exposing (..)
+import Helpers.Html exposing (responsiveImg)
+import Helpers.Style exposing (showAtResults)
 import Html exposing (..)
 import Html.Attributes as Atr exposing (..)
 import Html.Events exposing (..)
-import Helpers.Style exposing (showAtResults)
+import Model exposing (..)
 
 
 distanceOptions : Model -> Html Msg
 distanceOptions model =
     div [ class "mt5 white pr3 t-5 all ease", classList [ showAtResults model ] ]
-        [ p [] [ text "meetups within:" ]
+        [ p [] [ text "events within:" ]
         , input
             [ type_ "range"
             , Atr.min "5"
@@ -31,7 +32,7 @@ distanceOptions model =
 centerMap : Model -> Html Msg
 centerMap model =
     div [ class crosshairClasses ]
-        [ div [ class "center", onClick CenterMapOnUser ] [ img [ class "w-100", src "/images/crosshair-white.svg" ] [] ] ]
+        [ div [ class "center", onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ] ]
 
 
 crosshairClasses : String

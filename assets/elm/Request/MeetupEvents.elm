@@ -32,10 +32,15 @@ decodeEvent =
         |> optionalAt [ "group", "group_lat" ] (maybe float) Nothing
         |> optionalAt [ "group", "group_lon" ] (maybe float) Nothing
         |> required "yes_rsvp_count" int
-        |> requiredAt [ "group", "name" ] string
+        |> requiredAt [ "group", "urlname" ] urlToGroupTitle
         |> hardcoded 0
 
 
 floatToDate : Decoder Date
 floatToDate =
     float |> Json.map fromTime
+
+
+urlToGroupTitle : Decoder String
+urlToGroupTitle =
+    string |> Json.map (String.split "-" >> String.join " ")

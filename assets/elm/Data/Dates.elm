@@ -78,7 +78,7 @@ dateRangeToString date =
             "This month"
 
         All ->
-            "All meetups"
+            "All events"
 
         NoDate ->
             ""
