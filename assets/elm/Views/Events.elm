@@ -7,7 +7,7 @@ import Helpers.Html exposing (responsiveImg)
 import Helpers.Style exposing (classes, desktopOnly, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html.Events exposing (onClick)
 import Model exposing (..)
 import Views.Dates exposing (dateMainOptions)
 
@@ -49,11 +49,7 @@ noEventsInRangeText model =
 event : Event -> Html Msg
 event event =
     div [ class "ph4 mt3 mb4 mw7 center fade-in flex flex-column items-center" ]
-        [ h3
-            [ class "f3 dark-green hover-gold pointer mt4 mb3 tc t-3 all ease"
-            , onClick <| CenterEvent (makeMarker event)
-            ]
-            [ text event.title ]
+        [ a [ href event.url, class "no-underline dark-green hover-gold t-3 all ease", target "_blank" ] [ h3 [ class "mt4 mb3" ] [ text event.title ] ]
         , div [ class "flex flex-column flex-row-m items-start w-100" ]
             [ whenDetails event
             , whereDetails event
@@ -73,7 +69,10 @@ whenDetails event =
 
 whereDetails : Event -> Html Msg
 whereDetails event =
-    div [ class "green w-33-m w-100 flex flex-column justify-center items-center tc pointer", onClick <| CenterEvent (makeMarker event) ]
+    div
+        [ class "green w-33-m w-100 flex flex-column justify-center items-center tc pointer"
+        , onClick <| CenterEvent (makeMarker event)
+        ]
         [ h3 [ class "f6" ] [ text "WHERE?" ]
         , div
             [ style
