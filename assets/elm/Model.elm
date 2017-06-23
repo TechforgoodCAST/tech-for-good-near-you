@@ -1,6 +1,7 @@
 module Model exposing (..)
 
 import Date exposing (..)
+import Dom
 import Geolocation
 import Http
 import Time exposing (..)
@@ -21,6 +22,7 @@ type alias Model =
     , view : View
     , searchRadius : Int
     , mapId : String
+    , eventsContainerId : String
     , window : Window.Size
     , mobileNav :
         { topHeight : Int
@@ -104,6 +106,8 @@ type Msg
     | Restart
     | FilteredMarkers
     | WindowSize Window.Size
+    | ScrollToEvent Float
+    | Scroll (Result Dom.Error ())
 
 
 type alias Style =

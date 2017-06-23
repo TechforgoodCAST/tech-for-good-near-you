@@ -25,8 +25,10 @@ events model =
                 [ class <| classes [ "ph4 w-100 overflow-y-scroll", desktopOnly ]
                 , style
                     [ ( "margin-top", px mapMargin )
+                    , ( "padding-bottom", px 120 )
                     , ( "height", px mapMargin )
                     ]
+                , id model.eventsContainerId
                 ]
                 (List.map event <| filterEvents model)
 

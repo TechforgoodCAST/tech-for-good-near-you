@@ -1,3 +1,5 @@
+import { sendScrollDistanceToElm } from './interop.js'
+
 const google = window.google
 let _map
 let infoWindow
@@ -60,8 +62,9 @@ function fitBounds (_markers) {
   _map.fitBounds(bounds)
 }
 
-function addMarkerListener (_marker) {
+function addMarkerListener (elmApp, _marker) {
   google.maps.event.addListener(_marker.instance, 'click', function () {
+    sendScrollDistanceToElm(elmApp, _marker)
     infoWindow.setContent(makeDescription(_marker))
     infoWindow.open(_map, this)
   })
@@ -73,14 +76,16 @@ function normalizeZoom (n) {
   }
 }
 
-function updateMarkers (newMarkers) {
-  clearVisibleMarkers()
-  newMarkers.forEach(m => visibleMarkers.push(makeMarker(m)))
-  visibleMarkers.forEach(m => addMarkerListener(m))
+function updateMarkers (elmApp) {
+  return function (newMarkers) {
+    clearVisibleMarkers()
+    newMarkers.forEach(m => visibleMarkers.push(makeMarker(m)))
+    visibleMarkers.forEach(m => addMarkerListener(elmApp, m))
 
-  if (visibleMarkers.length > 0) {
-    fitBounds(visibleMarkers)
-    normalizeZoom(13)
+    if (visibleMarkers.length > 0) {
+      fitBounds(visibleMarkers)
+      normalizeZoom(13)
+    }
   }
 }
 
@@ -93,7 +98,6 @@ function updateUserLocation (coords) {
       lng: coords.lng
     }
   }
-  userPosition = null
   userPosition = new google.maps.Marker(_options)
 }
 

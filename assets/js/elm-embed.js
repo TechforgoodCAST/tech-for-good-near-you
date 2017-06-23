@@ -12,7 +12,7 @@ function init (Elm) {
   var app = Elm.Main.embed(node)
 
   app.ports.initMap.subscribe(initMap)
-  app.ports.updateMarkers.subscribe(updateMarkers)
+  app.ports.updateMarkers.subscribe(updateMarkers(app))
   app.ports.updateUserLocation.subscribe(updateUserLocation)
   app.ports.centerMapOnUser_.subscribe(centerMapOnUser)
   app.ports.centerEvent.subscribe(centerEvent)
