@@ -25,6 +25,7 @@ function initMap ({ marker, mapId }) {
 function makeMarker (options) {
   var _options = {
     map: _map,
+    animation: google.maps.Animation.DROP,
     position: {
       lat: options.lat,
       lng: options.lng
@@ -92,6 +93,7 @@ function updateUserLocation (coords) {
       lng: coords.lng
     }
   }
+  userPosition = null
   userPosition = new google.maps.Marker(_options)
 }
 
