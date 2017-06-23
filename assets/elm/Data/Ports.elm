@@ -6,6 +6,7 @@ port module Data.Ports
         , centerMapOnUser
         , centerEvent
         , resizeMap
+        , scrollToEvent
         )
 
 import Model exposing (..)
@@ -37,3 +38,6 @@ resizeMap =
 
 
 port resizeMap_ : () -> Cmd msg
+
+
+port scrollToEvent : (Float -> msg) -> Sub msg

@@ -60,8 +60,14 @@ percentScreenHeight percent { window } =
 
 mobileFullHeight : Model -> Style
 mobileFullHeight ({ window, mobileNav } as model) =
-    ( "height", px (window.height - mobileNav.topHeight - mobileNav.bottomHeight) )
-        |> ifMobile model
+    let
+        maxHeight =
+            window.height - mobileNav.topHeight
+    in
+        if model.view == Results then
+            ( "height", px (maxHeight - mobileNav.bottomHeight) ) |> ifMobile model
+        else
+            ( "height", px maxHeight ) |> ifMobile model
 
 
 showAtResults : Model -> ( String, Bool )
