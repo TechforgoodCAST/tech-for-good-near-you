@@ -85,7 +85,7 @@ mobileBottomNav : Model -> Html Msg
 mobileBottomNav model =
     div
         [ class <| classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
-        , classList [ showAtResults model ]
+        , classList []
         , style
             [ ( "height", px model.mobileNav.bottomHeight )
             , bottomMobileNavPosition model
@@ -106,8 +106,17 @@ mobileBottomNavOptions : Model -> Html Msg
 mobileBottomNavOptions model =
     if model.mobileDateOptionsVisible then
         div [ class "flex items-center justify-between w-100 ph3" ]
-            [ dateBottomBarOptions model
-            , div [ onClick <| MobileDateVisible False, style [ ( "transform", "rotateZ(45deg)" ), ( "width", "20px" ) ] ] [ responsiveImg "/images/plus.png" ]
+            [ div [ class "absolute left-0", style [ ( "margin-left", "0.5rem" ) ] ] [ dateBottomBarOptions model ]
+            , div
+                [ onClick <| MobileDateVisible False
+                , style
+                    [ ( "transform", "rotateZ(45deg)" )
+                    , ( "width", "20px" )
+                    , ( "margin-right", "0.7rem" )
+                    ]
+                , class "absolute right-0"
+                ]
+                [ responsiveImg "/images/plus.png" ]
             ]
     else
         div [ class "flex items-center justify-between w-100 ph3" ]
