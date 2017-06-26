@@ -47,6 +47,7 @@ defmodule TechForGoodNearYou.Web do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import TechForGoodNearYou.Web.Auth, only: [authenticate_admin: 2]
     end
   end
 

@@ -7,9 +7,10 @@ defmodule TechForGoodNearYou.Web.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug TechForGoodNearYou.Web.Auth
   end
 
-  pipeline :admin do
+  pipeline :admin_layout do
     plug :put_layout, {TechForGoodNearYou.Web.LayoutView, :admin}
   end
 
@@ -23,9 +24,15 @@ defmodule TechForGoodNearYou.Web.Router do
     get "/", ElmController, :index
   end
 
+  scope "/login", TechForGoodNearYou.Web do
+    pipe_through [:browser, :admin_layout]
+
+    get "/", SessionController, :new
+    resources "/", SessionController, only: [:new, :create, :delete]
+  end
+
   scope "/admin", TechForGoodNearYou.Web do
-    pipe_through :browser
-    pipe_through :admin
+    pipe_through [:browser, :admin_layout, :authenticate_admin]
 
     resources "/events", EventController
   end
