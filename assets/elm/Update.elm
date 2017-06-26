@@ -6,7 +6,8 @@ import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeol
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
-import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap, scrollToEvent)
+import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
+import Delay
 import Helpers.Window exposing (getWindowSize, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
@@ -38,7 +39,7 @@ initialModel =
     , mapVisible = False
     , view = MyLocation
     , searchRadius = 300
-    , navbarOpen = False
+    , topNavOpen = False
     , mapId = "t4g-google-map"
     , eventsContainerId = "events-container"
     , window =
@@ -46,6 +47,7 @@ initialModel =
         , height = 0
         }
     , mobileDateOptionsVisible = False
+    , bottomNavOpen = False
     , mobileNav =
         { topHeight = 60
         , bottomHeight = 50
@@ -94,6 +96,7 @@ update msg model =
         ReceiveCustomEvents (Ok events) ->
             (handleReceiveCustomEvents events model ! [])
                 |> addCmd resizeMap
+                |> addCmd fitBounds
                 |> andThen update FilteredMarkers
 
         GoToDates ->
@@ -118,14 +121,20 @@ update msg model =
         CenterEvent marker ->
             model ! [ centerEvent marker ]
 
-        ToggleNavbar ->
-            { model | navbarOpen = not model.navbarOpen } ! []
+        ToggleTopNavbar ->
+            { model | topNavOpen = not model.topNavOpen } ! []
+
+        BottomNavVisible bool ->
+            { model | bottomNavOpen = bool } ! [ Delay.after 50 RefreshMapSize ]
 
         FilteredMarkers ->
             model ! [ updateFilteredMarkers model ]
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser ]
+
+        RefreshMapSize ->
+            model ! [ resizeMap ]
 
         WindowSize size ->
             { model | window = size } ! []

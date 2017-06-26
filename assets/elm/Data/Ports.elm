@@ -5,6 +5,7 @@ port module Data.Ports
         , updateUserLocation
         , centerMapOnUser
         , centerEvent
+        , fitBounds
         , resizeMap
         , scrollToEvent
         )
@@ -30,6 +31,14 @@ port centerMapOnUser_ : () -> Cmd msg
 
 
 port centerEvent : Marker -> Cmd msg
+
+
+fitBounds : Cmd msg
+fitBounds =
+    fitBounds_ ()
+
+
+port fitBounds_ : () -> Cmd msg
 
 
 resizeMap : Cmd msg

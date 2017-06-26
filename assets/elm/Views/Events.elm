@@ -22,7 +22,7 @@ events model =
                 model.window.height // 2
         in
             div
-                [ class <| classes [ "ph4 w-100 overflow-y-scroll", desktopOnly ]
+                [ class <| classes [ "ph4 w-100 overflow-y-scroll" ]
                 , style
                     [ ( "margin-top", px mapMargin )
                     , ( "padding-bottom", px 120 )

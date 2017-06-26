@@ -4,6 +4,7 @@ import {
   updateUserLocation,
   centerMapOnUser,
   centerEvent,
+  fitBounds,
   resizeMap
 } from './gmap'
 
@@ -16,6 +17,7 @@ function init (Elm) {
   app.ports.updateUserLocation.subscribe(updateUserLocation)
   app.ports.centerMapOnUser_.subscribe(centerMapOnUser)
   app.ports.centerEvent.subscribe(centerEvent)
+  app.ports.fitBounds_.subscribe(fitBounds)
   app.ports.resizeMap_.subscribe(resizeMap)
 }
 

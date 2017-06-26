@@ -56,10 +56,15 @@ function makeDescription (_marker) {
   `
 }
 
-function fitBounds (_markers) {
+function _fitBounds (_markers) {
   var bounds = new google.maps.LatLngBounds()
   _markers.forEach(m => bounds.extend(m.instance.getPosition()))
   _map.fitBounds(bounds)
+}
+
+function fitBounds () {
+  resizeMap()
+  _fitBounds(visibleMarkers)
 }
 
 function addMarkerListener (elmApp, _marker) {
@@ -83,7 +88,7 @@ function updateMarkers (elmApp) {
     visibleMarkers.forEach(m => addMarkerListener(elmApp, m))
 
     if (visibleMarkers.length > 0) {
-      fitBounds(visibleMarkers)
+      _fitBounds(visibleMarkers)
       normalizeZoom(13)
     }
   }
@@ -123,7 +128,6 @@ function centerEvent (event) {
 
 function resizeMap () {
   google.maps.event.trigger(_map, 'resize')
-  fitBounds(visibleMarkers)
 }
 
 module.exports = {
@@ -132,5 +136,6 @@ module.exports = {
   updateUserLocation,
   centerMapOnUser,
   centerEvent,
-  resizeMap
+  resizeMap,
+  fitBounds
 }

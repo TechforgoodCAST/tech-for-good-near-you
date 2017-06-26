@@ -52,7 +52,7 @@ mobileTopBar model =
             , div
                 [ style [ ( "width", "20px" ) ]
                 , class "mr3 pointer"
-                , onClick ToggleNavbar
+                , onClick ToggleTopNavbar
                 ]
                 [ responsiveImg "/images/plus.png" ]
             ]
@@ -62,7 +62,7 @@ mobileTopBar model =
 
 mobileTopBarContent : Model -> Html Msg
 mobileTopBarContent model =
-    if model.navbarOpen then
+    if model.topNavOpen then
         div
             [ class "w-100 bg-green flex items-center justify-center white fixed z-999 ph3 fade-in a-3"
             , style [ mobileFullHeight model ]
@@ -78,9 +78,20 @@ mobileBottomNav model =
     div
         [ class <| classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
         , classList []
-        , style [ ( "height", px model.mobileNav.bottomHeight ) ]
+        , style
+            [ ( "height", px model.mobileNav.bottomHeight )
+            , bottomMobileNavPosition model
+            ]
         ]
         [ mobileBottomNavOptions model ]
+
+
+bottomMobileNavPosition : Model -> ( String, String )
+bottomMobileNavPosition model =
+    if model.bottomNavOpen then
+        ( "transform", "translateY(-" ++ px ((model.window.height - model.mobileNav.topHeight) // 2) ++ ")" )
+    else
+        ( "transform", "translateY(0)" )
 
 
 mobileBottomNavOptions : Model -> Html Msg
@@ -91,8 +102,24 @@ mobileBottomNavOptions model =
         div [ class "flex items-center justify-between w-100 ph3" ]
             [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
             , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
-            , div [ style [ ( "width", "25px" ) ], class "pointer" ] [ responsiveImg "/images/chevron.svg" ]
+            , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
             ]
+
+
+chevronDirection : Model -> ( String, String )
+chevronDirection model =
+    if model.bottomNavOpen then
+        ( "transform", "rotateZ(180deg)" )
+    else
+        ( "", "" )
+
+
+handleBottomNavToggle : Model -> Attribute Msg
+handleBottomNavToggle model =
+    if model.bottomNavOpen then
+        onClick <| BottomNavVisible False
+    else
+        onClick <| BottomNavVisible True
 
 
 logo : Html Msg

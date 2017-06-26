@@ -35,7 +35,10 @@ handleHideMobileDateOptions model =
 mapHeight : Model -> Int
 mapHeight ({ window, mobileNav } as model) =
     if isMobile model then
-        window.height - mobileNav.topHeight - mobileNav.bottomHeight
+        if model.bottomNavOpen then
+            ((window.height - mobileNav.topHeight) // 2) - mobileNav.bottomHeight
+        else
+            window.height - mobileNav.topHeight - mobileNav.bottomHeight
     else
         window.height // 2
 

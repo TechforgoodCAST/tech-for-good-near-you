@@ -18,13 +18,14 @@ type alias Model =
     , fetchingLocation : Bool
     , currentDate : Maybe Date
     , mapVisible : Bool
-    , navbarOpen : Bool
+    , topNavOpen : Bool
     , view : View
     , searchRadius : Int
     , mapId : String
     , eventsContainerId : String
     , window : Window.Size
     , mobileDateOptionsVisible : Bool
+    , bottomNavOpen : Bool
     , mobileNav :
         { topHeight : Int
         , bottomHeight : Int
@@ -103,10 +104,12 @@ type Msg
     | CenterMapOnUser
     | CenterEvent Marker
     | SetSearchRadius String
-    | ToggleNavbar
+    | ToggleTopNavbar
     | MobileDateVisible Bool
+    | BottomNavVisible Bool
     | Restart
     | FilteredMarkers
+    | RefreshMapSize
     | WindowSize Window.Size
     | ScrollToEvent Float
     | Scroll (Result Dom.Error ())
