@@ -15,7 +15,7 @@ type DateButton
 
 dates : Model -> Html Msg
 dates model =
-    div [ class "mt5 tc fade-in" ]
+    div [ class "mt5-ns tc fade-in" ]
         [ h3 [ class "green" ] [ text "See events from:" ]
         , dateMainOptions model
         , showNext model
