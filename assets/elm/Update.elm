@@ -6,7 +6,7 @@ import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeol
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
-import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
+import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, openBottomNav, resizeMap, scrollToEvent)
 import Delay
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
@@ -125,7 +125,7 @@ update msg model =
         ToggleTopNavbar ->
             { model | topNavOpen = not model.topNavOpen } ! []
 
-        BottomNavVisible bool ->
+        BottomNavOpen bool ->
             { model | bottomNavOpen = bool } ! [ Delay.after 50 RefreshMapSize ]
 
         FilteredMarkers ->
@@ -152,4 +152,5 @@ subscriptions model =
     Sub.batch
         [ resizes WindowSize
         , scrollToEvent ScrollToEvent
+        , openBottomNav BottomNavOpen
         ]

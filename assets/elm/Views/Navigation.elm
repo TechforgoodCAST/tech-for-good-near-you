@@ -128,9 +128,9 @@ chevronDirection model =
 handleBottomNavToggle : Model -> Attribute Msg
 handleBottomNavToggle model =
     if model.bottomNavOpen then
-        onClick <| BottomNavVisible False
+        onClick <| BottomNavOpen False
     else
-        onClick <| BottomNavVisible True
+        onClick <| BottomNavOpen True
 
 
 logo : Html Msg

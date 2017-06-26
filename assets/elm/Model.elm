@@ -106,7 +106,7 @@ type Msg
     | SetSearchRadius String
     | ToggleTopNavbar
     | MobileDateVisible Bool
-    | BottomNavVisible Bool
+    | BottomNavOpen Bool
     | Restart
     | FilteredMarkers
     | RefreshMapSize
