@@ -10,6 +10,10 @@
   transition-property: all!important;
 }
 
+.t-bg-color {
+  transition-property: background-color!important;
+}
+
 .ease {
   transition-timing-function: ease!important;
 }

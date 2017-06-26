@@ -50,7 +50,7 @@ mobileTopBar model =
         [ div [ class "fixed z-5 bg-green white top-0 left-0 w-100 flex justify-between items-center", style [ ( "height", px model.mobileNav.topHeight ) ] ]
             [ div [ class "ml2 mt2 pointer flex", onClick Restart ] [ logo, p [ class "ml2" ] [ text "near you" ] ]
             , div
-                [ style [ ( "width", "20px" ) ]
+                [ style [ ( "width", "20px" ), plusIconRotation model ]
                 , class "mr3 pointer"
                 , onClick ToggleTopNavbar
                 ]
@@ -58,6 +58,14 @@ mobileTopBar model =
             ]
         , mobileTopBarContent model
         ]
+
+
+plusIconRotation : Model -> ( String, String )
+plusIconRotation model =
+    if model.topNavOpen then
+        ( "transform", "rotateZ(45deg)" )
+    else
+        ( "transform", "rotateZ(0deg)" )
 
 
 mobileTopBarContent : Model -> Html Msg
@@ -97,7 +105,10 @@ bottomMobileNavPosition model =
 mobileBottomNavOptions : Model -> Html Msg
 mobileBottomNavOptions model =
     if model.mobileDateOptionsVisible then
-        dateBottomBarOptions model
+        div [ class "flex items-center justify-between w-100 ph3" ]
+            [ dateBottomBarOptions model
+            , div [ onClick <| MobileDateVisible False, style [ ( "transform", "rotateZ(45deg)" ), ( "width", "20px" ) ] ] [ responsiveImg "/images/plus.png" ]
+            ]
     else
         div [ class "flex items-center justify-between w-100 ph3" ]
             [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]

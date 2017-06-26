@@ -55,7 +55,7 @@ dateButton buttonType model date =
             buttonClasses buttonType
     in
         div
-            [ class ("br2 ba pointer t-3 all ease no-select " ++ bodyClasses)
+            [ class ("br2 ba pointer t-3 t-bg-color ease no-select " ++ bodyClasses)
             , classList
                 [ ( offClasses, date == model.selectedDate )
                 , ( onClasses, date /= model.selectedDate )
