@@ -107,6 +107,7 @@ type Msg
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool
+    | ResetMobileNav
     | Restart
     | FilteredMarkers
     | RefreshMapSize

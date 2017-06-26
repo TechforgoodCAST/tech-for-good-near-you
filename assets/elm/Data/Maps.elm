@@ -2,7 +2,13 @@ module Data.Maps exposing (..)
 
 import Data.Events exposing (eventLat, eventLng, filterEvents)
 import Data.Ports exposing (initMap, updateMarkers)
+import Delay
 import Model exposing (..)
+
+
+refreshMapSize : Cmd Msg
+refreshMapSize =
+    Delay.after 50 RefreshMapSize
 
 
 initMapAtLondon : Model -> Cmd Msg

@@ -27,7 +27,7 @@ renderMap model =
 handleHideMobileDateOptions : Model -> Html.Attribute Msg
 handleHideMobileDateOptions model =
     if isMobile model then
-        onClick <| MobileDateVisible False
+        onClick ResetMobileNav
     else
         emptyProperty
 

@@ -5,9 +5,8 @@ import Data.Events exposing (handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
+import Data.Maps exposing (initMapAtLondon, refreshMapSize, updateFilteredMarkers)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, openBottomNav, resizeMap, scrollToEvent)
-import Delay
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
@@ -126,7 +125,10 @@ update msg model =
             { model | topNavOpen = not model.topNavOpen } ! []
 
         BottomNavOpen bool ->
-            { model | bottomNavOpen = bool } ! [ Delay.after 50 RefreshMapSize ]
+            { model | bottomNavOpen = bool } ! [ refreshMapSize ]
+
+        ResetMobileNav ->
+            { model | bottomNavOpen = False, mobileDateOptionsVisible = False } ! [ refreshMapSize ]
 
         FilteredMarkers ->
             model ! [ updateFilteredMarkers model ]
