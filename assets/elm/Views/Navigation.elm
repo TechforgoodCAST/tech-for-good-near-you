@@ -8,6 +8,7 @@ import Html.Events exposing (..)
 import Model exposing (..)
 import Views.Dates exposing (..)
 import Views.Distance exposing (..)
+import Views.Location exposing (centerCrosshairWhite, locationCrosshair)
 
 
 topNav : Model -> Html Msg
@@ -76,10 +77,22 @@ mobileBottomNav : Model -> Html Msg
 mobileBottomNav model =
     div
         [ class <| classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
-        , classList [ showAtResults model ]
+        , classList []
         , style [ ( "height", px model.mobileNav.bottomHeight ) ]
         ]
-        [ dateBottomBarOptions model ]
+        [ mobileBottomNavOptions model ]
+
+
+mobileBottomNavOptions : Model -> Html Msg
+mobileBottomNavOptions model =
+    if model.mobileDateOptionsVisible then
+        dateBottomBarOptions model
+    else
+        div [ class "flex items-center justify-between w-100 ph3" ]
+            [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
+            , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
+            , div [ style [ ( "width", "25px" ) ], class "pointer" ] [ responsiveImg "/images/chevron.svg" ]
+            ]
 
 
 logo : Html Msg

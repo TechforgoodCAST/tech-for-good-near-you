@@ -24,6 +24,7 @@ type alias Model =
     , mapId : String
     , eventsContainerId : String
     , window : Window.Size
+    , mobileDateOptionsVisible : Bool
     , mobileNav :
         { topHeight : Int
         , bottomHeight : Int
@@ -103,6 +104,7 @@ type Msg
     | CenterEvent Marker
     | SetSearchRadius String
     | ToggleNavbar
+    | MobileDateVisible Bool
     | Restart
     | FilteredMarkers
     | WindowSize Window.Size

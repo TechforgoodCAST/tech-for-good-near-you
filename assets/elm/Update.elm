@@ -45,6 +45,7 @@ initialModel =
         { width = 0
         , height = 0
         }
+    , mobileDateOptionsVisible = False
     , mobileNav =
         { topHeight = 60
         , bottomHeight = 50
@@ -107,6 +108,9 @@ update msg model =
         SetSearchRadius radius ->
             (handleSearchRadius radius model ! [])
                 |> andThen update FilteredMarkers
+
+        MobileDateVisible bool ->
+            { model | mobileDateOptionsVisible = bool } ! []
 
         Restart ->
             { model | view = MyLocation, mapVisible = False } ! []

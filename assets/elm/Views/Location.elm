@@ -38,6 +38,11 @@ locationCrosshair model =
         ]
 
 
+centerCrosshairWhite : Model -> Html Msg
+centerCrosshairWhite model =
+    div [ onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ]
+
+
 handleLocationFetch : Model -> Html Msg
 handleLocationFetch model =
     if model.fetchingLocation then
