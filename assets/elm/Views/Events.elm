@@ -4,7 +4,7 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, px)
+import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
@@ -17,20 +17,24 @@ events model =
     if List.isEmpty (filterEvents model) && not model.fetchingEvents then
         selectOtherDates model
     else
-        let
-            mapMargin =
-                model.window.height // 2
-        in
-            div
-                [ class <| classes [ "ph4 w-100 overflow-y-scroll" ]
-                , style
-                    [ ( "margin-top", px mapMargin )
-                    , ( "padding-bottom", px 120 )
-                    , ( "height", px mapMargin )
-                    ]
-                , id model.eventsContainerId
+        div
+            [ class <| classes [ "ph4 w-100 overflow-y-scroll" ]
+            , style
+                [ ( "margin-top", px <| mapMargin model )
+                , ( "padding-bottom", px 120 )
+                , ( "height", px <| mapMargin model )
                 ]
-                (List.map event <| filterEvents model)
+            , id model.eventsContainerId
+            ]
+            (List.map event <| filterEvents model)
+
+
+mapMargin : Model -> Int
+mapMargin ({ mobileNav, window } as model) =
+    if isMobile model then
+        ((window.height - mobileNav.topHeight - mobileNav.bottomHeight) // 2) + mobileNav.bottomHeight
+    else
+        window.height // 2
 
 
 selectOtherDates : Model -> Html Msg
@@ -68,7 +72,7 @@ event event =
 
 whenDetails : Event -> Html Msg
 whenDetails event =
-    div [ class "gold w-33-m w-100 flex flex-column justify-center items-center tc" ]
+    div [ class <| classes [ "gold", iconContainerClasses ] ]
         [ h3 [ class "f6" ] [ text "WHEN?" ]
         , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/calendar.svg" ]
         , p [ class "f6" ] [ text <| displayDate event.time ]
@@ -78,7 +82,7 @@ whenDetails event =
 whereDetails : Event -> Html Msg
 whereDetails event =
     div
-        [ class "green w-33-m w-100 flex flex-column justify-center items-center tc pointer"
+        [ class <| classes [ "green pointer", iconContainerClasses ]
         , onClick <| CenterEvent (makeMarker event)
         ]
         [ h3 [ class "f6" ] [ text "WHERE?" ]

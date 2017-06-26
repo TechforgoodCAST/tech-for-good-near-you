@@ -23,7 +23,9 @@ layout model content =
 
 mobileContainer : Model -> Html Msg -> Html Msg
 mobileContainer model content =
-    if isMobile model then
+    if isMobile model && model.view == Results then
+        div [ style [ percentScreenHeight 100 model ] ] [ content ]
+    else if isMobile model then
         div [ style [ percentScreenHeight 85 model ] ] [ content ]
     else
         content

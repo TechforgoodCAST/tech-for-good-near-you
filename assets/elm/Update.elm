@@ -8,7 +8,7 @@ import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
 import Delay
-import Helpers.Window exposing (getWindowSize, scrollEventContainer)
+import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
@@ -64,6 +64,7 @@ update msg model =
         SetDateRange date ->
             (handleSelectedDate date model ! [])
                 |> andThen update FilteredMarkers
+                |> addCmd (handleScrollEventsToTop model)
 
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]
