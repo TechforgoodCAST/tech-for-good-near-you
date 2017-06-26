@@ -28,12 +28,12 @@ scrollEventsToTop model =
 
 scrollEventContainer : Float -> Model -> Cmd Msg
 scrollEventContainer offset model =
-    toY model.eventsContainerId (calculateOffset offset model)
+    toY model.eventsContainerId (calculateEventsOffset offset model)
         |> Task.attempt Scroll
 
 
-calculateOffset : Float -> Model -> Float
-calculateOffset offset model =
+calculateEventsOffset : Float -> Model -> Float
+calculateEventsOffset offset model =
     if isMobile model then
         offset - toFloat (model.window.height // 2) - toFloat (model.mobileNav.bottomHeight // 2)
     else

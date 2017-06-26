@@ -18,7 +18,7 @@ events model =
         selectOtherDates model
     else
         div
-            [ class <| classes [ "ph4 w-100 overflow-y-scroll" ]
+            [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
             , style
                 [ ( "margin-top", px <| mapMargin model )
                 , ( "padding-bottom", px 120 )
@@ -58,11 +58,11 @@ noEventsInRangeText model =
 event : Event -> Html Msg
 event event =
     div
-        [ class "ph4 mt3 mb4 mw7 center fade-in flex flex-column items-center"
+        [ class "ph3 ph4-ns mt3 mb4 mw7 center fade-in flex flex-column items-center"
         , id event.url
         ]
         [ a [ href event.url, class "no-underline dark-green hover-gold tc t-3 all ease", target "_blank" ] [ h3 [ class "mt4 mb3" ] [ text event.title ] ]
-        , div [ class "flex flex-column flex-row-m items-start w-100" ]
+        , div [ class "flex flex-row items-start w-100" ]
             [ whenDetails event
             , whereDetails event
             , whoDetails event
@@ -109,7 +109,7 @@ whoDetails event =
 
 iconContainerClasses : String
 iconContainerClasses =
-    "w-33-m w-100 flex flex-column justify-center items-center tc"
+    "w-33 flex flex-column justify-center items-center ph2 ph0-ns tc"
 
 
 venueAddress : Event -> Html Msg
