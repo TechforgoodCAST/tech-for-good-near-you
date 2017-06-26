@@ -24,7 +24,7 @@ renderMap model =
         mapPlaceholder model
 
 
-handleHideMobileDateOptions : Model -> Html.Attribute Msg
+handleHideMobileDateOptions : Model -> Attribute Msg
 handleHideMobileDateOptions model =
     if isMobile model then
         onClick ResetMobileNav

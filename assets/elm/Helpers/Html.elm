@@ -10,6 +10,6 @@ responsiveImg imgSrc =
     img [ class "w-100", src imgSrc ] []
 
 
-emptyProperty : Html.Attribute msg
+emptyProperty : Attribute msg
 emptyProperty =
     property "" <| string ""
