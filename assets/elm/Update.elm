@@ -5,8 +5,8 @@ import Data.Events exposing (handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (initMapAtLondon, refreshMapSize, updateFilteredMarkers)
-import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, openBottomNav, resizeMap, scrollToEvent)
+import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers)
+import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
@@ -154,5 +154,5 @@ subscriptions model =
     Sub.batch
         [ resizes WindowSize
         , scrollToEvent ScrollToEvent
-        , openBottomNav BottomNavOpen
+        , handleMobileBottomNavOpen model
         ]
