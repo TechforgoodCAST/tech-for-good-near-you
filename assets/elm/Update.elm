@@ -5,9 +5,9 @@ import Data.Events exposing (handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (initMapAtLondon, updateFilteredMarkers)
-import Data.Ports exposing (centerEvent, centerMapOnUser, resizeMap, scrollToEvent)
-import Helpers.Window exposing (getWindowSize, scrollEventContainer)
+import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers)
+import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
+import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
@@ -38,13 +38,15 @@ initialModel =
     , mapVisible = False
     , view = MyLocation
     , searchRadius = 300
-    , navbarOpen = False
+    , topNavOpen = False
     , mapId = "t4g-google-map"
     , eventsContainerId = "events-container"
     , window =
         { width = 0
         , height = 0
         }
+    , mobileDateOptionsVisible = False
+    , bottomNavOpen = False
     , mobileNav =
         { topHeight = 60
         , bottomHeight = 50
@@ -61,6 +63,7 @@ update msg model =
         SetDateRange date ->
             (handleSelectedDate date model ! [])
                 |> andThen update FilteredMarkers
+                |> addCmd (handleScrollEventsToTop model)
 
         GetGeolocation ->
             { model | fetchingLocation = True } ! [ getGeolocation ]
@@ -93,6 +96,7 @@ update msg model =
         ReceiveCustomEvents (Ok events) ->
             (handleReceiveCustomEvents events model ! [])
                 |> addCmd resizeMap
+                |> addCmd fitBounds
                 |> andThen update FilteredMarkers
 
         GoToDates ->
@@ -108,20 +112,32 @@ update msg model =
             (handleSearchRadius radius model ! [])
                 |> andThen update FilteredMarkers
 
+        MobileDateVisible bool ->
+            { model | mobileDateOptionsVisible = bool } ! []
+
         Restart ->
             { model | view = MyLocation, mapVisible = False } ! []
 
         CenterEvent marker ->
             model ! [ centerEvent marker ]
 
-        ToggleNavbar ->
-            { model | navbarOpen = not model.navbarOpen } ! []
+        ToggleTopNavbar ->
+            { model | topNavOpen = not model.topNavOpen } ! []
+
+        BottomNavOpen bool ->
+            { model | bottomNavOpen = bool } ! [ refreshMapSize ]
+
+        ResetMobileNav ->
+            { model | bottomNavOpen = False, mobileDateOptionsVisible = False } ! [ refreshMapSize ]
 
         FilteredMarkers ->
             model ! [ updateFilteredMarkers model ]
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser ]
+
+        RefreshMapSize ->
+            model ! [ resizeMap ]
 
         WindowSize size ->
             { model | window = size } ! []
@@ -138,4 +154,5 @@ subscriptions model =
     Sub.batch
         [ resizes WindowSize
         , scrollToEvent ScrollToEvent
+        , handleMobileBottomNavOpen model
         ]

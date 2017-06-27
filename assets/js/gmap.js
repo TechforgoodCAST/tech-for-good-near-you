@@ -1,4 +1,4 @@
-import { sendScrollDistanceToElm } from './interop.js'
+import { sendScrollDistanceToElm, openElmMobileBottomNav } from './interop.js'
 
 const google = window.google
 let _map
@@ -56,15 +56,21 @@ function makeDescription (_marker) {
   `
 }
 
-function fitBounds (_markers) {
+function _fitBounds (_markers) {
   var bounds = new google.maps.LatLngBounds()
   _markers.forEach(m => bounds.extend(m.instance.getPosition()))
   _map.fitBounds(bounds)
 }
 
+function fitBounds () {
+  resizeMap()
+  _fitBounds(visibleMarkers)
+}
+
 function addMarkerListener (elmApp, _marker) {
   google.maps.event.addListener(_marker.instance, 'click', function () {
     sendScrollDistanceToElm(elmApp, _marker)
+    openElmMobileBottomNav(elmApp)
     infoWindow.setContent(makeDescription(_marker))
     infoWindow.open(_map, this)
   })
@@ -83,7 +89,7 @@ function updateMarkers (elmApp) {
     visibleMarkers.forEach(m => addMarkerListener(elmApp, m))
 
     if (visibleMarkers.length > 0) {
-      fitBounds(visibleMarkers)
+      _fitBounds(visibleMarkers)
       normalizeZoom(13)
     }
   }
@@ -123,7 +129,6 @@ function centerEvent (event) {
 
 function resizeMap () {
   google.maps.event.trigger(_map, 'resize')
-  fitBounds(visibleMarkers)
 }
 
 module.exports = {
@@ -132,5 +137,6 @@ module.exports = {
   updateUserLocation,
   centerMapOnUser,
   centerEvent,
-  resizeMap
+  resizeMap,
+  fitBounds
 }

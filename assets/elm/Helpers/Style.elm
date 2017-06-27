@@ -41,7 +41,7 @@ ifMobile model style =
 
 isDesktop : Model -> Bool
 isDesktop model =
-    model.window.width > 480
+    model.window.width >= 480
 
 
 isMobile : Model -> Bool

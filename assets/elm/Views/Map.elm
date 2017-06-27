@@ -1,9 +1,11 @@
 module Views.Map exposing (..)
 
 import Data.Events exposing (filterEvents)
+import Helpers.Html exposing (emptyProperty)
 import Helpers.Style exposing (classes, isMobile, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Model exposing (..)
 
 
@@ -13,6 +15,7 @@ renderMap model =
         div
             [ class <| classes [ "flex w-100 z-5", mapPositioning model ]
             , style [ ( "height", px <| mapHeight model ) ]
+            , handleHideMobileDateOptions model
             ]
             [ div [ class "ml6-ns pl4-ns" ] []
             , div [ id model.mapId, class mapBaseClasses ] []
@@ -21,10 +24,21 @@ renderMap model =
         mapPlaceholder model
 
 
+handleHideMobileDateOptions : Model -> Attribute Msg
+handleHideMobileDateOptions model =
+    if isMobile model then
+        onClick ResetMobileNav
+    else
+        emptyProperty
+
+
 mapHeight : Model -> Int
 mapHeight ({ window, mobileNav } as model) =
     if isMobile model then
-        window.height - mobileNav.topHeight - mobileNav.bottomHeight
+        if model.bottomNavOpen then
+            ((window.height - mobileNav.topHeight) // 2) - mobileNav.bottomHeight
+        else
+            window.height - mobileNav.topHeight - mobileNav.bottomHeight
     else
         window.height // 2
 

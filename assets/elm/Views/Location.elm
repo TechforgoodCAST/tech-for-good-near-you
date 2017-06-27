@@ -12,7 +12,7 @@ location : Model -> Html Msg
 location model =
     div
         [ class "tc w-100 mt5-ns fade-in" ]
-        [ h2 [ class "green mt4 ph3" ] [ text "Find Tech for Good Events near you" ]
+        [ h2 [ class "green mt0 mt4-ns ph3" ] [ text "Find Tech for Good Events near you" ]
         , handleUserLocationError model
         , handleLocationFetch model
         ]
@@ -36,6 +36,11 @@ locationCrosshair model =
         , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ responsiveImg "/images/crosshair.svg" ]
         , p [ class "green mv4 mv5-ns", classList [ ( "dn", model.fetchingLocation ) ] ] [ text "-- OR --" ]
         ]
+
+
+centerCrosshairWhite : Model -> Html Msg
+centerCrosshairWhite model =
+    div [ onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ]
 
 
 handleLocationFetch : Model -> Html Msg
@@ -74,7 +79,7 @@ viewPostcode : Postcode -> List (Attribute Msg)
 viewPostcode x =
     case x of
         NotEntered ->
-            [ placeholder "W1T 4JE", class "green tc bn outline-0 f5 fw4" ]
+            [ placeholder "W1T4JE", class "green tc bn outline-0 f5 fw4" ]
 
         Valid postcode ->
             [ class "green tc bn outline-0 f5 fw4", value (String.toUpper postcode), onEnter GoToDates ]

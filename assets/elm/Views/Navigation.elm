@@ -8,6 +8,7 @@ import Html.Events exposing (..)
 import Model exposing (..)
 import Views.Dates exposing (..)
 import Views.Distance exposing (..)
+import Views.Location exposing (centerCrosshairWhite, locationCrosshair)
 
 
 topNav : Model -> Html Msg
@@ -49,9 +50,9 @@ mobileTopBar model =
         [ div [ class "fixed z-5 bg-green white top-0 left-0 w-100 flex justify-between items-center", style [ ( "height", px model.mobileNav.topHeight ) ] ]
             [ div [ class "ml2 mt2 pointer flex", onClick Restart ] [ logo, p [ class "ml2" ] [ text "near you" ] ]
             , div
-                [ style [ ( "width", "20px" ) ]
+                [ style [ ( "width", "20px" ), plusIconRotation model ]
                 , class "mr3 pointer"
-                , onClick ToggleNavbar
+                , onClick ToggleTopNavbar
                 ]
                 [ responsiveImg "/images/plus.png" ]
             ]
@@ -59,9 +60,17 @@ mobileTopBar model =
         ]
 
 
+plusIconRotation : Model -> ( String, String )
+plusIconRotation model =
+    if model.topNavOpen then
+        ( "transform", "rotateZ(45deg)" )
+    else
+        ( "transform", "rotateZ(0deg)" )
+
+
 mobileTopBarContent : Model -> Html Msg
 mobileTopBarContent model =
-    if model.navbarOpen then
+    if model.topNavOpen then
         div
             [ class "w-100 bg-green flex items-center justify-center white fixed z-999 ph3 fade-in a-3"
             , style [ mobileFullHeight model ]
@@ -77,9 +86,60 @@ mobileBottomNav model =
     div
         [ class <| classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
         , classList [ showAtResults model ]
-        , style [ ( "height", px model.mobileNav.bottomHeight ) ]
+        , style
+            [ ( "height", px model.mobileNav.bottomHeight )
+            , bottomMobileNavPosition model
+            ]
         ]
-        [ dateBottomBarOptions model ]
+        [ mobileBottomNavOptions model ]
+
+
+bottomMobileNavPosition : Model -> ( String, String )
+bottomMobileNavPosition model =
+    if model.bottomNavOpen then
+        ( "transform", "translateY(-" ++ px ((model.window.height - model.mobileNav.topHeight) // 2) ++ ")" )
+    else
+        ( "transform", "translateY(0)" )
+
+
+mobileBottomNavOptions : Model -> Html Msg
+mobileBottomNavOptions model =
+    if model.mobileDateOptionsVisible then
+        div [ class "flex items-center justify-between w-100 ph3" ]
+            [ div [ class "absolute left-0", style [ ( "margin-left", "0.5rem" ) ] ] [ dateBottomBarOptions model ]
+            , div
+                [ onClick <| MobileDateVisible False
+                , style
+                    [ ( "transform", "rotateZ(45deg)" )
+                    , ( "width", "20px" )
+                    , ( "margin-right", "0.7rem" )
+                    ]
+                , class "absolute right-0"
+                ]
+                [ responsiveImg "/images/plus.png" ]
+            ]
+    else
+        div [ class "flex items-center justify-between w-100 ph3" ]
+            [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
+            , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
+            , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+            ]
+
+
+chevronDirection : Model -> ( String, String )
+chevronDirection model =
+    if model.bottomNavOpen then
+        ( "transform", "rotateZ(180deg)" )
+    else
+        ( "", "" )
+
+
+handleBottomNavToggle : Model -> Attribute Msg
+handleBottomNavToggle model =
+    if model.bottomNavOpen then
+        onClick <| BottomNavOpen False
+    else
+        onClick <| BottomNavOpen True
 
 
 logo : Html Msg

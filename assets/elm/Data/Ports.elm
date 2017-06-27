@@ -5,8 +5,10 @@ port module Data.Ports
         , updateUserLocation
         , centerMapOnUser
         , centerEvent
+        , fitBounds
         , resizeMap
         , scrollToEvent
+        , openBottomNav
         )
 
 import Model exposing (..)
@@ -32,6 +34,14 @@ port centerMapOnUser_ : () -> Cmd msg
 port centerEvent : Marker -> Cmd msg
 
 
+fitBounds : Cmd msg
+fitBounds =
+    fitBounds_ ()
+
+
+port fitBounds_ : () -> Cmd msg
+
+
 resizeMap : Cmd msg
 resizeMap =
     resizeMap_ ()
@@ -41,3 +51,6 @@ port resizeMap_ : () -> Cmd msg
 
 
 port scrollToEvent : (Float -> msg) -> Sub msg
+
+
+port openBottomNav : (Bool -> msg) -> Sub msg
