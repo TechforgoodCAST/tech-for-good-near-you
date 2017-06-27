@@ -1,6 +1,6 @@
 module Views.Layout exposing (..)
 
-import Helpers.Style exposing (isMobile, mobileFullHeight, percentScreenHeight)
+import Helpers.Style exposing (ifMobile, isMobile, mobileFullHeight, mobileMaxHeight, percentScreenHeight)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Model exposing (..)
@@ -13,12 +13,22 @@ layout model content =
         [ topNav model
         , div
             [ class "w-100 ml6-ns pl4-ns flex items-center justify-center"
-            , style [ mobileFullHeight model ]
+            , style [ handleMobileHeight model ]
             ]
             [ mobileContainer model content
             ]
         , bottomNav model
         ]
+
+
+handleMobileHeight : Model -> Style
+handleMobileHeight model =
+    (if model.view == Results then
+        mobileFullHeight model
+     else
+        mobileMaxHeight model
+    )
+        |> ifMobile model
 
 
 mobileContainer : Model -> Html Msg -> Html Msg

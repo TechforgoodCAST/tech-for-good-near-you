@@ -1,7 +1,7 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileOnly, px, showAtResults)
+import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, showAtResults)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -47,7 +47,10 @@ desktopNavbar model =
 mobileTopBar : Model -> Html Msg
 mobileTopBar model =
     div [ class mobileOnly, style [ ( "margin-bottom", px model.mobileNav.topHeight ) ] ]
-        [ div [ class "fixed z-5 bg-green white top-0 left-0 w-100 flex justify-between items-center", style [ ( "height", px model.mobileNav.topHeight ) ] ]
+        [ div
+            [ class "fixed z-5 bg-green white top-0 left-0 w-100 flex justify-between items-center"
+            , style [ ( "height", px model.mobileNav.topHeight ) ]
+            ]
             [ div [ class "ml2 mt2 pointer flex", onClick Restart ] [ logo, p [ class "ml2" ] [ text "near you" ] ]
             , div
                 [ style [ ( "width", "20px" ), plusIconRotation model ]
@@ -73,7 +76,7 @@ mobileTopBarContent model =
     if model.topNavOpen then
         div
             [ class "w-100 bg-green flex items-center justify-center white fixed z-999 ph3 fade-in a-3"
-            , style [ mobileFullHeight model ]
+            , style [ mobileMaxHeight model ]
             ]
             [ p [] [ text "made with love at CAST" ]
             ]
