@@ -2,7 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "npm run build-elm && brunch build --production",
+    "deploy": "brunch build --production",
     "build-elm": "elm-make elm/Main.elm --output=js/elm.js",
     "watch": "brunch watch --stdin"
   },
