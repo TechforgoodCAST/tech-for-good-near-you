@@ -6,6 +6,7 @@ import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeol
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers)
+import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
@@ -122,13 +123,13 @@ update msg model =
             model ! [ centerEvent marker ]
 
         ToggleTopNavbar ->
-            { model | topNavOpen = not model.topNavOpen } ! []
+            (model |> handleToggleTopNavbar) ! []
 
         BottomNavOpen bool ->
             { model | bottomNavOpen = bool } ! [ refreshMapSize ]
 
         ResetMobileNav ->
-            { model | bottomNavOpen = False, mobileDateOptionsVisible = False } ! [ refreshMapSize ]
+            (model |> handleResetMobileNav) ! [ refreshMapSize ]
 
         FilteredMarkers ->
             model ! [ updateFilteredMarkers model ]
