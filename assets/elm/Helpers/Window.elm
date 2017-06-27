@@ -1,10 +1,10 @@
 module Helpers.Window exposing (..)
 
-import Dom.Scroll exposing (toTop, toY)
+import Dom.Scroll as Scroll
 import Helpers.Style exposing (isMobile)
 import Model exposing (..)
 import Task
-import Window exposing (size)
+import Window
 
 
 handleScrollEventsToTop : Model -> Cmd Msg
@@ -17,18 +17,18 @@ handleScrollEventsToTop model =
 
 getWindowSize : Cmd Msg
 getWindowSize =
-    size |> Task.perform WindowSize
+    Window.size |> Task.perform WindowSize
 
 
 scrollEventsToTop : Model -> Cmd Msg
 scrollEventsToTop model =
-    toTop model.eventsContainerId
+    Scroll.toTop model.eventsContainerId
         |> Task.attempt Scroll
 
 
 scrollEventContainer : Float -> Model -> Cmd Msg
 scrollEventContainer offset model =
-    toY model.eventsContainerId (calculateEventsOffset offset model)
+    Scroll.toY model.eventsContainerId (calculateEventsOffset offset model)
         |> Task.attempt Scroll
 
 
