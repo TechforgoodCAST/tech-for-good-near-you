@@ -1,4 +1,5 @@
 cd $phoenix_dir
 cd assets
 npm run build-elm
-mix "phoenix.digest"
+cd ..
+mix "${phoenix_ex}.digest"
