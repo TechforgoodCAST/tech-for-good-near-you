@@ -17,11 +17,12 @@ type alias Model =
     , userLocationError : Bool
     , fetchingLocation : Bool
     , currentDate : Maybe Date
-    , mapVisible : Bool
     , topNavOpen : Bool
     , view : View
     , searchRadius : Int
+    , mapVisible : Bool
     , mapId : String
+    , mapAttached : Bool
     , eventsContainerId : String
     , window : Window.Size
     , mobileDateOptionsVisible : Bool
@@ -110,6 +111,7 @@ type Msg
     | ResetMobileNav
     | Restart
     | MapAttached Bool
+    | SetUserLocation
     | FilteredMarkers
     | ResizeMap
     | WindowSize Window.Size

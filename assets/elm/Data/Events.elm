@@ -5,11 +5,10 @@ import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
 import Model exposing (..)
 
 
-handleSearchResults : Model -> Model
-handleSearchResults model =
+handleShowSearchResults : Model -> Model
+handleShowSearchResults model =
     { model
         | view = Results
-        , fetchingEvents = True
         , mapVisible = True
     }
 

@@ -1,8 +1,8 @@
 module Update exposing (..)
 
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
-import Data.Events exposing (handleSearchResults)
-import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
+import Data.Events exposing (handleShowSearchResults)
+import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, handleSetUserLocation, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (handleMobileBottomNavOpen, handleUpdateFilteredMarkers, initMapAtLondon, refreshMap)
@@ -36,10 +36,11 @@ initialModel =
     , userLocationError = False
     , fetchingLocation = False
     , currentDate = Nothing
-    , mapVisible = False
     , view = MyLocation
     , searchRadius = 300
     , topNavOpen = False
+    , mapVisible = False
+    , mapAttached = False
     , mapId = "t4g-google-map"
     , eventsContainerId = "events-container"
     , window =
@@ -83,7 +84,7 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            (model |> handleSearchResults) ! [ initMapAtLondon model ]
+            (model |> handleShowSearchResults) ! [ initMapAtLondon model ]
 
         ReceiveMeetupEvents (Err err) ->
             { model | fetchingEvents = False } ! []
@@ -136,14 +137,18 @@ update msg model =
         ResetMobileNav ->
             (model |> handleResetMobileNav) ! [ after 50 ResizeMap ]
 
+        SetUserLocation ->
+            model ! [ handleSetUserLocation model ]
+
         FilteredMarkers ->
             model ! [ handleUpdateFilteredMarkers model ]
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser ]
 
-        MapAttached _ ->
-            (model ! [ setUserLocation model.userLocation ])
+        MapAttached bool ->
+            ({ model | mapAttached = bool } ! [])
+                |> andThen update SetUserLocation
                 |> andThen update FilteredMarkers
                 |> addCmd refreshMap
 
