@@ -4,7 +4,7 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px)
+import Helpers.Style exposing (classes, desktopOnly, ifMobile, isMobile, mobileFullHeight, px, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
@@ -14,15 +14,16 @@ import Views.Dates exposing (dateMainOptions)
 
 events : Model -> Html Msg
 events model =
-    if List.isEmpty (filterEvents model) && not model.fetchingEvents then
+    if List.isEmpty (filterEvents model) then
         selectOtherDates model
     else
         div
             [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
             , style
-                [ ( "margin-top", px <| mapMargin model )
+                [ ( "transform", translateY <| mapMargin model )
                 , ( "padding-bottom", px 120 )
                 , ( "height", px <| mapMargin model )
+                , handleShowMobileEvents model
                 ]
             , id model.eventsContainerId
             ]
@@ -35,6 +36,16 @@ mapMargin ({ mobileNav, window } as model) =
         ((window.height - mobileNav.topHeight - mobileNav.bottomHeight) // 2) + mobileNav.bottomHeight
     else
         window.height // 2
+
+
+handleShowMobileEvents : Model -> Style
+handleShowMobileEvents model =
+    (if model.bottomNavOpen then
+        ( "opacity", "1" )
+     else
+        ( "opacity", "0" )
+    )
+        |> ifMobile model
 
 
 selectOtherDates : Model -> Html Msg

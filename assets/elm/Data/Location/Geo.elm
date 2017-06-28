@@ -6,6 +6,14 @@ import Geolocation exposing (Location, Options)
 import Data.Ports exposing (updateUserLocation)
 
 
+handleSetUserLocation : Model -> Cmd Msg
+handleSetUserLocation model =
+    if model.mapAttached then
+        setUserLocation model.userLocation
+    else
+        Cmd.none
+
+
 handleGeolocationError : Model -> Model
 handleGeolocationError model =
     { model

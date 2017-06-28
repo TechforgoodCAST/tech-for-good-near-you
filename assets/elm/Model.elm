@@ -11,17 +11,18 @@ import Window
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
+    , fetchEventsError : Bool
     , events : List Event
-    , fetchingEvents : Bool
     , userLocation : Maybe Coords
     , userLocationError : Bool
     , fetchingLocation : Bool
     , currentDate : Maybe Date
-    , mapVisible : Bool
     , topNavOpen : Bool
     , view : View
     , searchRadius : Int
+    , mapVisible : Bool
     , mapId : String
+    , mapAttached : Bool
     , eventsContainerId : String
     , window : Window.Size
     , mobileDateOptionsVisible : Bool
@@ -109,8 +110,10 @@ type Msg
     | BottomNavOpen Bool
     | ResetMobileNav
     | Restart
+    | MapAttached Bool
+    | SetUserLocation
     | FilteredMarkers
-    | RefreshMapSize
+    | ResizeMap
     | WindowSize Window.Size
     | ScrollToEvent Float
     | Scroll (Result Dom.Error ())

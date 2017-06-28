@@ -1,13 +1,14 @@
 module Update exposing (..)
 
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
-import Data.Events exposing (handleSearchResults)
-import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
+import Data.Events exposing (handleFetchEventsError, handleShowSearchResults)
+import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, handleSetUserLocation, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers)
+import Data.Maps exposing (handleMobileBottomNavOpen, handleUpdateFilteredMarkers, initMapAtLondon, refreshMap)
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
-import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
+import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, mapAttached, resizeMap, scrollToEvent)
+import Delay exposing (after)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
@@ -21,7 +22,6 @@ init : ( Model, Cmd Msg )
 init =
     initialModel
         ! [ getCurrentDate
-          , initMapAtLondon initialModel
           , getWindowSize
           ]
 
@@ -31,15 +31,16 @@ initialModel =
     { postcode = NotEntered
     , selectedDate = NoDate
     , events = []
-    , fetchingEvents = False
+    , fetchEventsError = False
     , userLocation = Nothing
     , userLocationError = False
     , fetchingLocation = False
     , currentDate = Nothing
-    , mapVisible = False
     , view = MyLocation
     , searchRadius = 300
     , topNavOpen = False
+    , mapVisible = False
+    , mapAttached = False
     , mapId = "t4g-google-map"
     , eventsContainerId = "events-container"
     , window =
@@ -73,7 +74,8 @@ update msg model =
             (model |> handleGeolocationError) ! []
 
         ReceiveGeolocation (Ok location) ->
-            (model |> handleGeolocation location) ! []
+            (handleGeolocation location model ! [])
+                |> andThen update GoToDates
 
         CurrentDate date ->
             (model |> setCurrentDate date) ! []
@@ -82,26 +84,30 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            (model |> handleSearchResults) ! [ getMeetupEvents, setUserLocation model.userLocation ]
+            (model |> handleShowSearchResults) ! [ initMapAtLondon model ]
 
         ReceiveMeetupEvents (Err err) ->
-            { model | fetchingEvents = False } ! []
+            (model |> handleFetchEventsError) ! []
 
         ReceiveMeetupEvents (Ok events) ->
             (handleReceiveMeetupEvents events model ! [])
-                |> addCmd getCustomEvents
+                |> andThen update FilteredMarkers
+                |> addCmd refreshMap
 
         ReceiveCustomEvents (Err err) ->
-            { model | fetchingEvents = False } ! []
+            (model |> handleFetchEventsError) ! []
 
         ReceiveCustomEvents (Ok events) ->
             (handleReceiveCustomEvents events model ! [])
-                |> addCmd resizeMap
-                |> addCmd fitBounds
                 |> andThen update FilteredMarkers
+                |> addCmd refreshMap
 
         GoToDates ->
-            { model | view = MyDates } ! [ handleGetLatLngFromPostcode model ]
+            { model | view = MyDates }
+                ! [ handleGetLatLngFromPostcode model
+                  , getMeetupEvents
+                  , getCustomEvents
+                  ]
 
         RecievePostcodeLatLng (Err err) ->
             model ! []
@@ -126,18 +132,27 @@ update msg model =
             (model |> handleToggleTopNavbar) ! []
 
         BottomNavOpen bool ->
-            { model | bottomNavOpen = bool } ! [ refreshMapSize ]
+            { model | bottomNavOpen = bool } ! [ after 50 ResizeMap ]
 
         ResetMobileNav ->
-            (model |> handleResetMobileNav) ! [ refreshMapSize ]
+            (model |> handleResetMobileNav) ! [ after 50 ResizeMap ]
+
+        SetUserLocation ->
+            model ! [ handleSetUserLocation model ]
 
         FilteredMarkers ->
-            model ! [ updateFilteredMarkers model ]
+            model ! [ handleUpdateFilteredMarkers model ]
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser ]
 
-        RefreshMapSize ->
+        MapAttached bool ->
+            ({ model | mapAttached = bool } ! [])
+                |> andThen update SetUserLocation
+                |> andThen update FilteredMarkers
+                |> addCmd refreshMap
+
+        ResizeMap ->
             model ! [ resizeMap ]
 
         WindowSize size ->
@@ -156,4 +171,5 @@ subscriptions model =
         [ resizes WindowSize
         , scrollToEvent ScrollToEvent
         , handleMobileBottomNavOpen model
+        , mapAttached MapAttached
         ]

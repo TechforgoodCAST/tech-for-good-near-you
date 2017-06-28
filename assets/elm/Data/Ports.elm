@@ -9,6 +9,7 @@ port module Data.Ports
         , resizeMap
         , scrollToEvent
         , openBottomNav
+        , mapAttached
         )
 
 import Model exposing (..)
@@ -48,6 +49,9 @@ resizeMap =
 
 
 port resizeMap_ : () -> Cmd msg
+
+
+port mapAttached : (Bool -> msg) -> Sub msg
 
 
 port scrollToEvent : (Float -> msg) -> Sub msg
