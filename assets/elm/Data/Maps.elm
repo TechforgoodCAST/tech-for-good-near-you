@@ -1,8 +1,7 @@
 module Data.Maps exposing (..)
 
 import Data.Events exposing (eventLat, eventLng, filterEvents)
-import Data.Ports exposing (initMap, openBottomNav, updateMarkers)
-import Delay
+import Data.Ports exposing (fitBounds, initMap, openBottomNav, resizeMap, updateMarkers)
 import Helpers.Style exposing (isMobile)
 import Model exposing (..)
 
@@ -15,9 +14,12 @@ handleMobileBottomNavOpen model =
         Sub.none
 
 
-refreshMapSize : Cmd Msg
-refreshMapSize =
-    Delay.after 50 RefreshMapSize
+refreshMap : Cmd Msg
+refreshMap =
+    Cmd.batch
+        [ resizeMap
+        , fitBounds
+        ]
 
 
 initMapAtLondon : Model -> Cmd Msg
@@ -28,12 +30,15 @@ initMapAtLondon model =
         }
 
 
-updateFilteredMarkers : Model -> Cmd Msg
-updateFilteredMarkers model =
-    model
-        |> filterEvents
-        |> extractMarkers
-        |> updateMarkers
+handleUpdateFilteredMarkers : Model -> Cmd Msg
+handleUpdateFilteredMarkers model =
+    if model.view == Results then
+        model
+            |> filterEvents
+            |> extractMarkers
+            |> updateMarkers
+    else
+        Cmd.none
 
 
 extractMarkers : List Event -> List Marker

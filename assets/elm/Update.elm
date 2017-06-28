@@ -5,9 +5,10 @@ import Data.Events exposing (handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers)
+import Data.Maps exposing (handleMobileBottomNavOpen, handleUpdateFilteredMarkers, initMapAtLondon, refreshMap)
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
-import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
+import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, mapAttached, resizeMap, scrollToEvent)
+import Delay exposing (after)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
@@ -21,7 +22,6 @@ init : ( Model, Cmd Msg )
 init =
     initialModel
         ! [ getCurrentDate
-          , initMapAtLondon initialModel
           , getWindowSize
           ]
 
@@ -73,7 +73,8 @@ update msg model =
             (model |> handleGeolocationError) ! []
 
         ReceiveGeolocation (Ok location) ->
-            (model |> handleGeolocation location) ! []
+            (handleGeolocation location model ! [])
+                |> andThen update GoToDates
 
         CurrentDate date ->
             (model |> setCurrentDate date) ! []
@@ -82,26 +83,30 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            (model |> handleSearchResults) ! [ getMeetupEvents, setUserLocation model.userLocation ]
+            (model |> handleSearchResults) ! [ initMapAtLondon model ]
 
         ReceiveMeetupEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
         ReceiveMeetupEvents (Ok events) ->
             (handleReceiveMeetupEvents events model ! [])
-                |> addCmd getCustomEvents
+                |> andThen update FilteredMarkers
+                |> addCmd refreshMap
 
         ReceiveCustomEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
         ReceiveCustomEvents (Ok events) ->
             (handleReceiveCustomEvents events model ! [])
-                |> addCmd resizeMap
-                |> addCmd fitBounds
                 |> andThen update FilteredMarkers
+                |> addCmd refreshMap
 
         GoToDates ->
-            { model | view = MyDates } ! [ handleGetLatLngFromPostcode model ]
+            { model | view = MyDates }
+                ! [ handleGetLatLngFromPostcode model
+                  , getMeetupEvents
+                  , getCustomEvents
+                  ]
 
         RecievePostcodeLatLng (Err err) ->
             model ! []
@@ -126,18 +131,23 @@ update msg model =
             (model |> handleToggleTopNavbar) ! []
 
         BottomNavOpen bool ->
-            { model | bottomNavOpen = bool } ! [ refreshMapSize ]
+            { model | bottomNavOpen = bool } ! [ after 50 ResizeMap ]
 
         ResetMobileNav ->
-            (model |> handleResetMobileNav) ! [ refreshMapSize ]
+            (model |> handleResetMobileNav) ! [ after 50 ResizeMap ]
 
         FilteredMarkers ->
-            model ! [ updateFilteredMarkers model ]
+            model ! [ handleUpdateFilteredMarkers model ]
 
         CenterMapOnUser ->
             model ! [ centerMapOnUser ]
 
-        RefreshMapSize ->
+        MapAttached _ ->
+            (model ! [ setUserLocation model.userLocation ])
+                |> andThen update FilteredMarkers
+                |> addCmd refreshMap
+
+        ResizeMap ->
             model ! [ resizeMap ]
 
         WindowSize size ->
@@ -156,4 +166,5 @@ subscriptions model =
         [ resizes WindowSize
         , scrollToEvent ScrollToEvent
         , handleMobileBottomNavOpen model
+        , mapAttached MapAttached
         ]

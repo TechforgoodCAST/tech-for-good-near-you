@@ -109,8 +109,9 @@ type Msg
     | BottomNavOpen Bool
     | ResetMobileNav
     | Restart
+    | MapAttached Bool
     | FilteredMarkers
-    | RefreshMapSize
+    | ResizeMap
     | WindowSize Window.Size
     | ScrollToEvent Float
     | Scroll (Result Dom.Error ())

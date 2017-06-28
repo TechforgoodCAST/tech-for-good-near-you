@@ -7,7 +7,12 @@ function openElmMobileBottomNav (app) {
   app.ports.openBottomNav.send(true)
 }
 
+function mapAttached (app) {
+  app.ports.mapAttached.send(true)
+}
+
 module.exports = {
   sendScrollDistanceToElm,
-  openElmMobileBottomNav
+  openElmMobileBottomNav,
+  mapAttached
 }

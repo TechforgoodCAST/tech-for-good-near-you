@@ -1,4 +1,4 @@
-import { sendScrollDistanceToElm, openElmMobileBottomNav } from './interop.js'
+import { sendScrollDistanceToElm, openElmMobileBottomNav, mapAttached } from './interop.js'
 
 const google = window.google
 let _map
@@ -7,21 +7,33 @@ let mapDiv
 let userPosition
 let visibleMarkers = []
 
-function initMap ({ marker, mapId }) {
-  var mapOptions = {
-    zoom: 10,
-    center: {
-      lat: marker.lat,
-      lng: marker.lng
-    },
-    gestureHandling: 'greedy',
-    mapTypeControl: false,
-    streetViewControl: false
-  }
+function initMap (elmApp) {
+  return function ({ marker, mapId }) {
+    var mapOptions = {
+      zoom: 10,
+      center: {
+        lat: marker.lat,
+        lng: marker.lng
+      },
+      gestureHandling: 'greedy',
+      mapTypeControl: false,
+      streetViewControl: false
+    }
 
-  mapDiv = document.getElementById(mapId)
-  _map = new google.maps.Map(mapDiv, mapOptions)
-  infoWindow = new google.maps.InfoWindow()
+    mapDiv = document.getElementById(mapId)
+
+    if (mapDiv === null) {
+      return setTimeout(function () {
+        initMap(elmApp)({ marker, mapId })
+      }, 30)
+    }
+
+    if (mapDiv !== null) {
+      _map = new google.maps.Map(mapDiv, mapOptions)
+      infoWindow = new google.maps.InfoWindow()
+      mapAttached(elmApp)
+    }
+  }
 }
 
 function makeMarker (options) {
@@ -63,8 +75,10 @@ function _fitBounds (_markers) {
 }
 
 function fitBounds () {
-  resizeMap()
-  _fitBounds(visibleMarkers)
+  if (_map) {
+    resizeMap()
+    _fitBounds(visibleMarkers)
+  }
 }
 
 function addMarkerListener (elmApp, _marker) {
@@ -96,39 +110,47 @@ function updateMarkers (elmApp) {
 }
 
 function updateUserLocation (coords) {
-  var _options = {
-    map: _map,
-    icon: 'https://cloud.githubusercontent.com/assets/14013616/23849995/8989fe0a-07d5-11e7-9e81-c3786679d312.png',
-    position: {
-      lat: coords.lat,
-      lng: coords.lng
+  if (_map) {
+    var _options = {
+      map: _map,
+      icon: 'https://cloud.githubusercontent.com/assets/14013616/23849995/8989fe0a-07d5-11e7-9e81-c3786679d312.png',
+      position: {
+        lat: coords.lat,
+        lng: coords.lng
+      }
     }
+    userPosition = new google.maps.Marker(_options)
   }
-  userPosition = new google.maps.Marker(_options)
 }
 
 function centerMapOnUser () {
-  _map.setCenter(userPosition.getPosition())
-  _map.setZoom(13)
+  if (userPosition) {
+    _map.setCenter(userPosition.getPosition())
+    _map.setZoom(13)
+  }
 }
 
 function centerEvent (event) {
-  var selectedMarkerArr = visibleMarkers.filter(function (marker) {
-    return marker.title === event.title
-  })
+  if (_map) {
+    var selectedMarkerArr = visibleMarkers.filter(function (marker) {
+      return marker.title === event.title
+    })
 
-  var selectedMarker = selectedMarkerArr.length
+    var selectedMarker = selectedMarkerArr.length
     ? selectedMarkerArr[0].instance
     : {}
 
-  _map.setCenter(event)
-  _map.setZoom(16)
-  infoWindow.setContent(makeDescription(event))
-  infoWindow.open(_map, selectedMarker)
+    _map.setCenter(event)
+    _map.setZoom(16)
+    infoWindow.setContent(makeDescription(event))
+    infoWindow.open(_map, selectedMarker)
+  }
 }
 
 function resizeMap () {
-  google.maps.event.trigger(_map, 'resize')
+  if (_map) {
+    google.maps.event.trigger(_map, 'resize')
+  }
 }
 
 module.exports = {
