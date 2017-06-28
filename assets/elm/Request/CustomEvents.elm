@@ -19,10 +19,7 @@ handleReceiveCustomEvents events model =
             (eventsWithDistance ++ model.events)
                 |> sortEventsByDate
     in
-        { model
-            | events = allEvents
-            , fetchingEvents = False
-        }
+        { model | events = allEvents }
 
 
 getCustomEvents : Cmd Msg

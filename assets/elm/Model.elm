@@ -11,8 +11,8 @@ import Window
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
+    , fetchEventsError : Bool
     , events : List Event
-    , fetchingEvents : Bool
     , userLocation : Maybe Coords
     , userLocationError : Bool
     , fetchingLocation : Bool

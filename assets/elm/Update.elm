@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
-import Data.Events exposing (handleShowSearchResults)
+import Data.Events exposing (handleFetchEventsError, handleShowSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, handleSetUserLocation, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
@@ -31,7 +31,7 @@ initialModel =
     { postcode = NotEntered
     , selectedDate = NoDate
     , events = []
-    , fetchingEvents = False
+    , fetchEventsError = False
     , userLocation = Nothing
     , userLocationError = False
     , fetchingLocation = False
@@ -87,7 +87,7 @@ update msg model =
             (model |> handleShowSearchResults) ! [ initMapAtLondon model ]
 
         ReceiveMeetupEvents (Err err) ->
-            { model | fetchingEvents = False } ! []
+            (model |> handleFetchEventsError) ! []
 
         ReceiveMeetupEvents (Ok events) ->
             (handleReceiveMeetupEvents events model ! [])
@@ -95,7 +95,7 @@ update msg model =
                 |> addCmd refreshMap
 
         ReceiveCustomEvents (Err err) ->
-            { model | fetchingEvents = False } ! []
+            (model |> handleFetchEventsError) ! []
 
         ReceiveCustomEvents (Ok events) ->
             (handleReceiveCustomEvents events model ! [])

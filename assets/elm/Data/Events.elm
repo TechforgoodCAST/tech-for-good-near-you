@@ -5,6 +5,14 @@ import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
 import Model exposing (..)
 
 
+handleFetchEventsError : Model -> Model
+handleFetchEventsError model =
+    if List.length model.events == 0 then
+        { model | fetchEventsError = True }
+    else
+        model
+
+
 handleShowSearchResults : Model -> Model
 handleShowSearchResults model =
     { model

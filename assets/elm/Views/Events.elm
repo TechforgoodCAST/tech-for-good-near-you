@@ -14,7 +14,7 @@ import Views.Dates exposing (dateMainOptions)
 
 events : Model -> Html Msg
 events model =
-    if List.isEmpty (filterEvents model) && not model.fetchingEvents then
+    if List.isEmpty (filterEvents model) then
         selectOtherDates model
     else
         div
