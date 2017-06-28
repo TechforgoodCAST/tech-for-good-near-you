@@ -4,7 +4,7 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px)
+import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
@@ -20,7 +20,8 @@ events model =
         div
             [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
             , style
-                [ ( "margin-top", px <| mapMargin model )
+                [ ( "transform", translateY <| mapMargin model )
+                , ( "transition", "0.3s ease" )
                 , ( "padding-bottom", px 120 )
                 , ( "height", px <| mapMargin model )
                 ]

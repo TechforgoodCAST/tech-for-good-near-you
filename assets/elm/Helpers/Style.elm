@@ -23,6 +23,21 @@ px n =
     (toString n) ++ "px"
 
 
+deg : number -> String
+deg n =
+    (toString n) ++ "deg"
+
+
+translateY : number -> String
+translateY y =
+    "translateY(" ++ px y ++ ")"
+
+
+rotateZ : number -> String
+rotateZ angle =
+    "rotateZ(" ++ deg angle ++ ")"
+
+
 ifDesktop : Style -> Model -> Style
 ifDesktop style model =
     if isDesktop model then

@@ -1,7 +1,7 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, showAtResults)
+import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -66,9 +66,9 @@ mobileTopBar model =
 plusIconRotation : Model -> ( String, String )
 plusIconRotation model =
     if model.topNavOpen then
-        ( "transform", "rotateZ(45deg)" )
+        ( "transform", rotateZ 45 )
     else
-        ( "transform", "rotateZ(0deg)" )
+        ( "transform", rotateZ 0 )
 
 
 mobileTopBarContent : Model -> Html Msg
@@ -100,41 +100,52 @@ mobileBottomNav model =
 bottomMobileNavPosition : Model -> ( String, String )
 bottomMobileNavPosition model =
     if model.bottomNavOpen then
-        ( "transform", "translateY(-" ++ px ((model.window.height - model.mobileNav.topHeight) // 2) ++ ")" )
+        ( "transform", translateY <| (model.window.height - model.mobileNav.topHeight) // -2 )
     else
-        ( "transform", "translateY(0)" )
+        ( "transform", translateY 0 )
 
 
 mobileBottomNavOptions : Model -> Html Msg
 mobileBottomNavOptions model =
     if model.mobileDateOptionsVisible then
-        div [ class "flex items-center justify-between w-100 ph3" ]
-            [ div [ class "absolute left-0", style [ ( "margin-left", "0.5rem" ) ] ] [ dateBottomBarOptions model ]
-            , div
-                [ onClick <| MobileDateVisible False
-                , style
-                    [ ( "transform", "rotateZ(45deg)" )
-                    , ( "width", "20px" )
-                    , ( "margin-right", "0.7rem" )
-                    ]
-                , class "absolute right-0"
-                ]
-                [ responsiveImg "/images/plus.png" ]
-            ]
+        mobileDateOptions model
     else
-        div [ class "flex items-center justify-between w-100 ph3" ]
-            [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
-            , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
-            , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+        mobileMainOptions model
+
+
+mobileMainOptions : Model -> Html Msg
+mobileMainOptions model =
+    div [ class "flex items-center justify-between w-100 ph3" ]
+        [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
+        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
+        , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+        ]
+
+
+mobileDateOptions : Model -> Html Msg
+mobileDateOptions model =
+    div [ class "flex items-center justify-between w-100 ph3" ]
+        [ div [ class "absolute left-0 top-0", style [ ( "margin-left", "0.5rem" ), ( "margin-top", "0.5em" ) ] ] [ dateBottomBarOptions model ]
+        , div
+            [ onClick <| MobileDateVisible False
+            , style
+                [ ( "transform", rotateZ 45 )
+                , ( "width", "20px" )
+                , ( "margin-right", "0.7rem" )
+                , ( "margin-top", "1em" )
+                ]
+            , class "absolute right-0 top-0"
             ]
+            [ responsiveImg "/images/plus.png" ]
+        ]
 
 
 chevronDirection : Model -> ( String, String )
 chevronDirection model =
     if model.bottomNavOpen then
-        ( "transform", "rotateZ(180deg)" )
+        ( "transform", rotateZ 180 )
     else
-        ( "", "" )
+        ( "transform", rotateZ 0 )
 
 
 handleBottomNavToggle : Model -> Attribute Msg
