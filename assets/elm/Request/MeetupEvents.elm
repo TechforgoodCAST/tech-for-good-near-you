@@ -6,17 +6,19 @@ import Http
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
+import RemoteData exposing (WebData)
 
 
-handleReceiveMeetupEvents : List Event -> Model -> Model
-handleReceiveMeetupEvents events model =
-    { model | events = addDistanceToEvents model events }
+handleReceiveMeetupEvents : WebData (List Event) -> Model -> Model
+handleReceiveMeetupEvents meetupEvents model =
+    { model | meetupEvents = addDistanceToEvents model meetupEvents }
 
 
 getMeetupEvents : Cmd Msg
 getMeetupEvents =
     Http.get "api/meetup-events" (list decodeEvent)
-        |> Http.send ReceiveMeetupEvents
+        |> RemoteData.sendRequest
+        |> Cmd.map ReceiveMeetupEvents
 
 
 decodeEvent : Decoder Event

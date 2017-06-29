@@ -1,6 +1,6 @@
 module Views.Map exposing (..)
 
-import Data.Events exposing (filterEvents)
+import Data.Events exposing (filterEvents, numberVisibleEvents)
 import Helpers.Html exposing (emptyProperty)
 import Helpers.Style exposing (classes, isMobile, px)
 import Html exposing (..)
@@ -53,14 +53,10 @@ mapPlaceholder model =
 
 mapPositioning : Model -> String
 mapPositioning model =
-    let
-        visibleEvents =
-            List.length <| filterEvents model
-    in
-        if visibleEvents > 0 then
-            "fixed"
-        else
-            "absolute"
+    if numberVisibleEvents model > 0 then
+        "fixed"
+    else
+        "absolute"
 
 
 mapBaseClasses : String

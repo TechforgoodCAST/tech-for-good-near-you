@@ -5,11 +5,12 @@ import Data.Events exposing (handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, updateMap, refreshMapSize, updateFilteredMarkers)
+import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers, updateMap)
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
+import RemoteData exposing (RemoteData(..))
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode)
@@ -30,7 +31,8 @@ initialModel : Model
 initialModel =
     { postcode = NotEntered
     , selectedDate = NoDate
-    , events = []
+    , meetupEvents = NotAsked
+    , customEvents = NotAsked
     , fetchingEvents = False
     , userLocation = Nothing
     , userLocationError = False
@@ -86,17 +88,11 @@ update msg model =
             ((model |> handleSearchResults) ! [ setUserLocation model.userLocation ])
                 |> andThen update UpdateMap
 
-        ReceiveMeetupEvents (Err err) ->
-            { model | fetchingEvents = False } ! []
-
-        ReceiveMeetupEvents (Ok events) ->
+        ReceiveMeetupEvents events ->
             (handleReceiveMeetupEvents events model ! [])
                 |> andThen update UpdateMap
 
-        ReceiveCustomEvents (Err err) ->
-            { model | fetchingEvents = False } ! []
-
-        ReceiveCustomEvents (Ok events) ->
+        ReceiveCustomEvents events ->
             (handleReceiveCustomEvents events model ! [])
                 |> andThen update UpdateMap
 

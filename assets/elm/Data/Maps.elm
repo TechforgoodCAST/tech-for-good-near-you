@@ -5,6 +5,7 @@ import Data.Ports exposing (initMap, openBottomNav, updateMarkers)
 import Helpers.Delay exposing (mapDelay)
 import Helpers.Style exposing (isMobile)
 import Model exposing (..)
+import RemoteData exposing (RemoteData)
 
 
 updateMap : Cmd Msg
@@ -41,6 +42,7 @@ updateFilteredMarkers : Model -> Cmd Msg
 updateFilteredMarkers model =
     model
         |> filterEvents
+        |> RemoteData.withDefault []
         |> extractMarkers
         |> updateMarkers
 

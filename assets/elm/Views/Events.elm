@@ -9,12 +9,13 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Model exposing (..)
+import RemoteData exposing (RemoteData)
 import Views.Dates exposing (dateMainOptions)
 
 
 events : Model -> Html Msg
 events model =
-    if List.isEmpty (filterEvents model) && not model.fetchingEvents then
+    if numberVisibleEvents model == 0 then
         selectOtherDates model
     else
         div
@@ -26,7 +27,15 @@ events model =
                 ]
             , id model.eventsContainerId
             ]
-            (List.map event <| filterEvents model)
+            (renderEvents model)
+
+
+renderEvents : Model -> List (Html Msg)
+renderEvents model =
+    model
+        |> filterEvents
+        |> RemoteData.withDefault []
+        |> List.map renderEvent
 
 
 mapMargin : Model -> Int
@@ -55,8 +64,8 @@ noEventsInRangeText model =
            )
 
 
-event : Event -> Html Msg
-event event =
+renderEvent : Event -> Html Msg
+renderEvent event =
     div
         [ class "ph3 ph4-ns mt3 mb4 mw7 center fade-in flex flex-column items-center"
         , id event.url
