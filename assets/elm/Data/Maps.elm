@@ -27,7 +27,7 @@ handleMobileBottomNavOpen model =
 
 refreshMapSize : Cmd Msg
 refreshMapSize =
-    mapDelay RefreshMapSize
+    googleMapDelay RefreshMapSize
 
 
 initMapAtLondon : Model -> Cmd Msg
