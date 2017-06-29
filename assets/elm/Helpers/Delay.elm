@@ -4,6 +4,6 @@ import Model exposing (..)
 import Delay
 
 
-mapDelay : Msg -> Cmd Msg
-mapDelay msg =
+googleMapDelay : Msg -> Cmd Msg
+googleMapDelay msg =
     Delay.after 50 msg

@@ -2,7 +2,7 @@ module Data.Maps exposing (..)
 
 import Data.Events exposing (eventLat, eventLng, filterEvents)
 import Data.Ports exposing (initMap, openBottomNav, updateMarkers)
-import Helpers.Delay exposing (mapDelay)
+import Helpers.Delay exposing (googleMapDelay)
 import Helpers.Style exposing (isMobile)
 import Model exposing (..)
 import RemoteData exposing (RemoteData)
@@ -11,9 +11,9 @@ import RemoteData exposing (RemoteData)
 updateMap : Cmd Msg
 updateMap =
     Cmd.batch
-        [ mapDelay FitBounds
-        , mapDelay RefreshMapSize
-        , mapDelay FilteredMarkers
+        [ googleMapDelay FitBounds
+        , googleMapDelay RefreshMapSize
+        , googleMapDelay FilteredMarkers
         ]
 
 
