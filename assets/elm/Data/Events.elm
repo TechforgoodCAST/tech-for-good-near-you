@@ -9,7 +9,6 @@ handleSearchResults : Model -> Model
 handleSearchResults model =
     { model
         | view = Results
-        , fetchingEvents = True
         , mapVisible = True
     }
 

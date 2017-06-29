@@ -103,10 +103,13 @@ type Msg
     | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
+    | FetchEvents
+    | FitBounds
     | SetSearchRadius String
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool
+    | UpdateMap
     | ResetMobileNav
     | Restart
     | FilteredMarkers

@@ -24,6 +24,7 @@ function initMap ({ marker, mapId }) {
   infoWindow = new google.maps.InfoWindow()
 }
 
+
 function makeMarker (options) {
   var _options = {
     map: _map,
@@ -63,8 +64,10 @@ function _fitBounds (_markers) {
 }
 
 function fitBounds () {
-  resizeMap()
-  _fitBounds(visibleMarkers)
+  if (visibleMarkers.length) {
+    resizeMap()
+    _fitBounds(visibleMarkers)
+  }
 }
 
 function addMarkerListener (elmApp, _marker) {
@@ -90,6 +93,7 @@ function updateMarkers (elmApp) {
 
     if (visibleMarkers.length > 0) {
       _fitBounds(visibleMarkers)
+      resizeMap()
       normalizeZoom(13)
     }
   }

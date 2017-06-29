@@ -5,7 +5,7 @@ import Data.Events exposing (handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
-import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers)
+import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, updateMap, refreshMapSize, updateFilteredMarkers)
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
@@ -73,7 +73,8 @@ update msg model =
             (model |> handleGeolocationError) ! []
 
         ReceiveGeolocation (Ok location) ->
-            (model |> handleGeolocation location) ! []
+            ((model |> handleGeolocation location) ! [])
+                |> andThen update FetchEvents
 
         CurrentDate date ->
             (model |> setCurrentDate date) ! []
@@ -82,23 +83,25 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            (model |> handleSearchResults) ! [ getMeetupEvents, setUserLocation model.userLocation ]
+            ((model |> handleSearchResults) ! [ setUserLocation model.userLocation ])
+                |> andThen update UpdateMap
 
         ReceiveMeetupEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
         ReceiveMeetupEvents (Ok events) ->
             (handleReceiveMeetupEvents events model ! [])
-                |> addCmd getCustomEvents
+                |> andThen update UpdateMap
 
         ReceiveCustomEvents (Err err) ->
             { model | fetchingEvents = False } ! []
 
         ReceiveCustomEvents (Ok events) ->
             (handleReceiveCustomEvents events model ! [])
-                |> addCmd resizeMap
-                |> addCmd fitBounds
-                |> andThen update FilteredMarkers
+                |> andThen update UpdateMap
+
+        FetchEvents ->
+            model ! [ getMeetupEvents, getCustomEvents ]
 
         GoToDates ->
             { model | view = MyDates } ! [ handleGetLatLngFromPostcode model ]
@@ -107,7 +110,8 @@ update msg model =
             model ! []
 
         RecievePostcodeLatLng (Ok coords) ->
-            { model | userLocation = Just coords } ! []
+            ({ model | userLocation = Just coords } ! [])
+                |> andThen update FetchEvents
 
         SetSearchRadius radius ->
             (handleSearchRadius radius model ! [])
@@ -116,11 +120,17 @@ update msg model =
         MobileDateVisible bool ->
             { model | mobileDateOptionsVisible = bool } ! []
 
+        UpdateMap ->
+            model ! [ updateMap ]
+
         Restart ->
             { model | view = MyLocation, mapVisible = False } ! []
 
         CenterEvent marker ->
             model ! [ centerEvent marker ]
+
+        FitBounds ->
+            model ! [ fitBounds ]
 
         ToggleTopNavbar ->
             (model |> handleToggleTopNavbar) ! []
