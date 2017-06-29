@@ -69,7 +69,7 @@ noEventsInDateRange : DateRange -> String
 noEventsInDateRange dateRange =
     case dateRange of
         Today ->
-            "No events near you this today"
+            "No events near you today"
 
         ThisWeek ->
             "No events near you this week"
