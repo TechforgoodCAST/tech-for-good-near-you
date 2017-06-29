@@ -36,10 +36,22 @@ desktopNavbar model =
                     , p [ class "mt0 ml1" ] [ text "near you" ]
                     ]
                 , navbarOptions model
-                , div [ class "absolute center bottom-2 left-0 right-0 t-3 all ease", classList [ showAtResults model ] ]
-                    [ div [ class "spin" ] [ centerMap model ]
+                , div
+                    [ class "absolute left-0 right-0 ph3"
+                    , style [ ( "bottom", "-0.3em" ) ]
                     ]
+                    [ techForGoodSummer ]
                 ]
+            ]
+        ]
+
+
+techForGoodSummer : Html msg
+techForGoodSummer =
+    a [ class "no-underline white tc db" ]
+        [ div []
+            [ p [ class "f5 f6-ns" ] [ text "Add your event to our google sheet" ]
+            , div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ]
             ]
         ]
 
@@ -75,10 +87,11 @@ mobileTopBarContent : Model -> Html Msg
 mobileTopBarContent model =
     if model.topNavOpen then
         div
-            [ class "w-100 bg-green flex items-center justify-center white fixed z-999 ph3 fade-in a-3"
+            [ class "w-100 bg-green flex items-center justify-center flex-column white fixed z-999 ph3 fade-in a-3"
             , style [ mobileMaxHeight model ]
             ]
-            [ p [] [ text "made with love at CAST" ]
+            [ div [ class "ph4 mb5" ] [ techForGoodSummer ]
+            , p [] [ text "made with love at CAST" ]
             ]
     else
         span [] []
@@ -165,5 +178,14 @@ navbarOptions : Model -> Html Msg
 navbarOptions model =
     div [ class "pt1 pb3-ns t-5 all ease bg-green" ]
         [ dateSideOptions model
+        , eventsNearMe model
         , distanceOptions model
+        ]
+
+
+eventsNearMe : Model -> Html Msg
+eventsNearMe model =
+    div [ class "white t-3 all ease mt4", classList [ showAtResults model ] ]
+        [ p [] [ text "events near me:" ]
+        , div [ class "spin w4" ] [ centerMap model ]
         ]
