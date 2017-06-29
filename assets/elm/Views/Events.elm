@@ -21,7 +21,6 @@ events model =
             [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
             , style
                 [ ( "transform", translateY <| mapMargin model )
-                , ( "transition", "0.3s ease" )
                 , ( "padding-bottom", px 120 )
                 , ( "height", px <| mapMargin model )
                 ]
