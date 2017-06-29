@@ -88,7 +88,7 @@ mobileBottomNav : Model -> Html Msg
 mobileBottomNav model =
     div
         [ class <| classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
-        , classList []
+        , classList [ showAtResults model ]
         , style
             [ ( "height", px model.mobileNav.bottomHeight )
             , bottomMobileNavPosition model
