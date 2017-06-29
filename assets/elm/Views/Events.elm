@@ -17,7 +17,7 @@ events : Model -> Html Msg
 events model =
     div
         [ style [ ( "margin-top", px <| mapMargin model ) ]
-        , class "w-100"
+        , class "w-100 smooth-scroll"
         ]
         [ eventsResultsStates model
         ]
@@ -53,7 +53,7 @@ selectOtherDates model =
 allEvents : Model -> Html Msg
 allEvents model =
     div
-        [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
+        [ class <| classes [ "ph4-ns w-100 overflow-y-scroll smooth-scroll" ]
         , style
             [ ( "padding-bottom", px 120 )
             , ( "height", px <| mapMargin model )
