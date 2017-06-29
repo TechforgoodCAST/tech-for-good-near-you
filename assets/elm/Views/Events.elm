@@ -9,24 +9,66 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Model exposing (..)
+import RemoteData exposing (RemoteData)
 import Views.Dates exposing (dateMainOptions)
 
 
 events : Model -> Html Msg
 events model =
-    if List.isEmpty (filterEvents model) && not model.fetchingEvents then
+    div
+        [ style [ ( "margin-top", px <| mapMargin model ) ]
+        , class "w-100"
+        ]
+        [ eventsResultsStates model
+        ]
+
+
+eventsResultsStates : Model -> Html Msg
+eventsResultsStates model =
+    if bothEventRequestsFailed model then
+        eventsError model
+    else if numberVisibleEvents model == 0 && not (stillLoading model) then
         selectOtherDates model
     else
-        div
-            [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
-            , style
-                [ ( "margin-top", px <| mapMargin model )
-                , ( "padding-bottom", px 120 )
-                , ( "height", px <| mapMargin model )
-                ]
-            , id model.eventsContainerId
+        allEvents model
+
+
+eventsError : Model -> Html msg
+eventsError model =
+    div [ class "mt4 red tc" ]
+        [ p [] [ text "something went wrong fetching the events" ]
+        , p [] [ text "try refreshing the page" ]
+        ]
+
+
+selectOtherDates : Model -> Html Msg
+selectOtherDates model =
+    div [ class "green tc fade-in" ]
+        [ p [ class "fade-in f4 mt5-ns mt4" ] [ text <| noEventsInDateRange model.selectedDate ]
+        , p [ class "f6" ] [ text "Choose another date" ]
+        , div [ class "center mw5" ] [ dateMainOptions model ]
+        ]
+
+
+allEvents : Model -> Html Msg
+allEvents model =
+    div
+        [ class <| classes [ "ph4-ns w-100 overflow-y-scroll" ]
+        , style
+            [ ( "padding-bottom", px 120 )
+            , ( "height", px <| mapMargin model )
             ]
-            (List.map event <| filterEvents model)
+        , id model.eventsContainerId
+        ]
+        (renderEvents model)
+
+
+renderEvents : Model -> List (Html Msg)
+renderEvents model =
+    model
+        |> filterEvents
+        |> RemoteData.withDefault []
+        |> List.map renderEvent
 
 
 mapMargin : Model -> Int
@@ -37,26 +79,8 @@ mapMargin ({ mobileNav, window } as model) =
         window.height // 2
 
 
-selectOtherDates : Model -> Html Msg
-selectOtherDates model =
-    div [ class "green tc fade-in", style [ ( "margin-top", "50vh" ) ] ]
-        [ p [ class "fade-in f4 mt5-ns mt4" ] [ text <| noEventsInRangeText model ]
-        , p [ class "f6" ] [ text "Choose another date" ]
-        , div [ class "center mw5" ] [ dateMainOptions model ]
-        ]
-
-
-noEventsInRangeText : Model -> String
-noEventsInRangeText model =
-    "No events "
-        ++ (model.selectedDate
-                |> dateRangeToString
-                |> String.toLower
-           )
-
-
-event : Event -> Html Msg
-event event =
+renderEvent : Event -> Html Msg
+renderEvent event =
     div
         [ class "ph3 ph4-ns mt3 mb4 mw7 center fade-in flex flex-column items-center"
         , id event.url
