@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
-import Data.Events exposing (handleSearchResults)
+import Data.Events exposing (handleFetchEvents, handleSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
@@ -33,7 +33,6 @@ initialModel =
     , selectedDate = NoDate
     , meetupEvents = NotAsked
     , customEvents = NotAsked
-    , fetchingEvents = False
     , userLocation = Nothing
     , userLocationError = False
     , fetchingLocation = False
@@ -97,7 +96,7 @@ update msg model =
                 |> andThen update UpdateMap
 
         FetchEvents ->
-            model ! [ getMeetupEvents, getCustomEvents ]
+            (model |> handleFetchEvents) ! [ getMeetupEvents, getCustomEvents ]
 
         GoToDates ->
             { model | view = MyDates } ! [ handleGetLatLngFromPostcode model ]

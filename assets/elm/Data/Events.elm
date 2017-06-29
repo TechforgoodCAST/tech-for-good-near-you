@@ -4,7 +4,15 @@ import Data.Dates exposing (filterByDate)
 import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
 import Date.Extra
 import Model exposing (..)
-import RemoteData exposing (WebData)
+import RemoteData exposing (RemoteData(..), WebData, isFailure, isLoading)
+
+
+handleFetchEvents : Model -> Model
+handleFetchEvents model =
+    { model
+        | meetupEvents = Loading
+        , customEvents = Loading
+    }
 
 
 handleSearchResults : Model -> Model
@@ -23,6 +31,16 @@ addDistanceToEvents model events =
 
         Just c1 ->
             events |> RemoteData.map (List.map (calculateEventDistance c1))
+
+
+stillLoading : Model -> Bool
+stillLoading model =
+    isLoading model.meetupEvents || isLoading model.customEvents
+
+
+bothEventRequestsFailed : Model -> Bool
+bothEventRequestsFailed model =
+    isFailure model.meetupEvents && isFailure model.customEvents
 
 
 eventsRetrieved : Model -> Bool

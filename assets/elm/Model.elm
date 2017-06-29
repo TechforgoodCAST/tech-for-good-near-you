@@ -14,7 +14,6 @@ type alias Model =
     , selectedDate : DateRange
     , meetupEvents : WebData (List Event)
     , customEvents : WebData (List Event)
-    , fetchingEvents : Bool
     , userLocation : Maybe Coords
     , userLocationError : Bool
     , fetchingLocation : Bool
