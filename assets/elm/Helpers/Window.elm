@@ -1,6 +1,6 @@
 module Helpers.Window exposing (..)
 
-import Data.Events exposing (eventsRetrieved)
+import Data.Events exposing (someEventsRetrieved)
 import Dom.Scroll as Scroll
 import Helpers.Style exposing (isMobile)
 import Model exposing (..)
@@ -10,7 +10,7 @@ import Window
 
 handleScrollEventsToTop : Model -> Cmd Msg
 handleScrollEventsToTop model =
-    if eventsRetrieved model then
+    if someEventsRetrieved model then
         scrollEventsToTop model
     else
         Cmd.none

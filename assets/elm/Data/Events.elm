@@ -43,8 +43,8 @@ bothEventRequestsFailed model =
     isFailure model.meetupEvents && isFailure model.customEvents
 
 
-eventsRetrieved : Model -> Bool
-eventsRetrieved model =
+someEventsRetrieved : Model -> Bool
+someEventsRetrieved model =
     nonEmptyEvents model.meetupEvents || nonEmptyEvents model.customEvents
 
 
@@ -60,8 +60,7 @@ filterEvents : Model -> WebData (List Event)
 filterEvents model =
     model
         |> allEvents
-        |> RemoteData.map (filterByDate model)
-        |> RemoteData.map (filterByDistance model)
+        |> RemoteData.map (filterByDate model >> filterByDistance model)
 
 
 numberVisibleEvents : Model -> Int
@@ -74,7 +73,8 @@ numberVisibleEvents model =
 
 allEvents : Model -> WebData (List Event)
 allEvents model =
-    RemoteData.map2 (++) model.meetupEvents model.customEvents
+    RemoteData.append model.meetupEvents model.customEvents
+        |> RemoteData.map (\( a, b ) -> a ++ b)
 
 
 sortEventsByDate : List Event -> List Event
