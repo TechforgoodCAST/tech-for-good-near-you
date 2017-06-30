@@ -108,6 +108,9 @@ function updateUserLocation (coords) {
       lng: coords.lng
     }
   }
+  if (userPosition) {
+    userPosition.setMap(null)
+  }
   userPosition = new google.maps.Marker(_options)
 }
 

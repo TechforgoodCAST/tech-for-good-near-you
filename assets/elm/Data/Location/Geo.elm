@@ -1,33 +1,29 @@
 module Data.Location.Geo exposing (..)
 
-import Model exposing (..)
-import Task
-import Geolocation exposing (Location, Options)
 import Data.Ports exposing (updateUserLocation)
+import Geolocation exposing (Location, Options)
+import Model exposing (..)
+import RemoteData exposing (RemoteData(..))
 
 
-handleGeolocationError : Model -> Model
-handleGeolocationError model =
-    { model
-        | userLocationError = True
-        , fetchingLocation = False
-    }
+handleGeolocation : GeolocationData -> Model -> Model
+handleGeolocation locationData model =
+    case locationData of
+        Success location ->
+            { model
+                | userGeolocation = locationData
+                , selectedUserLocation = Just <| getCoords location
+            }
 
-
-handleGeolocation : Location -> Model -> Model
-handleGeolocation location model =
-    { model
-        | userLocation = Just (getCoords location)
-        , userLocationError = False
-        , view = MyDates
-        , fetchingLocation = False
-    }
+        _ ->
+            { model | userGeolocation = locationData }
 
 
 getGeolocation : Cmd Msg
 getGeolocation =
     Geolocation.nowWith geoOptions
-        |> Task.attempt ReceiveGeolocation
+        |> RemoteData.asCmd
+        |> Cmd.map ReceiveGeolocation
 
 
 geoOptions : Options

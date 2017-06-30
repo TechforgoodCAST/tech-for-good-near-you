@@ -4,6 +4,20 @@ import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
+import RemoteData exposing (RemoteData(..), WebData)
+
+
+handleRecievePostcodeLatLng : WebData Coords -> Model -> Model
+handleRecievePostcodeLatLng webData model =
+    case webData of
+        Success coords ->
+            { model
+                | userPostcodeLocation = Success coords
+                , selectedUserLocation = Just coords
+            }
+
+        _ ->
+            { model | userPostcodeLocation = webData }
 
 
 handleGetLatLngFromPostcode : Model -> Cmd Msg
@@ -22,7 +36,8 @@ handleGetLatLngFromPostcode model =
 postcodeRequest : String -> Cmd Msg
 postcodeRequest postcode =
     Http.get (postcodeUrl postcode) (at [ "result" ] postcodeDecoder)
-        |> Http.send RecievePostcodeLatLng
+        |> RemoteData.sendRequest
+        |> Cmd.map RecievePostcodeLatLng
 
 
 postcodeUrl : String -> String

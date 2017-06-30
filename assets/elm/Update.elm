@@ -1,8 +1,8 @@
 module Update exposing (..)
 
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
-import Data.Events exposing (handleFetchEvents, handleSearchResults)
-import Data.Location.Geo exposing (getGeolocation, handleGeolocation, handleGeolocationError, setUserLocation)
+import Data.Events exposing (handleFetchEvents, handleGoToSearchResults)
+import Data.Location.Geo exposing (getGeolocation, handleGeolocation, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
 import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers, updateMap)
@@ -13,7 +13,7 @@ import Model exposing (..)
 import RemoteData exposing (RemoteData(..))
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
-import Request.Postcode exposing (handleGetLatLngFromPostcode)
+import Request.Postcode exposing (handleGetLatLngFromPostcode, handleRecievePostcodeLatLng)
 import Update.Extra exposing (addCmd, andThen)
 import Window exposing (resizes)
 
@@ -33,9 +33,9 @@ initialModel =
     , selectedDate = NoDate
     , meetupEvents = NotAsked
     , customEvents = NotAsked
-    , userLocation = Nothing
-    , userLocationError = False
-    , fetchingLocation = False
+    , userPostcodeLocation = NotAsked
+    , userGeolocation = NotAsked
+    , selectedUserLocation = Nothing
     , currentDate = Nothing
     , mapVisible = False
     , view = MyLocation
@@ -68,14 +68,15 @@ update msg model =
                 |> addCmd (handleScrollEventsToTop model)
 
         GetGeolocation ->
-            { model | fetchingLocation = True } ! [ getGeolocation ]
+            { model | userGeolocation = Loading } ! [ getGeolocation ]
 
-        ReceiveGeolocation (Err _) ->
-            (model |> handleGeolocationError) ! []
-
-        ReceiveGeolocation (Ok location) ->
-            ((model |> handleGeolocation location) ! [])
+        ReceiveGeolocation (Success location) ->
+            ((model |> handleGeolocation (Success location)) ! [])
+                |> andThen update (SetView MyDates)
                 |> andThen update FetchEvents
+
+        ReceiveGeolocation remoteData ->
+            (model |> handleGeolocation remoteData) ! []
 
         CurrentDate date ->
             (model |> setCurrentDate date) ! []
@@ -84,7 +85,7 @@ update msg model =
             { model | view = view } ! []
 
         NavigateToResults ->
-            ((model |> handleSearchResults) ! [ setUserLocation model.userLocation ])
+            ((model |> handleGoToSearchResults) ! [ setUserLocation model.selectedUserLocation ])
                 |> andThen update UpdateMap
 
         ReceiveMeetupEvents events ->
@@ -101,12 +102,12 @@ update msg model =
         GoToDates ->
             { model | view = MyDates } ! [ handleGetLatLngFromPostcode model ]
 
-        RecievePostcodeLatLng (Err err) ->
-            model ! []
-
-        RecievePostcodeLatLng (Ok coords) ->
-            ({ model | userLocation = Just coords } ! [])
+        RecievePostcodeLatLng (Success coords) ->
+            (handleRecievePostcodeLatLng (Success coords) model ! [])
                 |> andThen update FetchEvents
+
+        RecievePostcodeLatLng remoteData ->
+            handleRecievePostcodeLatLng remoteData model ! []
 
         SetSearchRadius radius ->
             (handleSearchRadius radius model ! [])

@@ -15,8 +15,8 @@ handleFetchEvents model =
     }
 
 
-handleSearchResults : Model -> Model
-handleSearchResults model =
+handleGoToSearchResults : Model -> Model
+handleGoToSearchResults model =
     { model
         | view = Results
         , mapVisible = True
@@ -25,7 +25,7 @@ handleSearchResults model =
 
 addDistanceToEvents : Model -> WebData (List Event) -> WebData (List Event)
 addDistanceToEvents model events =
-    case model.userLocation of
+    case model.selectedUserLocation of
         Nothing ->
             events
 

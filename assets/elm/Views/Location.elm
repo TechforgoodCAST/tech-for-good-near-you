@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Model exposing (..)
+import RemoteData exposing (RemoteData(..), isLoading)
 
 
 location : Model -> Html Msg
@@ -20,13 +21,15 @@ location model =
 
 handleUserLocationError : Model -> Html Msg
 handleUserLocationError model =
-    if model.userLocationError then
-        div [ class "gold mv5" ]
-            [ p [] [ text "Could not get your location" ]
-            , p [] [ text "Try entering your postcode" ]
-            ]
-    else
-        locationCrosshair model
+    case model.userGeolocation of
+        Failure _ ->
+            div [ class "gold mv5" ]
+                [ p [] [ text "Could not get your location" ]
+                , p [] [ text "Try entering your postcode" ]
+                ]
+
+        _ ->
+            locationCrosshair model
 
 
 locationCrosshair : Model -> Html Msg
@@ -34,7 +37,7 @@ locationCrosshair model =
     div []
         [ p [ class "green f6 mt5" ] [ text "Get my location" ]
         , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ responsiveImg "/images/crosshair.svg" ]
-        , p [ class "green mv4 mv5-ns", classList [ ( "dn", model.fetchingLocation ) ] ] [ text "-- OR --" ]
+        , p [ class "green mv4 mv5-ns", classList [ ( "dn", isLoading model.userGeolocation ) ] ] [ text "-- OR --" ]
         ]
 
 
@@ -45,10 +48,12 @@ centerCrosshairWhite model =
 
 handleLocationFetch : Model -> Html Msg
 handleLocationFetch model =
-    if model.fetchingLocation then
-        fetchingLocation
-    else
-        enterPostcode model
+    case model.userGeolocation of
+        Loading ->
+            fetchingLocation
+
+        _ ->
+            enterPostcode model
 
 
 fetchingLocation : Html Msg

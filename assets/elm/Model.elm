@@ -2,9 +2,8 @@ module Model exposing (..)
 
 import Date exposing (..)
 import Dom
-import Geolocation
-import Http
-import RemoteData exposing (WebData)
+import Geolocation exposing (Error, Location)
+import RemoteData exposing (WebData, RemoteData)
 import Time exposing (..)
 import Window
 
@@ -14,9 +13,9 @@ type alias Model =
     , selectedDate : DateRange
     , meetupEvents : WebData (List Event)
     , customEvents : WebData (List Event)
-    , userLocation : Maybe Coords
-    , userLocationError : Bool
-    , fetchingLocation : Bool
+    , userGeolocation : GeolocationData
+    , userPostcodeLocation : WebData Coords
+    , selectedUserLocation : Maybe Coords
     , currentDate : Maybe Date
     , mapVisible : Bool
     , topNavOpen : Bool
@@ -90,17 +89,21 @@ type alias Marker =
     }
 
 
+type alias GeolocationData =
+    RemoteData Error Location
+
+
 type Msg
     = UpdatePostcode String
     | SetDateRange DateRange
     | ReceiveMeetupEvents (WebData (List Event))
     | ReceiveCustomEvents (WebData (List Event))
     | GetGeolocation
-    | ReceiveGeolocation (Result Geolocation.Error Geolocation.Location)
+    | ReceiveGeolocation GeolocationData
     | CurrentDate Time
     | SetView View
     | NavigateToResults
-    | RecievePostcodeLatLng (Result Http.Error Coords)
+    | RecievePostcodeLatLng (WebData Coords)
     | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
