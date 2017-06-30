@@ -1,6 +1,6 @@
 module Views.Layout exposing (..)
 
-import Helpers.Style exposing (ifMobile, isMobile, mobileFullHeight, mobileMaxHeight, percentScreenHeight)
+import Helpers.Style exposing (anchorBottom, classes, desktopOnly, ifMobile, isMobile, mobileFullHeight, mobileMaxHeight, percentScreenHeight, showAt)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Model exposing (..)
@@ -16,9 +16,25 @@ layout model content =
             , style [ handleMobileHeight model ]
             ]
             [ mobileContainer model content
+            , div
+                [ classList [ showAt [ MyLocation, MyDates ] model ]
+                , class anchorBottom
+                , style [ ( "margin-left", "11.5em" ) ]
+                ]
+                [ desktopCredit ]
             ]
         , bottomNav model
         ]
+
+
+desktopCredit : Html msg
+desktopCredit =
+    a
+        [ href "http://www.wearecast.org.uk/"
+        , target "_blank"
+        , class <| classes [ "green no-underline db f6", desktopOnly ]
+        ]
+        [ p [] [ text "made with love at CAST" ] ]
 
 
 handleMobileHeight : Model -> Style

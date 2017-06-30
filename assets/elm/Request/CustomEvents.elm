@@ -1,34 +1,24 @@
 module Request.CustomEvents exposing (..)
 
-import Data.Events exposing (addDistanceToEvents)
+import Data.Events exposing (addDistanceToEvents, sortEventsByDate)
 import Date exposing (..)
-import Date.Extra exposing (compare)
 import Http
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Model exposing (..)
+import RemoteData exposing (WebData)
 
 
-handleReceiveCustomEvents : List Event -> Model -> Model
-handleReceiveCustomEvents events model =
-    let
-        eventsWithDistance =
-            addDistanceToEvents model events
-
-        allEvents =
-            (eventsWithDistance ++ model.events)
-                |> sortEventsByDate
-    in
-        { model
-            | events = allEvents
-            , fetchingEvents = False
-        }
+handleReceiveCustomEvents : WebData (List Event) -> Model -> Model
+handleReceiveCustomEvents customEvents model =
+    { model | customEvents = addDistanceToEvents model customEvents }
 
 
 getCustomEvents : Cmd Msg
 getCustomEvents =
     Http.get "api/custom-events" (field "data" (list decodeCustomEvent))
-        |> Http.send ReceiveCustomEvents
+        |> RemoteData.sendRequest
+        |> Cmd.map ReceiveCustomEvents
 
 
 decodeCustomEvent : Decoder Event
@@ -53,8 +43,3 @@ stringToDate =
     string
         |> Json.map Date.fromString
         |> Json.map (Result.withDefault <| fromTime 0)
-
-
-sortEventsByDate : List Event -> List Event
-sortEventsByDate =
-    List.sortWith (\e1 e2 -> Date.Extra.compare e1.time e2.time)

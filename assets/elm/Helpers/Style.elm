@@ -18,6 +18,11 @@ desktopOnly =
     "dn db-ns"
 
 
+anchorBottom : String
+anchorBottom =
+    "absolute bottom-0 left-0"
+
+
 px : number -> String
 px n =
     (toString n) ++ "px"
@@ -86,5 +91,20 @@ mobileFullHeight ({ window, mobileNav } as model) =
 
 
 showAtResults : Model -> ( String, Bool )
-showAtResults model =
-    ( "no-select o-0", model.view /= Results )
+showAtResults =
+    showAt [ Results ]
+
+
+showAt : List View -> Model -> ( String, Bool )
+showAt views model =
+    ( "no-select o-0", not <| isVisible model views )
+
+
+isVisible : Model -> List View -> Bool
+isVisible model =
+    List.foldr (isCurrentView model) False
+
+
+isCurrentView : Model -> View -> Bool -> Bool
+isCurrentView model view acc =
+    model.view == view || acc

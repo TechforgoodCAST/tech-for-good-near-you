@@ -4,6 +4,7 @@ import Date exposing (..)
 import Dom
 import Geolocation
 import Http
+import RemoteData exposing (WebData)
 import Time exposing (..)
 import Window
 
@@ -11,8 +12,8 @@ import Window
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
-    , events : List Event
-    , fetchingEvents : Bool
+    , meetupEvents : WebData (List Event)
+    , customEvents : WebData (List Event)
     , userLocation : Maybe Coords
     , userLocationError : Bool
     , fetchingLocation : Bool
@@ -92,8 +93,8 @@ type alias Marker =
 type Msg
     = UpdatePostcode String
     | SetDateRange DateRange
-    | ReceiveMeetupEvents (Result Http.Error (List Event))
-    | ReceiveCustomEvents (Result Http.Error (List Event))
+    | ReceiveMeetupEvents (WebData (List Event))
+    | ReceiveCustomEvents (WebData (List Event))
     | GetGeolocation
     | ReceiveGeolocation (Result Geolocation.Error Geolocation.Location)
     | CurrentDate Time
@@ -103,10 +104,13 @@ type Msg
     | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
+    | FetchEvents
+    | FitBounds
     | SetSearchRadius String
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool
+    | UpdateMap
     | ResetMobileNav
     | Restart
     | FilteredMarkers

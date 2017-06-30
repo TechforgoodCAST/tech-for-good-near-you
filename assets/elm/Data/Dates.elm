@@ -65,9 +65,28 @@ isEventBefore interval currentDate event =
         |> Maybe.withDefault False
 
 
+noEventsInDateRange : DateRange -> String
+noEventsInDateRange dateRange =
+    case dateRange of
+        Today ->
+            "No events near you today"
+
+        ThisWeek ->
+            "No events near you this week"
+
+        ThisMonth ->
+            "No events near you this month"
+
+        All ->
+            "No events found"
+
+        NoDate ->
+            ""
+
+
 dateRangeToString : DateRange -> String
-dateRangeToString date =
-    case date of
+dateRangeToString dateRange =
+    case dateRange of
         Today ->
             "Today"
 
