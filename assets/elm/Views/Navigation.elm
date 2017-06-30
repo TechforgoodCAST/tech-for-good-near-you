@@ -142,7 +142,11 @@ mobileMainOptions model =
 mobileDateOptions : Model -> Html Msg
 mobileDateOptions model =
     div [ class "flex items-center justify-between w-100 ph3" ]
-        [ div [ class "absolute left-0 top-0", style [ ( "margin-left", "0.5rem" ), ( "margin-top", "0.5em" ) ] ] [ dateBottomBarOptions model ]
+        [ div
+            [ class "absolute left-0 top-0"
+            , style [ ( "margin-left", "0.5rem" ), ( "margin-top", "0.5em" ) ]
+            ]
+            [ dateBottomBarOptions model ]
         , div
             [ onClick <| MobileDateVisible False
             , style
