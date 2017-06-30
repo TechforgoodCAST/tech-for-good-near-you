@@ -32,7 +32,7 @@ desktopCredit =
     a
         [ href "http://www.wearecast.org.uk/"
         , target "_blank"
-        , class <| classes [ "green no-underline db f6", desktopOnly ]
+        , class <| classes [ "green no-underline f6", desktopOnly ]
         ]
         [ p [] [ text "made with love at CAST" ] ]
 

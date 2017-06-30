@@ -44,7 +44,7 @@ eventsError model =
 
 selectOtherDates : Model -> Html Msg
 selectOtherDates model =
-    div [ class "green tc fade-in" ]
+    div [ class <| classes [ "green tc fade-in", desktopOnly ] ]
         [ p [ class "fade-in f4 mt5-ns mt4" ] [ text <| noEventsInDateRange model.selectedDate ]
         , p [ class "f6" ] [ text "Choose another date" ]
         , div [ class "center mw5" ] [ dateMainOptions model ]
