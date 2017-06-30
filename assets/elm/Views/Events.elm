@@ -4,13 +4,14 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px)
+import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px, showAtResults, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Model exposing (..)
 import RemoteData exposing (RemoteData)
 import Views.Dates exposing (dateMainOptions)
+import Views.Layout exposing (desktopCredit)
 
 
 events : Model -> Html Msg
@@ -47,6 +48,7 @@ selectOtherDates model =
         [ p [ class "fade-in f4 mt5-ns mt4" ] [ text <| noEventsInDateRange model.selectedDate ]
         , p [ class "f6" ] [ text "Choose another date" ]
         , div [ class "center mw5" ] [ dateMainOptions model ]
+        , div [ classList [ showAtResults model ], class "mt5" ] [ desktopCredit ]
         ]
 
 
@@ -55,12 +57,20 @@ allEvents model =
     div
         [ class <| classes [ "ph4-ns w-100 overflow-y-scroll smooth-scroll" ]
         , style
-            [ ( "padding-bottom", px 120 )
-            , ( "height", px <| mapMargin model )
+            [ ( "height", px <| mapMargin model )
             ]
         , id model.eventsContainerId
         ]
-        (renderEvents model)
+        ((renderEvents model) ++ [ allEventsCredit model ])
+
+
+allEventsCredit : Model -> Html msg
+allEventsCredit model =
+    div
+        [ classList [ showAtResults model ]
+        , style [ ( "padding-top", px 120 ) ]
+        ]
+        [ desktopCredit ]
 
 
 renderEvents : Model -> List (Html Msg)

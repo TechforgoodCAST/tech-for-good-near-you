@@ -1,7 +1,7 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, showAtResults)
+import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -36,10 +36,26 @@ desktopNavbar model =
                     , p [ class "mt0 ml1" ] [ text "near you" ]
                     ]
                 , navbarOptions model
-                , div [ class "absolute center bottom-2 left-0 right-0 t-3 all ease", classList [ showAtResults model ] ]
-                    [ div [ class "spin" ] [ centerMap model ]
+                , div
+                    [ class "absolute left-0 right-0 ph3"
+                    , style [ ( "bottom", "-0.3em" ) ]
                     ]
+                    [ techForGoodSummer ]
                 ]
+            ]
+        ]
+
+
+techForGoodSummer : Html msg
+techForGoodSummer =
+    a
+        [ class "no-underline white tc db"
+        , href "https://docs.google.com/spreadsheets/d/14ugF7_Vbad3FgZPs_fYhbW4EkVz_AK5NnsZ0TYXB_2o/edit#gid=1859950832"
+        , target "_blank"
+        ]
+        [ div []
+            [ p [ class "f5 f6-ns" ] [ text "Add your event to our google sheet" ]
+            , div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ]
             ]
         ]
 
@@ -66,19 +82,20 @@ mobileTopBar model =
 plusIconRotation : Model -> ( String, String )
 plusIconRotation model =
     if model.topNavOpen then
-        ( "transform", "rotateZ(45deg)" )
+        ( "transform", rotateZ 45 )
     else
-        ( "transform", "rotateZ(0deg)" )
+        ( "transform", rotateZ 0 )
 
 
 mobileTopBarContent : Model -> Html Msg
 mobileTopBarContent model =
     if model.topNavOpen then
         div
-            [ class "w-100 bg-green flex items-center justify-center white fixed z-999 ph3 fade-in a-3"
+            [ class "w-100 bg-green flex items-center justify-center flex-column white fixed z-999 ph3 fade-in a-3"
             , style [ mobileMaxHeight model ]
             ]
-            [ p [] [ text "made with love at CAST" ]
+            [ div [ class "ph4 mb5" ] [ techForGoodSummer ]
+            , a [ href "http://www.wearecast.org.uk/", target "_blank", class "no-underline white db" ] [ p [] [ text "made with love at CAST" ] ]
             ]
     else
         span [] []
@@ -100,42 +117,56 @@ mobileBottomNav model =
 bottomMobileNavPosition : Model -> ( String, String )
 bottomMobileNavPosition model =
     if model.bottomNavOpen then
-        ( "transform", "translateY(-" ++ px ((model.window.height - model.mobileNav.topHeight) // 2) ++ ")" )
+        ( "transform", translateY <| (model.window.height - model.mobileNav.topHeight) // -2 )
     else
-        ( "transform", "translateY(0)" )
+        ( "transform", translateY 0 )
 
 
 mobileBottomNavOptions : Model -> Html Msg
 mobileBottomNavOptions model =
     if model.mobileDateOptionsVisible then
-        div [ class "flex items-center justify-between w-100 ph3" ]
-            [ div [ class "absolute left-0 top-0", style [ ( "margin-left", "0.5rem" ), ( "margin-top", "0.5rem" ) ] ] [ dateBottomBarOptions model ]
-            , div
-                [ onClick <| MobileDateVisible False
-                , style
-                    [ ( "transform", "rotateZ(45deg)" )
-                    , ( "width", "20px" )
-                    , ( "margin-right", "0.7rem" )
-                    , ( "margin-top", "0.9rem" )
-                    ]
-                , class "absolute right-0 top-0"
-                ]
-                [ responsiveImg "/images/plus.png" ]
-            ]
+        mobileDateOptions model
     else
-        div [ class "flex items-center justify-between w-100 ph3" ]
-            [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
-            , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
-            , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+        mobileMainOptions model
+
+
+mobileMainOptions : Model -> Html Msg
+mobileMainOptions model =
+    div [ class "flex items-center justify-between w-100 ph3" ]
+        [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
+        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
+        , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+        ]
+
+
+mobileDateOptions : Model -> Html Msg
+mobileDateOptions model =
+    div [ class "flex items-center justify-between w-100 ph3" ]
+        [ div
+            [ class "absolute left-0 top-0"
+            , style [ ( "margin-left", "0.5rem" ), ( "margin-top", "0.5em" ) ]
             ]
+            [ dateBottomBarOptions model ]
+        , div
+            [ onClick <| MobileDateVisible False
+            , style
+                [ ( "transform", rotateZ 45 )
+                , ( "width", "20px" )
+                , ( "margin-right", "0.7rem" )
+                , ( "margin-top", "1em" )
+                ]
+            , class "absolute right-0 top-0"
+            ]
+            [ responsiveImg "/images/plus.png" ]
+        ]
 
 
 chevronDirection : Model -> ( String, String )
 chevronDirection model =
     if model.bottomNavOpen then
-        ( "transform", "rotateZ(180deg)" )
+        ( "transform", rotateZ 180 )
     else
-        ( "", "" )
+        ( "transform", rotateZ 0 )
 
 
 handleBottomNavToggle : Model -> Attribute Msg
@@ -155,5 +186,14 @@ navbarOptions : Model -> Html Msg
 navbarOptions model =
     div [ class "pt1 pb3-ns t-5 all ease bg-green" ]
         [ dateSideOptions model
+        , eventsNearMe model
         , distanceOptions model
+        ]
+
+
+eventsNearMe : Model -> Html Msg
+eventsNearMe model =
+    div [ class "white t-3 all ease mt4", classList [ showAtResults model ] ]
+        [ p [] [ text "events near me:" ]
+        , div [ class "spin w4" ] [ centerMap model ]
         ]

@@ -10,7 +10,7 @@ import Model exposing (..)
 
 distanceOptions : Model -> Html Msg
 distanceOptions model =
-    div [ class "mt5 white pr3 t-5 all ease", classList [ showAtResults model ] ]
+    div [ class "mt4 white pr3 t-5 all ease", classList [ showAtResults model ] ]
         [ p [] [ text "events within:" ]
         , input
             [ type_ "range"
