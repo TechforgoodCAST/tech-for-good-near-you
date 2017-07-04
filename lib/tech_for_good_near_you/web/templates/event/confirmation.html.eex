@@ -1,0 +1,5 @@
+<div class="green">
+  <h1>Event Created Successfully</h1>
+
+  <span><%= link "Back to Events", to: elm_path(@conn, :index) %></span>
+</div>

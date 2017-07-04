@@ -1,3 +1,5 @@
+<h2>Submit Event</h2>
+
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
@@ -48,10 +50,12 @@
   </div>
 
   <div class="dn">
-    <%= select f, :approved, [true, false], selected: true %>
+    <%= select f, :approved, [true, false], selected: false %>
   </div>
 
   <div>
     <%= submit "Submit"%>
   </div>
 <% end %>
+
+<span><%= link "Back", to: elm_path(@conn, :index) %></span>

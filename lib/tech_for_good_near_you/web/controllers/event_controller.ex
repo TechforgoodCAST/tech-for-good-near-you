@@ -90,4 +90,31 @@ defmodule TechForGoodNearYou.Web.EventController do
     events = MeetUps.list_future_events()
     render conn, "events.json", %{events: events}
   end
+
+  def submit_event_new(conn, _params) do
+    changeset = MeetUps.change_event(%TechForGoodNearYou.MeetUps.Event{})
+    render(conn, "submit_event.html", changeset: changeset, action: event_path(conn, :submit_event_create))
+  end
+
+  def submit_event_create(conn, %{"event" => event_params}) do
+    with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
+         {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
+         event_params = Map.merge(event_params, lat_lon),
+         {:ok, event} <- MeetUps.create_event(event_params)
+    do
+      conn
+      |> redirect(to: event_path(conn, :submit_event_confirmation))
+    else
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "submit_event.html", changeset: changeset)
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "There was a problem adding the event, please try again")
+        |> redirect(to: event_path(conn, :submit_event_new))
+    end
+  end
+
+  def submit_event_confirmation(conn, _params) do
+    render(conn, "confirmation.html")
+  end
 end
