@@ -1,7 +1,7 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, translateY)
+import Helpers.Style exposing (classes, desktopOnly, hideWhenShortScreen, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -40,23 +40,36 @@ desktopNavbar model =
                     [ class "absolute left-0 right-0 ph3"
                     , style [ ( "bottom", "-0.3em" ) ]
                     ]
-                    [ techForGoodSummer ]
+                    [ techForGoodSummerDesktop model ]
                 ]
             ]
         ]
 
 
-techForGoodSummer : Html msg
-techForGoodSummer =
+techForGoodSummerDesktop : Model -> Html Msg
+techForGoodSummerDesktop model =
+    googleSheetLink
+        (div
+            [ class <| classes [ "w-100 ph2", hideWhenShortScreen model ] ]
+            [ responsiveImg "/images/tech-for-good-summer.png" ]
+        )
+
+
+techForGoodSummerMobile : Html Msg
+techForGoodSummerMobile =
+    googleSheetLink
+        (div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ])
+
+
+googleSheetLink : Html Msg -> Html Msg
+googleSheetLink image =
     a
         [ class "no-underline white tc db"
         , href "https://docs.google.com/spreadsheets/d/14ugF7_Vbad3FgZPs_fYhbW4EkVz_AK5NnsZ0TYXB_2o/edit#gid=1859950832"
         , target "_blank"
         ]
-        [ div []
-            [ p [ class "f5 f6-ns" ] [ text "Add your event to our google sheet" ]
-            , div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ]
-            ]
+        [ p [ class "f5 f6-ns" ] [ text "Add your event to our google sheet here" ]
+        , image
         ]
 
 
@@ -94,7 +107,7 @@ mobileTopBarContent model =
             [ class "w-100 bg-green flex items-center justify-center flex-column white fixed z-999 ph3 fade-in a-3"
             , style [ mobileMaxHeight model ]
             ]
-            [ div [ class "ph4 mb5" ] [ techForGoodSummer ]
+            [ div [ class "ph4 mb5" ] [ techForGoodSummerMobile ]
             , a [ href "http://www.wearecast.org.uk/", target "_blank", class "no-underline white db" ] [ p [] [ text "made with love at CAST" ] ]
             ]
     else
