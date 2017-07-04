@@ -48,7 +48,7 @@ ifDesktop style model =
     if isDesktop model then
         style
     else
-        ( "", "" )
+        emptyStyle
 
 
 ifMobile : Model -> Style -> Style
@@ -56,7 +56,7 @@ ifMobile model style =
     if isMobile model then
         style
     else
-        ( "", "" )
+        emptyStyle
 
 
 isDesktop : Model -> Bool
@@ -67,6 +67,19 @@ isDesktop model =
 isMobile : Model -> Bool
 isMobile model =
     isDesktop model |> not
+
+
+hideWhenShortScreen : Model -> String
+hideWhenShortScreen model =
+    if shortScreen model then
+        "dn"
+    else
+        ""
+
+
+shortScreen : Model -> Bool
+shortScreen model =
+    model.window.height < 630
 
 
 percentScreenHeight : Int -> Model -> Style
@@ -108,3 +121,8 @@ isVisible model =
 isCurrentView : Model -> View -> Bool -> Bool
 isCurrentView model view acc =
     model.view == view || acc
+
+
+emptyStyle : Style
+emptyStyle =
+    ( "", "" )
