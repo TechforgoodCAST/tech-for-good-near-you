@@ -98,12 +98,12 @@ defmodule TechForGoodNearYou.Web.EventController do
     render conn, "events.json", %{events: events}
   end
 
-  def submit_event_new(conn, _params) do
+  def user_event_new(conn, _params) do
     changeset = MeetUps.change_event(%TechForGoodNearYou.MeetUps.Event{})
-    render(conn, "submit_event.html", changeset: changeset, action: event_path(conn, :submit_event_create))
+    render(conn, "user_event.html", changeset: changeset, action: event_path(conn, :user_event_create))
   end
 
-  def submit_event_create(conn, %{"event" => event_params}) do
+  def user_event_create(conn, %{"event" => event_params}) do
     with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
          {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
          event_params = Map.merge(event_params, lat_lon),
@@ -111,18 +111,18 @@ defmodule TechForGoodNearYou.Web.EventController do
          {:ok, _event} <- MeetUps.create_event(event_params)
     do
       conn
-      |> redirect(to: event_path(conn, :submit_event_confirmation))
+      |> redirect(to: event_path(conn, :user_event_confirmation))
     else
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "submit_event.html", changeset: changeset)
+        render(conn, "user_event.html", changeset: changeset)
       {:error, _reason} ->
         conn
         |> put_flash(:error, "There was a problem adding the event, please try again")
-        |> redirect(to: event_path(conn, :submit_event_new))
+        |> redirect(to: event_path(conn, :user_event_new))
     end
   end
 
-  def submit_event_confirmation(conn, _params) do
+  def user_event_confirmation(conn, _params) do
     render(conn, "confirmation.html")
   end
 
