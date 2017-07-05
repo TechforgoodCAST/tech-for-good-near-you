@@ -75,6 +75,7 @@ allEvents : Model -> WebData (List Event)
 allEvents model =
     RemoteData.append model.meetupEvents model.customEvents
         |> RemoteData.map (\( a, b ) -> a ++ b)
+        |> RemoteData.map sortEventsByDate
 
 
 sortEventsByDate : List Event -> List Event

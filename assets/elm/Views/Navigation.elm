@@ -1,7 +1,7 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, translateY)
+import Helpers.Style exposing (classes, desktopOnly, hideWhenShortScreen, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, transform, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -40,22 +40,35 @@ desktopNavbar model =
                     [ class "absolute left-0 right-0 ph3"
                     , style [ ( "bottom", "-0.3em" ) ]
                     ]
-                    [ techForGoodSummer ]
+                    [ techForGoodSummerDesktop model ]
                 ]
             ]
         ]
 
 
-techForGoodSummer : Html msg
-techForGoodSummer =
+techForGoodSummerDesktop : Model -> Html Msg
+techForGoodSummerDesktop model =
+    googleSheetLink
+        (div
+            [ class <| classes [ "w-100 ph2", hideWhenShortScreen model ] ]
+            [ responsiveImg "/images/tech-for-good-summer.png" ]
+        )
+
+
+techForGoodSummerMobile : Html Msg
+techForGoodSummerMobile =
+    googleSheetLink
+        (div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ])
+
+
+googleSheetLink : Html Msg -> Html Msg
+googleSheetLink image =
     a
         [ class "no-underline white tc db"
         , href "/user-event/new"
         ]
-        [ div []
-            [ p [ class "f5 f6-ns" ] [ text "Add your own Tech for Good event!" ]
-            , div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ]
-            ]
+        [ p [ class "f5 f6-ns" ] [ text "Add your own Tech for Good event!" ]
+        , image
         ]
 
 
@@ -78,12 +91,12 @@ mobileTopBar model =
         ]
 
 
-plusIconRotation : Model -> ( String, String )
+plusIconRotation : Model -> Style
 plusIconRotation model =
     if model.topNavOpen then
-        ( "transform", rotateZ 45 )
+        transform <| rotateZ 45
     else
-        ( "transform", rotateZ 0 )
+        transform <| rotateZ 0
 
 
 mobileTopBarContent : Model -> Html Msg
@@ -93,7 +106,7 @@ mobileTopBarContent model =
             [ class "w-100 bg-green flex items-center justify-center flex-column white fixed z-999 ph3 fade-in a-3"
             , style [ mobileMaxHeight model ]
             ]
-            [ div [ class "ph4 mb5" ] [ techForGoodSummer ]
+            [ div [ class "ph4 mb5" ] [ techForGoodSummerMobile ]
             , a [ href "http://www.wearecast.org.uk/", target "_blank", class "no-underline white db" ] [ p [] [ text "made with love at CAST" ] ]
             ]
     else
@@ -113,12 +126,12 @@ mobileBottomNav model =
         [ mobileBottomNavOptions model ]
 
 
-bottomMobileNavPosition : Model -> ( String, String )
+bottomMobileNavPosition : Model -> Style
 bottomMobileNavPosition model =
     if model.bottomNavOpen then
-        ( "transform", translateY <| (model.window.height - model.mobileNav.topHeight) // -2 )
+        transform <| translateY <| (model.window.height - model.mobileNav.topHeight) // -2
     else
-        ( "transform", translateY 0 )
+        transform <| translateY 0
 
 
 mobileBottomNavOptions : Model -> Html Msg
@@ -133,8 +146,8 @@ mobileMainOptions : Model -> Html Msg
 mobileMainOptions model =
     div [ class "flex items-center justify-between w-100 ph3" ]
         [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
-        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
-        , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/clock.svg" ]
+        , div [ style [ ( "width", "25px" ) ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/calendar-white.svg" ]
         ]
 
 
@@ -149,7 +162,7 @@ mobileDateOptions model =
         , div
             [ onClick <| MobileDateVisible False
             , style
-                [ ( "transform", rotateZ 45 )
+                [ transform <| rotateZ 45
                 , ( "width", "20px" )
                 , ( "margin-right", "0.7rem" )
                 , ( "margin-top", "1em" )
@@ -158,14 +171,6 @@ mobileDateOptions model =
             ]
             [ responsiveImg "/images/plus.png" ]
         ]
-
-
-chevronDirection : Model -> ( String, String )
-chevronDirection model =
-    if model.bottomNavOpen then
-        ( "transform", rotateZ 180 )
-    else
-        ( "transform", rotateZ 0 )
 
 
 handleBottomNavToggle : Model -> Attribute Msg
