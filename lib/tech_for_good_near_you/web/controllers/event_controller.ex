@@ -23,6 +23,7 @@ defmodule TechForGoodNearYou.Web.EventController do
     with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
          {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
          event_params = Map.merge(event_params, lat_lon),
+         event_params = Map.put_new(event_params, "approved", true),
          {:ok, event} <- MeetUps.create_event(event_params)
     do
       conn
@@ -106,6 +107,7 @@ defmodule TechForGoodNearYou.Web.EventController do
     with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
          {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
          event_params = Map.merge(event_params, lat_lon),
+         event_params = Map.put_new(event_params, "approved", false),
          {:ok, _event} <- MeetUps.create_event(event_params)
     do
       conn

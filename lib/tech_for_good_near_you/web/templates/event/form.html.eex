@@ -31,10 +31,6 @@
     <%= error_tag f, :time%>
   </div>
 
-  <div class="dn">
-    <%= select f, :approved, [@event_approved?] %>
-  </div>
-
   <div class="mv4">
     <%= submit "Submit", class: "ba b--green pv2 ph5 bg-green white br2 f3 outline-0 pointer"%>
   </div>
