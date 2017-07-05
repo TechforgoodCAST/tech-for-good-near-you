@@ -5,49 +5,33 @@
     </div>
   <% end %>
 
-  <div>
-    <%= label f, :name%>
-    <%= text_input f, :name%>
-    <%= error_tag f, :name%>
-  </div>
+  <%= for field <- form_fields() do %>
+    <div class="flex mv3">
+      <%= label f, field, class: "w-40 w-10-ns tc"%>
+      <%= text_input f, field, class: "w-60 w-40-ns mh2 outline-0 b--green ba pv2 br2 tc"%>
+      <%= error_tag f, field%>
+    </div>
+  <% end %>
 
   <div>
-    <%= label f, :url%>
-    <%= text_input f, :url%>
-    <%= error_tag f, :url%>
-  </div>
-
-  <div>
-    <%= label f, :time%>
-    <%= datetime_select f, :time%>
+    <%= datetime_select f, :time, builder: fn b -> %>
+      <div class="flex mv3">
+        <div class="w-40 w-10-ns tc">Time</div>
+        <div class="w-60 w-40-ns mh2">
+          <%= b.(:hour, [class: "bn w3 f5 outline-0 green"]) %> : <%= b.(:minute, [class: "bn w3 f5 outline-0 green"]) %>
+        </div>
+      </div>
+      <div class="flex mv3">
+        <div class="w-40 w-10-ns tc">Date</div>
+        <div class="w-60 w-40-ns mh2">
+          <%= b.(:day, [class: "bn w3 f5 outline-0 green"])%> / <%= b.(:month, [class: "bn w4 f5 outline-0 green"]) %> / <%= b.(:year, [class: "bn w3 f5 outline-0 green"]) %>
+        </div>
+      </div>
+    <% end %>
     <%= error_tag f, :time%>
   </div>
 
-  <div>
-    <%= label f, :address%>
-    <%= text_input f, :address%>
-    <%= error_tag f, :address%>
-  </div>
-
-  <div>
-    <%= label f, :postcode%>
-    <%= text_input f, :postcode%>
-    <%= error_tag f, :postcode%>
-  </div>
-
-  <div>
-    <%= label f, :venue_name%>
-    <%= text_input f, :venue_name%>
-    <%= error_tag f, :venue_name%>
-  </div>
-
-  <div>
-    <%= label f, :group_name%>
-    <%= text_input f, :group_name%>
-    <%= error_tag f, :group_name%>
-  </div>
-
-  <div>
-    <%= submit "Submit"%>
+  <div class="mv4">
+    <%= submit "Submit", class: "ba b--green pv2 ph5 bg-green white br2 f3 outline-0 pointer"%>
   </div>
 <% end %>

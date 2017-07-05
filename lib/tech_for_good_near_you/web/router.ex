@@ -24,6 +24,14 @@ defmodule TechForGoodNearYou.Web.Router do
     get "/", ElmController, :index
   end
 
+  scope "/user-event", TechForGoodNearYou.Web do
+    pipe_through [:browser, :admin_layout]
+
+    get "/new",EventController, :submit_event_new
+    post "/create", EventController, :submit_event_create
+    get "/confirmation", EventController, :submit_event_confirmation
+  end
+
   scope "/login", TechForGoodNearYou.Web do
     pipe_through [:browser, :admin_layout]
 
@@ -35,6 +43,7 @@ defmodule TechForGoodNearYou.Web.Router do
     pipe_through [:browser, :admin_layout, :authenticate_admin]
 
     resources "/events", EventController
+    put "/approve-event/:id", EventController, :approve_event
   end
 
   scope "/api", TechForGoodNearYou.Web do

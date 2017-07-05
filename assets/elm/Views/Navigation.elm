@@ -65,10 +65,9 @@ googleSheetLink : Html Msg -> Html Msg
 googleSheetLink image =
     a
         [ class "no-underline white tc db"
-        , href "https://docs.google.com/spreadsheets/d/14ugF7_Vbad3FgZPs_fYhbW4EkVz_AK5NnsZ0TYXB_2o/edit#gid=1859950832"
-        , target "_blank"
+        , href "/user-event/new"
         ]
-        [ p [ class "f5 f6-ns" ] [ text "Add your event to our google sheet here" ]
+        [ p [ class "f5 f6-ns" ] [ text "Add your own Tech for Good event!" ]
         , image
         ]
 

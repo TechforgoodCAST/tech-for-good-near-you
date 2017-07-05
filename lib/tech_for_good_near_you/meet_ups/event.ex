@@ -14,12 +14,29 @@ defmodule TechForGoodNearYou.MeetUps.Event do
     field :group_name, :string
     field :latitude, :float
     field :longitude, :float
+    field :approved, :boolean
 
     timestamps()
   end
 
-  @valid_fields [:name, :url, :time, :address, :postcode, :venue_name, :group_name, :latitude, :longitude]
-  @required_fields [:name, :time, :address, :postcode, :url]
+  @valid_fields [:name,
+                 :url,
+                 :time,
+                 :address,
+                 :postcode,
+                 :venue_name,
+                 :group_name,
+                 :latitude,
+                 :longitude,
+                 :approved]
+
+  @required_fields [:name,
+                    :time,
+                    :address,
+                    :postcode,
+                    :url,
+                    :approved]
+
   @valid_postcode_regex ~r/(GIR 0AA)|([A-PR-UWYZ](([0-9]([0-9A-HJKPSTUW])?)|([A-HK-Y][0-9]([0-9ABEHMNPRVWXY])?))\s?[0-9][ABD-HJLNP-UW-Z]{2})/i
 
   def changeset(%Event{} = event, attrs) do
@@ -34,5 +51,4 @@ defmodule TechForGoodNearYou.MeetUps.Event do
     |> cast(attrs, [:postcode])
     |> validate_format(:postcode, @valid_postcode_regex)
   end
-
 end

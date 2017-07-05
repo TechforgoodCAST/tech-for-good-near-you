@@ -1,0 +1,8 @@
+<div>
+  <h1 class="green">We have received your event!</h1>
+
+  <p>Thanks for your submission :)</p>
+  <p>Once your event has been approved by one of our admin it will be listed on Tech for Good Near You.</p>
+
+  <div><%= link "Go back to event listings", to: elm_path(@conn, :index), class: "no-underline green hover-gold" %></div>
+</div>

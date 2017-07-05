@@ -4,8 +4,14 @@ defmodule TechForGoodNearYou.Web.EventController do
   alias TechForGoodNearYou.{MeetUps, Web.LatLon}
 
   def index(conn, _params) do
-    events = MeetUps.list_events()
-    render(conn, "index.html", events: events)
+    approved_events = MeetUps.list_approved_events()
+    events_waiting_approval = MeetUps.list_events_waiting_approval()
+    render(
+      conn,
+      "index.html",
+      approved_events: approved_events,
+      events_waiting_approval: events_waiting_approval
+    )
   end
 
   def new(conn, _params) do
@@ -17,6 +23,7 @@ defmodule TechForGoodNearYou.Web.EventController do
     with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
          {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
          event_params = Map.merge(event_params, lat_lon),
+         event_params = Map.put_new(event_params, "approved", true),
          {:ok, event} <- MeetUps.create_event(event_params)
     do
       conn
@@ -87,7 +94,50 @@ defmodule TechForGoodNearYou.Web.EventController do
   end
 
   def custom_events(conn, _params) do
-    events = MeetUps.list_future_events()
+    events = MeetUps.list_approved_events()
     render conn, "events.json", %{events: events}
+  end
+
+  def user_event_new(conn, _params) do
+    changeset = MeetUps.change_event(%TechForGoodNearYou.MeetUps.Event{})
+    render(conn, "user_event.html", changeset: changeset, action: event_path(conn, :user_event_create))
+  end
+
+  def user_event_create(conn, %{"event" => event_params}) do
+    with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
+         {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
+         event_params = Map.merge(event_params, lat_lon),
+         event_params = Map.put_new(event_params, "approved", false),
+         {:ok, _event} <- MeetUps.create_event(event_params)
+    do
+      conn
+      |> redirect(to: event_path(conn, :user_event_confirmation))
+    else
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "user_event.html", changeset: changeset)
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "There was a problem adding the event, please try again")
+        |> redirect(to: event_path(conn, :user_event_new))
+    end
+  end
+
+  def user_event_confirmation(conn, _params) do
+    render(conn, "confirmation.html")
+  end
+
+  def approve_event(conn, %{"id" => id}) do
+    event = MeetUps.get_event!(id)
+
+    case MeetUps.update_event(event, %{approved: true}) do
+      {:ok, _event} ->
+        conn
+        |> put_flash(:info, "The event has been approved")
+        |> redirect(to: event_path(conn, :index))
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "There was a problem updating the event")
+        |> redirect(to: event_path(conn, :index))
+    end
   end
 end

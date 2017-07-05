@@ -16,4 +16,6 @@ defmodule TechForGoodNearYou.Web.EventView do
       group_name: event.group_name,
       venue_name: event.venue_name}
   end
+
+  def form_fields, do: [:name, :url, :address, :postcode, :venue_name, :group_name]
 end
