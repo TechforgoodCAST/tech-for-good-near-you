@@ -1,7 +1,6 @@
-<h2>New Event</h2>
+<div><%= link "Back to events", to: elm_path(@conn, :index), class: "no-underline green hover-gold" %></div>
+<h2>Submit your event</h2>
 
 <%= render "form.html", changeset: @changeset,
                         action: event_path(@conn, :submit_event_create),
                         event_approved?: false %>
-
-<span><%= link "Back", to: elm_path(@conn, :index) %></span>
