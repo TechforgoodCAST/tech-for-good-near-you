@@ -15,3 +15,8 @@ The event data will come primarily from the Eventbrite and Meetup APIs. The tech
 * Elm
 * Phoenix
 * Tachyons
+
+
+### Icon Credits
+
+credits for icons used from [The Noun Project](https://thenounproject.com/) can be found in the [wiki](https://github.com/TechforgoodCAST/tech-for-good-near-you/wiki/Icon-credits)
