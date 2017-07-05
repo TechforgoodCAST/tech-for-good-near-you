@@ -2,4 +2,4 @@
 <h2>Submit your event</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: event_path(@conn, :submit_event_create) %>
+                        action: event_path(@conn, :user_event_create) %>
