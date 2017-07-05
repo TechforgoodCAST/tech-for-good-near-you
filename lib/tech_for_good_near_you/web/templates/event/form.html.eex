@@ -48,7 +48,7 @@
   </div>
 
   <div class="dn">
-    <%= select f, :approved, [true, false], selected: true %>
+    <%= select f, :approved, [true, false], selected: @event_approved? %>
   </div>
 
   <div>

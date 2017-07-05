@@ -1,6 +1,7 @@
 <h2>New Event</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: event_path(@conn, :create) %>
+                        action: event_path(@conn, :create),
+                        event_approved?: true %>
 
 <span><%= link "Back", to: event_path(@conn, :index) %></span>
