@@ -33,6 +33,11 @@ deg n =
     (toString n) ++ "deg"
 
 
+transform : String -> Style
+transform x =
+    ( "transform", x )
+
+
 translateY : number -> String
 translateY y =
     "translateY(" ++ px y ++ ")"

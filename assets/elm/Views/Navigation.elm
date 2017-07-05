@@ -1,7 +1,7 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, hideWhenShortScreen, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, translateY)
+import Helpers.Style exposing (classes, desktopOnly, hideWhenShortScreen, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, transform, translateY)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -92,12 +92,12 @@ mobileTopBar model =
         ]
 
 
-plusIconRotation : Model -> ( String, String )
+plusIconRotation : Model -> Style
 plusIconRotation model =
     if model.topNavOpen then
-        ( "transform", rotateZ 45 )
+        transform <| rotateZ 45
     else
-        ( "transform", rotateZ 0 )
+        transform <| rotateZ 0
 
 
 mobileTopBarContent : Model -> Html Msg
@@ -127,12 +127,12 @@ mobileBottomNav model =
         [ mobileBottomNavOptions model ]
 
 
-bottomMobileNavPosition : Model -> ( String, String )
+bottomMobileNavPosition : Model -> Style
 bottomMobileNavPosition model =
     if model.bottomNavOpen then
-        ( "transform", translateY <| (model.window.height - model.mobileNav.topHeight) // -2 )
+        transform <| translateY <| (model.window.height - model.mobileNav.topHeight) // -2
     else
-        ( "transform", translateY 0 )
+        transform <| translateY 0
 
 
 mobileBottomNavOptions : Model -> Html Msg
@@ -147,8 +147,8 @@ mobileMainOptions : Model -> Html Msg
 mobileMainOptions model =
     div [ class "flex items-center justify-between w-100 ph3" ]
         [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
-        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/calendar-white.svg" ]
-        , div [ style [ ( "width", "25px" ), chevronDirection model ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/chevron.svg" ]
+        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/clock.svg" ]
+        , div [ style [ ( "width", "25px" ) ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/calendar-white.svg" ]
         ]
 
 
@@ -163,7 +163,7 @@ mobileDateOptions model =
         , div
             [ onClick <| MobileDateVisible False
             , style
-                [ ( "transform", rotateZ 45 )
+                [ transform <| rotateZ 45
                 , ( "width", "20px" )
                 , ( "margin-right", "0.7rem" )
                 , ( "margin-top", "1em" )
@@ -172,14 +172,6 @@ mobileDateOptions model =
             ]
             [ responsiveImg "/images/plus.png" ]
         ]
-
-
-chevronDirection : Model -> ( String, String )
-chevronDirection model =
-    if model.bottomNavOpen then
-        ( "transform", rotateZ 180 )
-    else
-        ( "transform", rotateZ 0 )
 
 
 handleBottomNavToggle : Model -> Attribute Msg
