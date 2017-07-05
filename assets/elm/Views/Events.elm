@@ -77,7 +77,6 @@ renderEvents : Model -> List (Html Msg)
 renderEvents model =
     model
         |> filterEvents
-        |> RemoteData.map (sortEventsByDate)
         |> RemoteData.withDefault []
         |> List.map renderEvent
 
