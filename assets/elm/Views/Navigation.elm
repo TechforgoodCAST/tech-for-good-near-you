@@ -50,11 +50,10 @@ techForGoodSummer : Html msg
 techForGoodSummer =
     a
         [ class "no-underline white tc db"
-        , href "https://docs.google.com/spreadsheets/d/14ugF7_Vbad3FgZPs_fYhbW4EkVz_AK5NnsZ0TYXB_2o/edit#gid=1859950832"
-        , target "_blank"
+        , href "/user-event/new"
         ]
         [ div []
-            [ p [ class "f5 f6-ns" ] [ text "Add your event to our google sheet" ]
+            [ p [ class "f5 f6-ns" ] [ text "Add your own Tech for Good event!" ]
             , div [ class "w-100 ph2" ] [ responsiveImg "/images/tech-for-good-summer.png" ]
             ]
         ]
