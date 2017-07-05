@@ -1,4 +1,4 @@
-<h2>Listing Events</h2>
+<h2>Events</h2>
 
 <table>
   <thead>
@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-<%= for event <- @events do %>
+<%= for event <- @approved_events do %>
     <tr>
       <td><%= event.name %></td>
       <td><%= event.url %></td>
@@ -35,4 +35,42 @@
   </tbody>
 </table>
 
-<span><%= link "New Event", to: event_path(@conn, :new) %></span>
+<span><%= link "Add event", to: event_path(@conn, :new) %></span>
+
+<h2>Events awaiting approval</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Time</th>
+      <th>Address</th>
+      <th>Postcode</th>
+      <th>Venue name</th>
+      <th>Group name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for event <- @events_waiting_approval do %>
+    <tr>
+      <td><%= event.name %></td>
+      <td><%= event.url %></td>
+      <td><%= event.time %></td>
+      <td><%= event.address %></td>
+      <td><%= event.postcode %></td>
+      <td><%= event.venue_name %></td>
+      <td><%= event.group_name %></td>
+
+      <td>
+        <span><%= link "Show", to: event_path(@conn, :show, event)%></span>
+        <span><%= link "Edit", to: event_path(@conn, :edit, event)%></span>
+        <span><%= link "Delete", to: event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"]%></span>
+        <span><%= link "Approve", to: event_path(@conn, :approve_event, event), method: :put, data: [confirm: "Are you sure?"]%></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

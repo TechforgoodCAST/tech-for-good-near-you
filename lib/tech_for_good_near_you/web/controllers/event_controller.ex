@@ -4,8 +4,14 @@ defmodule TechForGoodNearYou.Web.EventController do
   alias TechForGoodNearYou.{MeetUps, Web.LatLon}
 
   def index(conn, _params) do
-    events = MeetUps.list_events()
-    render(conn, "index.html", events: events)
+    approved_events = MeetUps.list_approved_events()
+    events_waiting_approval = MeetUps.list_events_waiting_approval()
+    render(
+      conn,
+      "index.html",
+      approved_events: approved_events,
+      events_waiting_approval: events_waiting_approval
+    )
   end
 
   def new(conn, _params) do
@@ -87,7 +93,7 @@ defmodule TechForGoodNearYou.Web.EventController do
   end
 
   def custom_events(conn, _params) do
-    events = MeetUps.list_future_events()
+    events = MeetUps.list_approved_events()
     render conn, "events.json", %{events: events}
   end
 
@@ -100,7 +106,7 @@ defmodule TechForGoodNearYou.Web.EventController do
     with {:ok, _changeset} <- MeetUps.validate_postcode(event_params),
          {:ok, lat_lon} <- LatLon.get_lat_lon(event_params["postcode"]),
          event_params = Map.merge(event_params, lat_lon),
-         {:ok, event} <- MeetUps.create_event(event_params)
+         {:ok, _event} <- MeetUps.create_event(event_params)
     do
       conn
       |> redirect(to: event_path(conn, :submit_event_confirmation))
@@ -116,5 +122,20 @@ defmodule TechForGoodNearYou.Web.EventController do
 
   def submit_event_confirmation(conn, _params) do
     render(conn, "confirmation.html")
+  end
+
+  def approve_event(conn, %{"id" => id}) do
+    event = MeetUps.get_event!(id)
+
+    case MeetUps.update_event(event, %{approved: true}) do
+      {:ok, _event} ->
+        conn
+        |> put_flash(:info, "The event has been approved")
+        |> redirect(to: event_path(conn, :index))
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "There was a problem updating the event")
+        |> redirect(to: event_path(conn, :index))
+    end
   end
 end

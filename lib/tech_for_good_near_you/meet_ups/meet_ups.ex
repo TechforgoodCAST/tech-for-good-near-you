@@ -30,8 +30,20 @@ defmodule TechForGoodNearYou.MeetUps do
       [%Event{}, ...]
 
   """
-  def list_future_events do
-    query = from e in Event, where: e.time > from_now(0, "day")
+
+  def list_approved_events do
+    query = from e in Event,
+              where: e.time > from_now(0, "second"),
+              where: e.approved == true
+
+    Repo.all(query)
+  end
+
+  def list_events_waiting_approval do
+    query = from e in Event,
+              where: e.time > from_now(0, "second"),
+              where: e.approved == false
+
     Repo.all(query)
   end
 
