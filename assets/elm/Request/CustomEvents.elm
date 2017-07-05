@@ -1,6 +1,6 @@
 module Request.CustomEvents exposing (..)
 
-import Data.Events exposing (addDistanceToEvents, sortEventsByDate)
+import Data.Events exposing (addDistanceToEvents)
 import Date exposing (..)
 import Http
 import Json.Decode as Json exposing (..)
