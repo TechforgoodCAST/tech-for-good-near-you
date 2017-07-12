@@ -6,15 +6,24 @@ An app to help users find `Tech for good` events. Events will be filterable by d
 
 ## Why
 
-Currently `Tech for good` events are publicised in a range of mediums such as Twitter, MeetUp and Eventbrite. This makes it hard for interested people to get informed about all the events going on. The app will collate all of these events and display them in a clean, intuitive interface.
+Currently `Tech for good` events are publicised in a range of mediums such as Twitter, MeetUp and Eventbrite. This makes it hard for interested people to get informed about all the events going on.
 
 ## How
 
-The event data will come primarily from the Eventbrite and Meetup APIs. The technologies will be -
+Event data is pulled in from the Meetup API and a collection of user submitted events. The app combines all the event data and displays events in a clean, intuitive interface.
 
-* Elm
-* Phoenix
-* Tachyons
+Users can enter their postcode or get their current location, select which date range they'd like to see events from and then see a list of all the events near them plus a map showing where these events are.
+
+The app is built with:
+
+* Elm - (frontend)
+* Tachyons - (frontend)
+* Elixir / Phoenix - (backend)
+
+
+## Submit your event
+
+visit https://tech-for-good-near-you.herokuapp.com/user-event/new and add your event, our moderators will look over the events and approve them to be displayed.
 
 
 ### Icon Credits
