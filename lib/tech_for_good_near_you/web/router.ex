@@ -27,9 +27,9 @@ defmodule TechForGoodNearYou.Web.Router do
   scope "/user-event", TechForGoodNearYou.Web do
     pipe_through [:browser, :admin_layout]
 
-    get "/new",EventController, :submit_event_new
-    post "/create", EventController, :submit_event_create
-    get "/confirmation", EventController, :submit_event_confirmation
+    get "/new",EventController, :user_event_new
+    post "/create", EventController, :user_event_create
+    get "/confirmation", EventController, :user_event_confirmation
   end
 
   scope "/login", TechForGoodNearYou.Web do
