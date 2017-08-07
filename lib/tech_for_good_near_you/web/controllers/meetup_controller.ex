@@ -32,7 +32,8 @@ defmodule TechForGoodNearYou.Web.MeetupController do
     "20791546",
     "20232146",
     "18509845",
-    "22894458"
+    "22894458",
+    "20232146"
   ]
 
   def index(conn, _params) do
