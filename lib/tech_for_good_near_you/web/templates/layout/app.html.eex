@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -19,7 +20,6 @@
         boot: true
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmUAx0BR-nEKDDUnf7wWqXO7E03HzNJoo"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
