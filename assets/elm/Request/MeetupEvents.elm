@@ -8,11 +8,6 @@ import Model exposing (..)
 import RemoteData exposing (WebData)
 
 
-handleReceiveMeetupEvents : WebData (List Event) -> Model -> Model
-handleReceiveMeetupEvents meetupEvents model =
-    { model | meetupEvents = meetupEvents }
-
-
 getMeetupEvents : Cmd Msg
 getMeetupEvents =
     Http.get "api/meetup-events" (list decodeEvent)

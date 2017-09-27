@@ -10,8 +10,8 @@ import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, 
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
 import Model exposing (..)
 import RemoteData exposing (RemoteData(..))
-import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
-import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
+import Request.CustomEvents exposing (getCustomEvents)
+import Request.MeetupEvents exposing (getMeetupEvents)
 import Request.Postcode exposing (handleGetLatLngFromPostcode, handleRecievePostcodeLatLng)
 import Update.Extra exposing (addCmd, andThen)
 import Window exposing (resizes)
@@ -87,11 +87,11 @@ update msg model =
                 |> andThen update UpdateMap
 
         ReceiveMeetupEvents events ->
-            (handleReceiveMeetupEvents events model ! [])
+            ({ model | meetupEvents = events } ! [])
                 |> andThen update UpdateMap
 
         ReceiveCustomEvents events ->
-            (handleReceiveCustomEvents events model ! [])
+            ({ model | customEvents = events } ! [])
                 |> andThen update UpdateMap
 
         FetchEvents ->

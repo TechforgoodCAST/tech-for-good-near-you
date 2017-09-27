@@ -8,11 +8,6 @@ import Model exposing (..)
 import RemoteData exposing (WebData)
 
 
-handleReceiveCustomEvents : WebData (List Event) -> Model -> Model
-handleReceiveCustomEvents customEvents model =
-    { model | customEvents = customEvents }
-
-
 getCustomEvents : Cmd Msg
 getCustomEvents =
     Http.get "api/custom-events" (field "data" (list decodeCustomEvent))
