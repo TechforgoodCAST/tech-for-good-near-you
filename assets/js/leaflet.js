@@ -18,10 +18,13 @@ function initMap ({ marker, mapId }) {
 
 
 function makeMarker (options) {
+  var m = new L.marker([options.lat, options.lng])
+               .bindPopup(makeDescription(options))
+               .addTo(_markerCluster)
   return {
     url: options.url,
     title: options.title,
-    instance: new L.marker([options.lat, options.lng]).addTo(_markerCluster)
+    instance: m
   }
 }
 
@@ -57,7 +60,7 @@ function addMarkerListener (elmApp, _marker) {
   _marker.instance.addEventListener('click', function () {
     sendScrollDistanceToElm(elmApp, _marker)
     openElmMobileBottomNav(elmApp)
-    _marker.instance.bindPopup(makeDescription(_marker)).openPopup()
+    _marker.instance.openPopup()
   })
 }
 
@@ -107,7 +110,7 @@ function centerEvent (event) {
     : {}
 
   _map.setView(event, 16)
-  selectedMarker.bindPopup(makeDescription(event)).openPopup()
+  selectedMarker.openPopup()
 }
 
 function resizeMap () {
