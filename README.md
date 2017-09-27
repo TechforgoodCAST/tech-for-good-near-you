@@ -29,3 +29,20 @@ visit https://tech-for-good-near-you.herokuapp.com/user-event/new and add your e
 ### Icon Credits
 
 credits for icons used from [The Noun Project](https://thenounproject.com/) can be found in the [wiki](https://github.com/TechforgoodCAST/tech-for-good-near-you/wiki/Icon-credits)
+
+
+## Get up and running
+
+1. Clone the repository
+2. Install [phoenix](https://hexdocs.pm/phoenix/installation.html)
+3. Get dependencies `mix deps.get`
+4. Compile dependencies `mix deps.compile`
+    - [Guidance for problems installing `comeonin` with Windows ](https://github.com/riverrun/comeonin/wiki/Requirements#windows)
+5. Set up database `mix ecto.create`
+6. Set up database tables `mix ecto.migrate`
+7. Go to `assets/` directory (`cd assets`)
+8. Set up node modules `npm install`
+9. Set up elm packages `elm-packages install`
+10. Get back to root directory (`cd ..`)
+11. run server `mix phx.server`
+12. Create admin account ?

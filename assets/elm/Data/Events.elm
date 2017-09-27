@@ -1,7 +1,6 @@
 module Data.Events exposing (..)
 
 import Data.Dates exposing (filterByDate)
-import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
 import Date.Extra
 import Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData, isFailure, isLoading)
@@ -21,16 +20,6 @@ handleGoToSearchResults model =
         | view = Results
         , mapVisible = True
     }
-
-
-addDistanceToEvents : Model -> WebData (List Event) -> WebData (List Event)
-addDistanceToEvents model events =
-    case model.selectedUserLocation of
-        Nothing ->
-            events
-
-        Just c1 ->
-            events |> RemoteData.map (List.map (calculateEventDistance c1))
 
 
 stillLoading : Model -> Bool
@@ -60,7 +49,7 @@ filterEvents : Model -> WebData (List Event)
 filterEvents model =
     model
         |> allEvents
-        |> RemoteData.map (filterByDate model >> filterByDistance model)
+        |> RemoteData.map (filterByDate model)
 
 
 numberVisibleEvents : Model -> Int
@@ -81,11 +70,6 @@ allEvents model =
 sortEventsByDate : List Event -> List Event
 sortEventsByDate =
     List.sortWith (\e1 e2 -> Date.Extra.compare e1.time e2.time)
-
-
-calculateEventDistance : Coords -> Event -> Event
-calculateEventDistance c1 event =
-    { event | distance = latLngToMiles c1 (eventLatLng event) }
 
 
 eventLatLng : Event -> Coords
