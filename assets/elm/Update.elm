@@ -4,7 +4,6 @@ import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
 import Data.Events exposing (handleFetchEvents, handleGoToSearchResults)
 import Data.Location.Geo exposing (getGeolocation, handleGeolocation, setUserLocation)
 import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
-import Data.Location.Radius exposing (handleSearchRadius)
 import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMapSize, updateFilteredMarkers, updateMap)
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
@@ -39,7 +38,6 @@ initialModel =
     , currentDate = Nothing
     , mapVisible = False
     , view = MyLocation
-    , searchRadius = 300
     , topNavOpen = False
     , mapId = "t4g-google-map"
     , eventsContainerId = "events-container"
@@ -108,10 +106,6 @@ update msg model =
 
         RecievePostcodeLatLng remoteData ->
             handleRecievePostcodeLatLng remoteData model ! []
-
-        SetSearchRadius radius ->
-            (handleSearchRadius radius model ! [])
-                |> andThen update FilteredMarkers
 
         MobileDateVisible bool ->
             { model | mobileDateOptionsVisible = bool } ! []

@@ -20,7 +20,6 @@ type alias Model =
     , mapVisible : Bool
     , topNavOpen : Bool
     , view : View
-    , searchRadius : Int
     , mapId : String
     , eventsContainerId : String
     , window : Window.Size
@@ -109,7 +108,6 @@ type Msg
     | CenterEvent Marker
     | FetchEvents
     | FitBounds
-    | SetSearchRadius String
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool

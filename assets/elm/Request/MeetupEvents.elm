@@ -1,6 +1,5 @@
 module Request.MeetupEvents exposing (..)
 
-import Data.Events exposing (addDistanceToEvents)
 import Date exposing (..)
 import Http
 import Json.Decode as Json exposing (..)
@@ -11,7 +10,7 @@ import RemoteData exposing (WebData)
 
 handleReceiveMeetupEvents : WebData (List Event) -> Model -> Model
 handleReceiveMeetupEvents meetupEvents model =
-    { model | meetupEvents = addDistanceToEvents model meetupEvents }
+    { model | meetupEvents = meetupEvents }
 
 
 getMeetupEvents : Cmd Msg

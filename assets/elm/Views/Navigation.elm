@@ -191,7 +191,6 @@ navbarOptions model =
     div [ class "pt1 pb3-ns t-5 all ease bg-green" ]
         [ dateSideOptions model
         , eventsNearMe model
-        , distanceOptions model
         ]
 
 
