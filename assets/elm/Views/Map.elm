@@ -12,12 +12,14 @@ import Model exposing (..)
 renderMap : Model -> Html Msg
 renderMap model =
     if model.mapVisible then
-        div
-            [ id model.mapId
-            , class "w-100"
-            , style [ ( "height", px <| model.window.height // 2 ) ]
+        div 
+            [ class <| classes [ "flex w-100 z-5", mapPositioning model ] 
+            , style [ ( "height", px <| mapHeight model ) ] 
+            , handleHideMobileDateOptions model 
+            ] 
+            [ div [ class "ml6-ns pl4-ns" ] [] 
+            , div [ id model.mapId, class mapBaseClasses ] [] 
             ]
-            []
     else
         mapPlaceholder model
 
@@ -59,4 +61,4 @@ mapPositioning model =
 
 mapBaseClasses : String
 mapBaseClasses =
-    "fade-in bg-light-gray w-100"
+    "fade-in bg-light-gray w-100 leaflet-container"

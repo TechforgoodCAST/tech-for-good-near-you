@@ -1,49 +1,32 @@
 import { sendScrollDistanceToElm, openElmMobileBottomNav } from './interop.js'
 
-const google = window.google
+const L = require('leaflet')
+require('leaflet.markercluster')
+require('leaflet-providers')
+
 let _map
-let infoWindow
-let mapDiv
+let _markerCluster
 let userPosition
 let visibleMarkers = []
 
 function initMap ({ marker, mapId }) {
-  var mapOptions = {
-    zoom: 10,
-    center: {
-      lat: marker.lat,
-      lng: marker.lng
-    },
-    gestureHandling: 'greedy',
-    mapTypeControl: false,
-    streetViewControl: false
-  }
-
-  mapDiv = document.getElementById(mapId)
-  _map = new google.maps.Map(mapDiv, mapOptions)
-  infoWindow = new google.maps.InfoWindow()
+  _map = L.map(mapId).setView([marker.lat, marker.lng], 10)
+  L.tileLayer.provider('Stamen.Toner').addTo(_map)
+  _markerCluster = L.markerClusterGroup()
+  _markerCluster.addTo(_map)
 }
 
 
 function makeMarker (options) {
-  var _options = {
-    map: _map,
-    animation: google.maps.Animation.DROP,
-    position: {
-      lat: options.lat,
-      lng: options.lng
-    }
-  }
-
   return {
     url: options.url,
     title: options.title,
-    instance: new google.maps.Marker(_options)
+    instance: new L.marker([options.lat, options.lng]).addTo(_markerCluster)
   }
 }
 
 function clearVisibleMarkers () {
-  visibleMarkers.map(m => m.instance.setMap(null))
+  _markerCluster.clearLayers()
   visibleMarkers = []
 }
 
@@ -58,8 +41,8 @@ function makeDescription (_marker) {
 }
 
 function _fitBounds (_markers) {
-  var bounds = new google.maps.LatLngBounds()
-  _markers.forEach(m => bounds.extend(m.instance.getPosition()))
+  var bounds = new L.latLngBounds()
+  _markers.forEach(m => bounds.extend(m.instance.getLatLng()))
   _map.fitBounds(bounds)
 }
 
@@ -71,11 +54,10 @@ function fitBounds () {
 }
 
 function addMarkerListener (elmApp, _marker) {
-  google.maps.event.addListener(_marker.instance, 'click', function () {
+  _marker.instance.addEventListener('click', function () {
     sendScrollDistanceToElm(elmApp, _marker)
     openElmMobileBottomNav(elmApp)
-    infoWindow.setContent(makeDescription(_marker))
-    infoWindow.open(_map, this)
+    _marker.instance.bindPopup(makeDescription(_marker)).openPopup()
   })
 }
 
@@ -101,22 +83,18 @@ function updateMarkers (elmApp) {
 
 function updateUserLocation (coords) {
   var _options = {
-    map: _map,
-    icon: 'https://cloud.githubusercontent.com/assets/14013616/23849995/8989fe0a-07d5-11e7-9e81-c3786679d312.png',
-    position: {
-      lat: coords.lat,
-      lng: coords.lng
-    }
+    icon: new L.Icon({
+      iconUrl: 'https://cloud.githubusercontent.com/assets/14013616/23849995/8989fe0a-07d5-11e7-9e81-c3786679d312.png'
+    })
   }
   if (userPosition) {
     userPosition.setMap(null)
   }
-  userPosition = new google.maps.Marker(_options)
+  userPosition = new L.Marker([coords.lat, coords.lng], _options).addTo(_map)
 }
 
 function centerMapOnUser () {
-  _map.setCenter(userPosition.getPosition())
-  _map.setZoom(13)
+  _map.setView(userPosition.getLatLng(), 13)
 }
 
 function centerEvent (event) {
@@ -128,14 +106,12 @@ function centerEvent (event) {
     ? selectedMarkerArr[0].instance
     : {}
 
-  _map.setCenter(event)
-  _map.setZoom(16)
-  infoWindow.setContent(makeDescription(event))
-  infoWindow.open(_map, selectedMarker)
+  _map.setView(event, 16)
+  selectedMarker.bindPopup(makeDescription(event)).openPopup()
 }
 
 function resizeMap () {
-  google.maps.event.trigger(_map, 'resize')
+  _map.invalidateSize()
 }
 
 module.exports = {
