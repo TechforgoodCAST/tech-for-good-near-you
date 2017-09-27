@@ -12,13 +12,13 @@ import Model exposing (..)
 renderMap : Model -> Html Msg
 renderMap model =
     if model.mapVisible then
-        div 
-            [ class <| classes [ "flex w-100 z-5", mapPositioning model ] 
-            , style [ ( "height", px <| mapHeight model ) ] 
-            , handleHideMobileDateOptions model 
-            ] 
-            [ div [ class "ml6-ns pl4-ns" ] [] 
-            , div [ id model.mapId, class mapBaseClasses ] [] 
+        div
+            [ class <| classes [ "flex w-100 z-5", mapPositioning model ]
+            , style [ ( "height", px <| mapHeight model ) ]
+            , handleHideMobileDateOptions model
+            ]
+            [ div [ class "ml6-ns pl4-ns" ] []
+            , div [ id model.mapId, class mapBaseClasses ] []
             ]
     else
         mapPlaceholder model

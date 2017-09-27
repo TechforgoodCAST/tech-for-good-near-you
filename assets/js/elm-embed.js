@@ -8,13 +8,10 @@ import {
   resizeMap
 } from './leaflet'
 
-
-var _map
-
 function init (Elm) {
   var node = document.getElementById('elm-app')
   var app = Elm.Main.embed(node)
-  
+
   app.ports.initMap.subscribe(initMap)
   app.ports.updateMarkers.subscribe(updateMarkers(app))
   app.ports.updateUserLocation.subscribe(updateUserLocation)
