@@ -61,4 +61,4 @@ mapPositioning model =
 
 mapBaseClasses : String
 mapBaseClasses =
-    "fade-in bg-light-gray w-100"
+    "fade-in bg-light-gray w-100 leaflet-container"

@@ -6,7 +6,7 @@ import {
   centerEvent,
   fitBounds,
   resizeMap
-} from './gmap'
+} from './leaflet'
 
 function init (Elm) {
   var node = document.getElementById('elm-app')
