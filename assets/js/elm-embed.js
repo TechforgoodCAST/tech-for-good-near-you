@@ -18,7 +18,7 @@ function init (Elm) {
   app.ports.centerMapOnUser_.subscribe(centerMapOnUser)
   app.ports.centerEvent.subscribe(centerEvent)
   app.ports.fitBounds_.subscribe(fitBounds)
-  app.ports.resizeMap_.subscribe(function () {})
+  app.ports.resizeMap_.subscribe(resizeMap)
 }
 
 module.exports = { init }
