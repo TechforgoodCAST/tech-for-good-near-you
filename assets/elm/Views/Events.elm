@@ -28,6 +28,8 @@ eventsResultsStates : Model -> Html Msg
 eventsResultsStates model =
     if bothEventRequestsFailed model then
         eventsError model
+    else if stillLoading model then
+        div [ class "db center green w3 mt6" ] [ text "Loading..." ]
     else if numberVisibleEvents model == 0 && not (stillLoading model) then
         selectOtherDates model
     else
