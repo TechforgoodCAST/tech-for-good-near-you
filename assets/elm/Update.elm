@@ -24,21 +24,23 @@ init =
         ! [ getCurrentDate
           , initMapAtLondon initialModel
           , getWindowSize
+          , getMeetupEvents
+          , getCustomEvents
           ]
 
 
 initialModel : Model
 initialModel =
     { postcode = NotEntered
-    , selectedDate = NoDate
-    , meetupEvents = NotAsked
-    , customEvents = NotAsked
+    , selectedDate = All
+    , meetupEvents = Loading
+    , customEvents = Loading
     , userPostcodeLocation = NotAsked
     , userGeolocation = NotAsked
     , selectedUserLocation = Nothing
     , currentDate = Nothing
-    , mapVisible = False
-    , view = MyLocation
+    , mapVisible = True
+    , view = Results
     , searchRadius = 300
     , topNavOpen = False
     , mapId = "t4g-google-map"
