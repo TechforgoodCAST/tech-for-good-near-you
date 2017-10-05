@@ -6,7 +6,7 @@ defmodule TechForGoodNearYou.MeetUpsTest do
   describe "events" do
     alias TechForGoodNearYou.MeetUps.Event
 
-    @valid_attrs %{address: "some address", group_name: "some group_name", name: "some name", postcode: "sw99ng", url: "www.event.com", time: ~N[2010-04-17 14:00:00.000000], venue_name: "some venue_name"}
+    @valid_attrs %{address: "some address", group_name: "some group_name", name: "some name", postcode: "sw99ng", url: "www.event.com", time: ~N[2010-04-17 14:00:00.000000], venue_name: "some venue_name", approved: false}
     @update_attrs %{address: "some updated address", group_name: "some updated group_name", name: "some updated name", postcode: "e20sy", url: "www.event.com", time: ~N[2011-05-18 15:01:01.000000], venue_name: "some updated venue_name"}
     @invalid_attrs %{address: nil, group_name: nil, name: nil, postcode: nil, time: nil, venue_name: nil}
 
