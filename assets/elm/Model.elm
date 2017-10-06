@@ -102,7 +102,7 @@ type Msg
     | ReceiveGeolocation GeolocationData
     | CurrentDate Time
     | SetView View
-    | NavigateToResults
+      -- | NavigateToResults
     | RecievePostcodeLatLng (WebData Coords)
     | GoToDates
     | CenterMapOnUser

@@ -20,25 +20,27 @@ import Window exposing (resizes)
 
 init : ( Model, Cmd Msg )
 init =
-    initialModel
+    (initialModel
         ! [ getCurrentDate
           , initMapAtLondon initialModel
           , getWindowSize
           ]
+    )
+        |> andThen update FetchEvents
 
 
 initialModel : Model
 initialModel =
     { postcode = NotEntered
-    , selectedDate = NoDate
+    , selectedDate = All
     , meetupEvents = NotAsked
     , customEvents = NotAsked
     , userPostcodeLocation = NotAsked
     , userGeolocation = NotAsked
     , selectedUserLocation = Nothing
     , currentDate = Nothing
-    , mapVisible = False
-    , view = MyLocation
+    , mapVisible = True
+    , view = Results
     , searchRadius = 300
     , topNavOpen = False
     , mapId = "t4g-google-map"
@@ -71,9 +73,12 @@ update msg model =
             { model | userGeolocation = Loading } ! [ getGeolocation ]
 
         ReceiveGeolocation (Success location) ->
-            ((model |> handleGeolocation (Success location)) ! [])
-                |> andThen update (SetView MyDates)
-                |> andThen update FetchEvents
+            let
+                newModel =
+                    model |> handleGeolocation (Success location)
+            in
+                (newModel ! [ setUserLocation newModel.selectedUserLocation ])
+                    |> andThen update CenterMapOnUser
 
         ReceiveGeolocation remoteData ->
             (model |> handleGeolocation remoteData) ! []
@@ -84,10 +89,9 @@ update msg model =
         SetView view ->
             { model | view = view } ! []
 
-        NavigateToResults ->
-            ((model |> handleGoToSearchResults) ! [ setUserLocation model.selectedUserLocation ])
-                |> andThen update UpdateMap
-
+        -- NavigateToResults ->
+        --     ((model |> handleGoToSearchResults) ! [ setUserLocation model.selectedUserLocation ])
+        --         |> andThen update UpdateMap
         ReceiveMeetupEvents events ->
             (handleReceiveMeetupEvents events model ! [])
                 |> andThen update UpdateMap

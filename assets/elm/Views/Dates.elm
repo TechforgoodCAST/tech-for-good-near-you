@@ -18,16 +18,17 @@ dates model =
     div [ class "mt5-ns tc fade-in" ]
         [ h3 [ class "green" ] [ text "See events from:" ]
         , dateMainOptions model
-        , showNext model
+          -- , showNext model
         ]
 
 
-showNext : Model -> Html Msg
-showNext { selectedDate } =
-    if selectedDate /= NoDate then
-        p [ class "gold tracked mt4 pointer no-select fade-in", onClick NavigateToResults ] [ text "FIND EVENTS" ]
-    else
-        span [] []
+
+-- showNext : Model -> Html Msg
+-- showNext { selectedDate } =
+--     if selectedDate /= NoDate then
+--         p [ class "gold tracked mt4 pointer no-select fade-in", onClick NavigateToResults ] [ text "FIND EVENTS" ]
+--     else
+--         span [] []
 
 
 dateBottomBarOptions : Model -> Html Msg

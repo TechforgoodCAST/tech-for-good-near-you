@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes as Atr exposing (..)
 import Html.Events exposing (..)
 import Model exposing (..)
+import RemoteData exposing (..)
 
 
 distanceOptions : Model -> Html Msg
@@ -29,10 +30,20 @@ distanceOptions model =
         ]
 
 
+locationMsg : GeolocationData -> Msg
+locationMsg location =
+    case location of
+        Success a ->
+            CenterMapOnUser
+
+        _ ->
+            GetGeolocation
+
+
 centerMap : Model -> Html Msg
 centerMap model =
     div [ class crosshairClasses ]
-        [ div [ class "center", onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ] ]
+        [ div [ class "center", onClick <| locationMsg model.userGeolocation ] [ responsiveImg "/images/crosshair-white.svg" ] ]
 
 
 crosshairClasses : String

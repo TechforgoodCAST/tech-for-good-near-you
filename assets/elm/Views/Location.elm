@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Model exposing (..)
 import RemoteData exposing (RemoteData(..), isLoading)
+import Views.Distance exposing (locationMsg)
 
 
 location : Model -> Html Msg
@@ -43,7 +44,7 @@ locationCrosshair model =
 
 centerCrosshairWhite : Model -> Html Msg
 centerCrosshairWhite model =
-    div [ onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ]
+    div [ onClick <| locationMsg model.userGeolocation ] [ responsiveImg "/images/crosshair-white.svg" ]
 
 
 handleLocationFetch : Model -> Html Msg
