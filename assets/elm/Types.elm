@@ -2,7 +2,7 @@ module Types exposing (..)
 
 import Date exposing (..)
 import Dom
-import Geolocation exposing (Error, Location)
+import Geolocation
 import RemoteData exposing (WebData, RemoteData)
 import Time exposing (..)
 import Window
@@ -15,11 +15,9 @@ type alias Model =
     , customEvents : WebData (List Event)
     , userGeolocation : GeolocationData
     , userPostcodeLocation : WebData Coords
-    , selectedUserLocation : Maybe Coords
+    , selectedLocation : Coords
     , currentDate : Maybe Date
-    , mapVisible : Bool
     , topNavOpen : Bool
-    , view : View
     , searchRadius : Int
     , mapId : String
     , eventsContainerId : String
@@ -49,12 +47,6 @@ type alias Event =
     }
 
 
-type View
-    = MyLocation
-    | MyDates
-    | Results
-
-
 type Postcode
     = NotEntered
     | Invalid String
@@ -62,8 +54,7 @@ type Postcode
 
 
 type DateRange
-    = NoDate
-    | Today
+    = Today
     | ThisWeek
     | ThisMonth
     | All
@@ -90,7 +81,7 @@ type alias Marker =
 
 
 type alias GeolocationData =
-    RemoteData Error Location
+    RemoteData Geolocation.Error Geolocation.Location
 
 
 type Msg
@@ -101,21 +92,16 @@ type Msg
     | GetGeolocation
     | ReceiveGeolocation GeolocationData
     | CurrentDate Time
-    | SetView View
-    | NavigateToResults
     | RecievePostcodeLatLng (WebData Coords)
-    | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
     | FetchEvents
     | FitBounds
-    | SetSearchRadius String
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool
     | UpdateMap
     | ResetMobileNav
-    | Restart
     | FilteredMarkers
     | RefreshMapSize
     | WindowSize Window.Size

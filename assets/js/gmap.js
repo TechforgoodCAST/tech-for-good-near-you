@@ -115,8 +115,10 @@ function updateUserLocation (coords) {
 }
 
 function centerMapOnUser () {
-  _map.setCenter(userPosition.getPosition())
-  _map.setZoom(13)
+  if (userPosition) {
+    _map.setCenter(userPosition.getPosition())
+    _map.setZoom(13)
+  }
 }
 
 function centerEvent (event) {

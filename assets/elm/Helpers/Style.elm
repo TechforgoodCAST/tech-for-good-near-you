@@ -1,11 +1,18 @@
 module Helpers.Style exposing (..)
 
+import Html exposing (Attribute)
+import Html.Attributes exposing (class, style)
 import Types exposing (..)
 
 
-classes : List String -> String
+classes : List String -> Attribute msg
 classes =
-    String.join " "
+    class << String.join " "
+
+
+styles : List (List Style) -> Attribute msg
+styles =
+    style << List.concat
 
 
 mobileOnly : String
@@ -106,26 +113,6 @@ mobileFullHeight : Model -> Style
 mobileFullHeight ({ window, mobileNav } as model) =
     ( "height", px <| window.height - mobileNav.topHeight - mobileNav.bottomHeight )
         |> ifMobile model
-
-
-showAtResults : Model -> ( String, Bool )
-showAtResults =
-    showAt [ Results ]
-
-
-showAt : List View -> Model -> ( String, Bool )
-showAt views model =
-    ( "no-select o-0", not <| isVisible model views )
-
-
-isVisible : Model -> List View -> Bool
-isVisible model =
-    List.foldr (isCurrentView model) False
-
-
-isCurrentView : Model -> View -> Bool -> Bool
-isCurrentView model view acc =
-    model.view == view || acc
 
 
 emptyStyle : Style

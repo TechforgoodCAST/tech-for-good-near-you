@@ -2,14 +2,15 @@ module View exposing (..)
 
 import Html exposing (..)
 import Types exposing (..)
-import Views.Layout exposing (layout)
+import Views.Events exposing (events)
+import Views.Layout exposing (layout, loadingScreen)
 import Views.Map exposing (renderMap)
-import Views.Router exposing (router)
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ renderMap model
-        , layout model <| router model
+        [ loadingScreen model
+        , renderMap model
+        , layout model <| events model
         ]

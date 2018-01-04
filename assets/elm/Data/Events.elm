@@ -15,22 +15,9 @@ handleFetchEvents model =
     }
 
 
-handleGoToSearchResults : Model -> Model
-handleGoToSearchResults model =
-    { model
-        | view = Results
-        , mapVisible = True
-    }
-
-
 addDistanceToEvents : Model -> WebData (List Event) -> WebData (List Event)
 addDistanceToEvents model events =
-    case model.selectedUserLocation of
-        Nothing ->
-            events
-
-        Just c1 ->
-            events |> RemoteData.map (List.map (calculateEventDistance c1))
+    RemoteData.map (List.map <| calculateEventDistance model.selectedLocation) events
 
 
 stillLoading : Model -> Bool
@@ -51,7 +38,7 @@ someEventsRetrieved model =
 nonEmptyEvents : WebData (List Event) -> Bool
 nonEmptyEvents events =
     events
-        |> RemoteData.map (\evts -> (List.length evts) > 0)
+        |> RemoteData.map (\evts -> List.length evts > 0)
         |> RemoteData.toMaybe
         |> Maybe.withDefault False
 

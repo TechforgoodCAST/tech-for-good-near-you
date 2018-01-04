@@ -1,6 +1,5 @@
 module Data.Location.Geo exposing (..)
 
-import Data.Ports exposing (updateUserLocation)
 import Geolocation exposing (Location, Options)
 import Types exposing (..)
 import RemoteData exposing (RemoteData(..))
@@ -12,7 +11,7 @@ handleGeolocation locationData model =
         Success location ->
             { model
                 | userGeolocation = locationData
-                , selectedUserLocation = Just <| getCoords location
+                , selectedLocation = getCoords location
             }
 
         _ ->
@@ -39,13 +38,3 @@ getCoords location =
     { lat = location.latitude
     , lng = location.longitude
     }
-
-
-setUserLocation : Maybe Coords -> Cmd Msg
-setUserLocation userLocation =
-    case userLocation of
-        Just location ->
-            updateUserLocation location
-
-        Nothing ->
-            Cmd.none

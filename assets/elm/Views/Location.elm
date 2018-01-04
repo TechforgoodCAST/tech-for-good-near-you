@@ -1,49 +1,47 @@
 module Views.Location exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.HtmlEvents exposing (onEnter)
+import Helpers.Style exposing (px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Types exposing (..)
 import RemoteData exposing (RemoteData(..), isLoading)
+import Types exposing (..)
 
 
-location : Model -> Html Msg
-location model =
-    div
-        [ class "tc w-100 mt5-ns fade-in" ]
-        [ h2 [ class "green mt0 mt4-ns ph3" ] [ text "Find Tech for Good Events near you" ]
-        , handleUserLocationError model
-        , handleLocationFetch model
+getMyLocation : Model -> Html Msg
+getMyLocation model =
+    div [ class "white t-3 all ease mt4" ]
+        [ p [] [ text <| locationText model.userGeolocation ]
+        , div
+            [ class "spin center"
+            , style [ ( "height", px 50 ), ( "width", px 50 ) ]
+            ]
+            [ geolocationCrosshairWhite ]
         ]
 
 
-handleUserLocationError : Model -> Html Msg
-handleUserLocationError model =
-    case model.userGeolocation of
+locationText : GeolocationData -> String
+locationText userGeolocation =
+    case userGeolocation of
+        Loading ->
+            "finding you ..."
+
         Failure _ ->
-            div [ class "gold mv5" ]
-                [ p [] [ text "Could not get your location" ]
-                , p [] [ text "Try entering your postcode" ]
-                ]
+            "couldn't get your location"
 
         _ ->
-            locationCrosshair model
+            "get my location"
 
 
-locationCrosshair : Model -> Html Msg
-locationCrosshair model =
-    div []
-        [ p [ class "green f6 mt5" ] [ text "Get my location" ]
-        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ responsiveImg "/images/crosshair.svg" ]
-        , p [ class "green mv4 mv5-ns", classList [ ( "dn", isLoading model.userGeolocation ) ] ] [ text "-- OR --" ]
-        ]
-
-
-centerCrosshairWhite : Model -> Html Msg
-centerCrosshairWhite model =
+centerCrosshairWhite : Html Msg
+centerCrosshairWhite =
     div [ onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ]
+
+
+geolocationCrosshairWhite : Html Msg
+geolocationCrosshairWhite =
+    div [ onClick GetGeolocation ] [ responsiveImg "/images/crosshair-white.svg" ]
 
 
 handleLocationFetch : Model -> Html Msg
@@ -66,18 +64,7 @@ enterPostcode model =
     div []
         [ p [ class "green" ] [ text "Enter your postcode" ]
         , input ([ onInput UpdatePostcode ] ++ viewPostcode model.postcode) []
-        , showNext model
         ]
-
-
-showNext : Model -> Html Msg
-showNext model =
-    case model.postcode of
-        Valid _ ->
-            p [ onClick GoToDates, class "gold mt4 tracked pointer tracked fade-in" ] [ text "NEXT" ]
-
-        _ ->
-            span [] []
 
 
 viewPostcode : Postcode -> List (Attribute Msg)
@@ -87,7 +74,7 @@ viewPostcode x =
             [ placeholder "W1T4JE", class "green tc bn outline-0 f5 fw4" ]
 
         Valid postcode ->
-            [ class "green tc bn outline-0 f5 fw4", value (String.toUpper postcode), onEnter GoToDates ]
+            [ class "green tc bn outline-0 f5 fw4", value <| String.toUpper postcode ]
 
         Invalid postcode ->
-            [ class "red tc bn outline-0 f5 fw4", value (String.toUpper postcode) ]
+            [ class "red tc bn outline-0 f5 fw4", value <| String.toUpper postcode ]

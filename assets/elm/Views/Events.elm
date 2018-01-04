@@ -4,7 +4,7 @@ import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight, px, showAtResults, translateY)
+import Helpers.Style exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
@@ -44,33 +44,23 @@ eventsError model =
 
 selectOtherDates : Model -> Html Msg
 selectOtherDates model =
-    div [ class <| classes [ "green tc fade-in", desktopOnly ] ]
+    div [ classes [ "green tc fade-in", desktopOnly ] ]
         [ p [ class "fade-in f4 mt5-ns mt4" ] [ text <| noEventsInDateRange model.selectedDate ]
         , p [ class "f6" ] [ text "Choose another date" ]
         , div [ class "center mw5" ] [ dateMainOptions model ]
-        , div [ classList [ showAtResults model ], class "mt5" ] [ desktopCredit ]
+        , div [ class "mt5" ] [ desktopCredit ]
         ]
 
 
 allEvents : Model -> Html Msg
 allEvents model =
     div
-        [ class <| classes [ "ph4-ns w-100 overflow-y-scroll smooth-scroll" ]
-        , style
-            [ ( "height", px <| mapMargin model )
-            ]
+        [ classes [ "ph4-ns w-100 overflow-y-scroll smooth-scroll" ]
+        , style [ ( "height", px <| mapMargin model ) ]
         , id model.eventsContainerId
         ]
-        ((renderEvents model) ++ [ allEventsCredit model ])
-
-
-allEventsCredit : Model -> Html msg
-allEventsCredit model =
-    div
-        [ classList [ showAtResults model ]
-        , style [ ( "padding-top", px 120 ) ]
-        ]
-        [ desktopCredit ]
+    <|
+        renderEvents model
 
 
 renderEvents : Model -> List (Html Msg)
@@ -106,7 +96,7 @@ renderEvent event =
 
 whenDetails : Event -> Html Msg
 whenDetails event =
-    div [ class <| classes [ "gold", iconContainerClasses ] ]
+    div [ classes [ "gold", iconContainerClasses ] ]
         [ h3 [ class "f6" ] [ text "WHEN?" ]
         , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/calendar.svg" ]
         , p [ class "f6" ] [ text <| displayDate event.time ]
@@ -116,7 +106,7 @@ whenDetails event =
 whereDetails : Event -> Html Msg
 whereDetails event =
     div
-        [ class <| classes [ "green pointer", iconContainerClasses ]
+        [ classes [ "green pointer", iconContainerClasses ]
         , onClick <| CenterEvent (makeMarker event)
         ]
         [ h3 [ class "f6" ] [ text "WHERE?" ]
@@ -134,7 +124,7 @@ whereDetails event =
 
 whoDetails : Event -> Html Msg
 whoDetails event =
-    div [ class <| classes [ "light-red", iconContainerClasses ] ]
+    div [ classes [ "light-red", iconContainerClasses ] ]
         [ h3 [ class "f6" ] [ text "WHO?" ]
         , div [ style [ ( "width", "30px" ) ] ] [ responsiveImg "/images/group.svg" ]
         , p [ class "f6" ] [ text event.groupName ]

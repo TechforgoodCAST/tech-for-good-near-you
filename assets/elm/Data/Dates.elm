@@ -14,10 +14,7 @@ setCurrentDate currentDate model =
 
 handleSelectedDate : DateRange -> Model -> Model
 handleSelectedDate dateRange model =
-    if model.selectedDate == dateRange then
-        { model | selectedDate = NoDate }
-    else
-        { model | selectedDate = dateRange }
+    { model | selectedDate = dateRange }
 
 
 datesList : List DateRange
@@ -49,9 +46,6 @@ filterByDate { selectedDate, currentDate } =
         All ->
             allEvents
 
-        NoDate ->
-            allEvents
-
 
 allEvents : List Event -> List Event
 allEvents =
@@ -80,9 +74,6 @@ noEventsInDateRange dateRange =
         All ->
             "No events found"
 
-        NoDate ->
-            ""
-
 
 dateRangeToString : DateRange -> String
 dateRangeToString dateRange =
@@ -98,9 +89,6 @@ dateRangeToString dateRange =
 
         All ->
             "All events"
-
-        NoDate ->
-            ""
 
 
 displayDate : Date -> String

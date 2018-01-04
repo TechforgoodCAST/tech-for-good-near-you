@@ -1,33 +1,17 @@
 module Views.Dates exposing (..)
 
+import Data.Dates exposing (dateRangeToString, datesList)
+import Helpers.Style exposing (px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Types exposing (..)
-import Data.Dates exposing (datesList, dateRangeToString)
 
 
 type DateButton
     = SideBar
     | BottomBar
     | FullPage
-
-
-dates : Model -> Html Msg
-dates model =
-    div [ class "mt5-ns tc fade-in" ]
-        [ h3 [ class "green" ] [ text "See events from:" ]
-        , dateMainOptions model
-        , showNext model
-        ]
-
-
-showNext : Model -> Html Msg
-showNext { selectedDate } =
-    if selectedDate /= NoDate then
-        p [ class "gold tracked mt4 pointer no-select fade-in", onClick NavigateToResults ] [ text "FIND EVENTS" ]
-    else
-        span [] []
 
 
 dateBottomBarOptions : Model -> Html Msg
@@ -42,7 +26,7 @@ dateMainOptions model =
 
 dateSideOptions : Model -> Html Msg
 dateSideOptions model =
-    div [ class "mt3-ns" ]
+    div [ class "mt3-ns", style [ ( "width", px 120 ) ] ]
         [ p [ class "white" ] [ text "events from:" ]
         , div [] (List.map (dateButton SideBar model) datesList)
         ]

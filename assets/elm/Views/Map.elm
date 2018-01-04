@@ -11,17 +11,14 @@ import Types exposing (..)
 
 renderMap : Model -> Html Msg
 renderMap model =
-    if model.mapVisible then
-        div
-            [ class <| classes [ "flex w-100 z-5", mapPositioning model ]
-            , style [ ( "height", px <| mapHeight model ) ]
-            , handleHideMobileDateOptions model
-            ]
-            [ div [ class "ml6-ns pl4-ns" ] []
-            , div [ id model.mapId, class mapBaseClasses ] []
-            ]
-    else
-        mapPlaceholder model
+    div
+        [ classes [ "flex w-100 z-5", mapPositioning model ]
+        , style [ ( "height", px <| mapHeight model ) ]
+        , handleHideMobileDateOptions model
+        ]
+        [ div [ class "ml6-ns pl4-ns" ] []
+        , div [ id model.mapId, class mapBaseClasses ] []
+        ]
 
 
 handleHideMobileDateOptions : Model -> Attribute Msg
@@ -41,14 +38,6 @@ mapHeight ({ window, mobileNav } as model) =
             window.height - mobileNav.topHeight - mobileNav.bottomHeight
     else
         window.height // 2
-
-
-mapPlaceholder : Model -> Html msg
-mapPlaceholder model =
-    div []
-        [ div [] []
-        , div [ id model.mapId, class "dn" ] []
-        ]
 
 
 mapPositioning : Model -> String

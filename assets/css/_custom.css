@@ -11,6 +11,10 @@ body {
   user-select: none;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 .mt--4 {
   margin-top: -var(--spacing-large);
 }

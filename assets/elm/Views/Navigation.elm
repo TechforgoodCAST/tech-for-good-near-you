@@ -1,14 +1,13 @@
 module Views.Navigation exposing (..)
 
 import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (classes, desktopOnly, hideWhenShortScreen, mobileFullHeight, mobileMaxHeight, mobileOnly, px, rotateZ, showAtResults, transform, translateY)
+import Helpers.Style exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Views.Dates exposing (..)
-import Views.Distance exposing (..)
-import Views.Location exposing (centerCrosshairWhite, locationCrosshair)
+import Views.Location exposing (centerCrosshairWhite, geolocationCrosshairWhite, getMyLocation)
 
 
 topNav : Model -> Html Msg
@@ -31,7 +30,7 @@ desktopNavbar model =
     div [ class desktopOnly ]
         [ div [ class "flex justify-between white pa3 pb3 bg-green fixed h-100 w5 dib left-0 top-0 z-5" ]
             [ div []
-                [ div [ class "pointer", onClick Restart ]
+                [ div [ class "pointer" ]
                     [ logo
                     , p [ class "mt0 ml1" ] [ text "near you" ]
                     ]
@@ -50,7 +49,7 @@ techForGoodSummerDesktop : Model -> Html Msg
 techForGoodSummerDesktop model =
     googleSheetLink
         (div
-            [ class <| classes [ "w-100 ph2", hideWhenShortScreen model ] ]
+            [ classes [ "w-100 ph2", hideWhenShortScreen model ] ]
             [ responsiveImg "/images/tech-for-good-summer.png" ]
         )
 
@@ -79,7 +78,7 @@ mobileTopBar model =
             [ class "fixed z-5 bg-green white top-0 left-0 w-100 flex justify-between items-center"
             , style [ ( "height", px model.mobileNav.topHeight ) ]
             ]
-            [ div [ class "ml2 mt2 pointer flex", onClick Restart ] [ logo, p [ class "ml2" ] [ text "near you" ] ]
+            [ div [ class "ml2 mt2 pointer flex" ] [ logo, p [ class "ml2" ] [ text "near you" ] ]
             , div
                 [ style [ ( "width", "20px" ), plusIconRotation model ]
                 , class "mr3 pointer"
@@ -116,8 +115,7 @@ mobileTopBarContent model =
 mobileBottomNav : Model -> Html Msg
 mobileBottomNav model =
     div
-        [ class <| classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
-        , classList [ showAtResults model ]
+        [ classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
         , style
             [ ( "height", px model.mobileNav.bottomHeight )
             , bottomMobileNavPosition model
@@ -145,7 +143,7 @@ mobileBottomNavOptions model =
 mobileMainOptions : Model -> Html Msg
 mobileMainOptions model =
     div [ class "flex items-center justify-between w-100 ph3" ]
-        [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite model ]
+        [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite ]
         , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/clock.svg" ]
         , div [ style [ ( "width", "25px" ) ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/calendar-white.svg" ]
         ]
@@ -181,22 +179,14 @@ handleBottomNavToggle model =
         onClick <| BottomNavOpen True
 
 
-logo : Html Msg
+logo : Html msg
 logo =
     div [ class "w3 w4-ns" ] [ responsiveImg "/images/tech-for-good.png" ]
 
 
 navbarOptions : Model -> Html Msg
 navbarOptions model =
-    div [ class "pt1 pb3-ns t-5 all ease bg-green" ]
+    div [ class "pt1 pb3-ns t-5ms all ease bg-green" ]
         [ dateSideOptions model
-        , eventsNearMe model
-        ]
-
-
-eventsNearMe : Model -> Html Msg
-eventsNearMe model =
-    div [ class "white t-3 all ease mt4", classList [ showAtResults model ] ]
-        [ p [] [ text "events near me:" ]
-        , div [ class "spin w4" ] [ centerMap model ]
+        , getMyLocation model
         ]

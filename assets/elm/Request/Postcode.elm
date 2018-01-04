@@ -13,7 +13,7 @@ handleRecievePostcodeLatLng webData model =
         Success coords ->
             { model
                 | userPostcodeLocation = Success coords
-                , selectedUserLocation = Just coords
+                , selectedLocation = coords
             }
 
         _ ->

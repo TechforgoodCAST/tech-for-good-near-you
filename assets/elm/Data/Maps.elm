@@ -60,3 +60,8 @@ makeMarker e =
 centerAtLondon : Marker
 centerAtLondon =
     Marker "" "" 51.5062 0.1164
+
+
+londonCoords : Coords
+londonCoords =
+    Coords 51.5062 0.1164
