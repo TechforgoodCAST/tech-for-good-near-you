@@ -3,7 +3,7 @@ module Views.Dates exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
-import Model exposing (..)
+import Types exposing (..)
 import Data.Dates exposing (datesList, dateRangeToString)
 
 

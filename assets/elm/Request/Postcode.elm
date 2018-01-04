@@ -3,7 +3,7 @@ module Request.Postcode exposing (..)
 import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 
 

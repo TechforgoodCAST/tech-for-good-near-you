@@ -8,7 +8,7 @@ import Helpers.Style exposing (classes, desktopOnly, isMobile, mobileFullHeight,
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData)
 import Views.Dates exposing (dateMainOptions)
 import Views.Layout exposing (desktopCredit)

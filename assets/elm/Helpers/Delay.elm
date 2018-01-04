@@ -1,6 +1,6 @@
 module Helpers.Delay exposing (..)
 
-import Model exposing (..)
+import Types exposing (..)
 import Delay
 
 

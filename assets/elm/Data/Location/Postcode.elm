@@ -1,6 +1,6 @@
 module Data.Location.Postcode exposing (..)
 
-import Model exposing (..)
+import Types exposing (..)
 import Regex exposing (..)
 
 

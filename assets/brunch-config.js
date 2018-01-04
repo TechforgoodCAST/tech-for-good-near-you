@@ -60,7 +60,7 @@ exports.config = {
       ]
     },
     elmBrunch: {
-      mainModules: ['elm/Main.elm'],
+      mainModules: ['elm/App.elm'],
       outputFile: 'elm.js',
       outputFolder: 'js',
       makeParameters: ['--debug']

@@ -6,7 +6,7 @@ import Helpers.Style exposing (classes, isMobile, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Model exposing (..)
+import Types exposing (..)
 
 
 renderMap : Model -> Html Msg

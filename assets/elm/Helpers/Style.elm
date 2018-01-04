@@ -1,6 +1,6 @@
 module Helpers.Style exposing (..)
 
-import Model exposing (..)
+import Types exposing (..)
 
 
 classes : List String -> String

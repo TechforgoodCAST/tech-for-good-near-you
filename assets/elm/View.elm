@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import Html exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import Views.Layout exposing (layout)
 import Views.Map exposing (renderMap)
 import Views.Router exposing (router)

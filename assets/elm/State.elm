@@ -1,4 +1,4 @@
-module Update exposing (..)
+module State exposing (..)
 
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
 import Data.Events exposing (handleFetchEvents, handleGoToSearchResults)
@@ -9,7 +9,7 @@ import Data.Maps exposing (handleMobileBottomNavOpen, initMapAtLondon, refreshMa
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
 import Data.Ports exposing (centerEvent, centerMapOnUser, fitBounds, resizeMap, scrollToEvent)
 import Helpers.Window exposing (getWindowSize, handleScrollEventsToTop, scrollEventContainer)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData(..))
 import Request.CustomEvents exposing (getCustomEvents, handleReceiveCustomEvents)
 import Request.MeetupEvents exposing (getMeetupEvents, handleReceiveMeetupEvents)
@@ -43,16 +43,10 @@ initialModel =
     , topNavOpen = False
     , mapId = "t4g-google-map"
     , eventsContainerId = "events-container"
-    , window =
-        { width = 0
-        , height = 0
-        }
     , mobileDateOptionsVisible = False
     , bottomNavOpen = False
-    , mobileNav =
-        { topHeight = 60
-        , bottomHeight = 50
-        }
+    , window = { width = 0, height = 0 }
+    , mobileNav = { topHeight = 60, bottomHeight = 50 }
     }
 
 

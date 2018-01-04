@@ -1,6 +1,6 @@
 module Views.Router exposing (..)
 
-import Model exposing (..)
+import Types exposing (..)
 import Html exposing (..)
 import Views.Location exposing (location)
 import Views.Dates exposing (dates)

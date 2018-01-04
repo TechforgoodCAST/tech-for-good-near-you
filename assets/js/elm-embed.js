@@ -10,7 +10,7 @@ import {
 
 function init (Elm) {
   var node = document.getElementById('elm-app')
-  var app = Elm.Main.embed(node)
+  var app = Elm.App.embed(node)
 
   app.ports.initMap.subscribe(initMap)
   app.ports.updateMarkers.subscribe(updateMarkers(app))

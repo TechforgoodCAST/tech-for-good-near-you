@@ -3,7 +3,7 @@ module Helpers.Window exposing (..)
 import Data.Events exposing (someEventsRetrieved)
 import Dom.Scroll as Scroll
 import Helpers.Style exposing (isMobile)
-import Model exposing (..)
+import Types exposing (..)
 import Task
 import Window
 

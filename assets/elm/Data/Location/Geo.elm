@@ -2,7 +2,7 @@ module Data.Location.Geo exposing (..)
 
 import Data.Ports exposing (updateUserLocation)
 import Geolocation exposing (Location, Options)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData(..))
 
 

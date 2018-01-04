@@ -4,7 +4,7 @@ import Data.Events exposing (eventLat, eventLng, filterEvents)
 import Data.Ports exposing (initMap, openBottomNav, updateMarkers)
 import Helpers.Delay exposing (googleMapDelay)
 import Helpers.Style exposing (isMobile)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData)
 
 

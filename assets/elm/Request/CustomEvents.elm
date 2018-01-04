@@ -5,7 +5,7 @@ import Date exposing (..)
 import Http
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (WebData)
 
 

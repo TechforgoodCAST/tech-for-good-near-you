@@ -2,7 +2,7 @@ module Data.Dates exposing (..)
 
 import Date exposing (..)
 import Date.Extra exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import Task
 import Time exposing (..)
 

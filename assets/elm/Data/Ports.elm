@@ -11,7 +11,7 @@ port module Data.Ports
         , openBottomNav
         )
 
-import Model exposing (..)
+import Types exposing (..)
 
 
 port initMap : MapOptions -> Cmd msg

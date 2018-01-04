@@ -1,4 +1,4 @@
-module Model exposing (..)
+module Types exposing (..)
 
 import Date exposing (..)
 import Dom

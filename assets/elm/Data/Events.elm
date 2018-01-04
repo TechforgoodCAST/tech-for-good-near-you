@@ -3,7 +3,7 @@ module Data.Events exposing (..)
 import Data.Dates exposing (filterByDate)
 import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
 import Date.Extra
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData(..), WebData, isFailure, isLoading)
 
 

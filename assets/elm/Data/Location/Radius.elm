@@ -1,6 +1,6 @@
 module Data.Location.Radius exposing (..)
 
-import Model exposing (..)
+import Types exposing (..)
 
 
 handleSearchRadius : String -> Model -> Model

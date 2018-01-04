@@ -5,7 +5,7 @@ import Helpers.Style exposing (classes, desktopOnly, hideWhenShortScreen, mobile
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import Views.Dates exposing (..)
 import Views.Distance exposing (..)
 import Views.Location exposing (centerCrosshairWhite, locationCrosshair)
@@ -191,7 +191,6 @@ navbarOptions model =
     div [ class "pt1 pb3-ns t-5 all ease bg-green" ]
         [ dateSideOptions model
         , eventsNearMe model
-        , distanceOptions model
         ]
 
 

@@ -3,7 +3,7 @@ module Views.Layout exposing (..)
 import Helpers.Style exposing (anchorBottom, classes, desktopOnly, ifMobile, isMobile, mobileFullHeight, mobileMaxHeight, percentScreenHeight, showAt)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import Views.Navigation exposing (bottomNav, topNav)
 
 
