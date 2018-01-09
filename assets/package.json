@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "brunch build --production",
-    "build-elm": "elm-package install -y && elm-make elm/Main.elm --output=js/elm.js",
+    "build-elm": "elm-package install -y && elm-make elm/App.elm --output=js/elm.js",
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
