@@ -3,11 +3,5 @@ function sendScrollDistanceToElm (app, _marker) {
   app.ports.scrollToEvent.send(el.offsetTop)
 }
 
-function openElmMobileBottomNav (app) {
-  app.ports.openBottomNav.send(true)
-}
 
-module.exports = {
-  sendScrollDistanceToElm,
-  openElmMobileBottomNav
-}
+module.exports = { sendScrollDistanceToElm }

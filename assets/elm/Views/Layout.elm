@@ -55,14 +55,14 @@ loadingScreen model =
     if stillLoading model then
         loading "o-100" model
     else
-        loading "o-0 disabled t-delay-2s" model
+        loading "o-0 disabled t-delay-500ms" model
 
 
 loading : String -> Model -> Html msg
 loading extraClasses model =
     div
         [ classes
-            [ "fixed t-5ms bg-green w-100 white z-999 flex items-center justify-center h-100"
+            [ "fixed t-500ms bg-green w-100 white z-999 flex items-center justify-center h-100"
             , extraClasses
             ]
         ]

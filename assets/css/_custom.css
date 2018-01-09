@@ -27,6 +27,10 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.placeholder-white::placeholder {
+  color: white;
+}
+
 @media (--breakpoint-not-small) {
   .bg-green-ns {
     background-color: var(--green);

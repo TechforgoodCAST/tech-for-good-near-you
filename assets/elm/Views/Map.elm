@@ -1,5 +1,6 @@
 module Views.Map exposing (..)
 
+import Config
 import Data.Events exposing (filterEvents, numberVisibleEvents)
 import Helpers.Html exposing (emptyProperty)
 import Helpers.Style exposing (classes, isMobile, px)
@@ -17,7 +18,7 @@ renderMap model =
         , handleHideMobileDateOptions model
         ]
         [ div [ class "ml6-ns pl4-ns" ] []
-        , div [ id model.mapId, class mapBaseClasses ] []
+        , div [ id Config.mapId, class mapBaseClasses ] []
         ]
 
 
@@ -30,14 +31,18 @@ handleHideMobileDateOptions model =
 
 
 mapHeight : Model -> Int
-mapHeight ({ window, mobileNav } as model) =
-    if isMobile model then
-        if model.bottomNavOpen then
-            ((window.height - mobileNav.topHeight) // 2) - mobileNav.bottomHeight
+mapHeight ({ window } as model) =
+    let
+        { topHeight, bottomHeight } =
+            Config.mobileNav
+    in
+        if isMobile model then
+            if model.bottomNavOpen then
+                ((window.height - topHeight) // 2) - bottomHeight
+            else
+                window.height - topHeight - bottomHeight
         else
-            window.height - mobileNav.topHeight - mobileNav.bottomHeight
-    else
-        window.height // 2
+            window.height // 2
 
 
 mapPositioning : Model -> String

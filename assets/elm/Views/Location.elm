@@ -1,80 +1,59 @@
 module Views.Location exposing (..)
 
-import Helpers.Html exposing (responsiveImg)
-import Helpers.Style exposing (px)
+import Data.Location.Postcode exposing (validPostcode)
+import Helpers.Html exposing (emptyProperty, onEnter, responsiveImg)
+import Helpers.Style exposing (classes, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import RemoteData exposing (RemoteData(..), isLoading)
 import Types exposing (..)
 
 
-getMyLocation : Model -> Html Msg
-getMyLocation model =
+eventsNearPostcode : Model -> Html Msg
+eventsNearPostcode model =
     div [ class "white t-3 all ease mt4" ]
-        [ p [] [ text <| locationText model.userGeolocation ]
-        , div
-            [ class "spin center"
-            , style [ ( "height", px 50 ), ( "width", px 50 ) ]
+        [ p [] [ text "events near:" ]
+        , input
+            [ style [ ( "width", px 100 ) ]
+            , class "placeholder-white bg-green ba b--white br2 outline-0 f6 fw4 tl pv1 ph2 white"
+            , onInput UpdatePostcode
+            , placeholder "postcode"
+            , fetchOnEnter model.postcode
+            , extractPostcode model.postcode
             ]
-            [ geolocationCrosshairWhite ]
+            []
+        , search model.postcode
         ]
 
 
-locationText : GeolocationData -> String
-locationText userGeolocation =
-    case userGeolocation of
-        Loading ->
-            "finding you ..."
-
-        Failure _ ->
-            "couldn't get your location"
-
-        _ ->
-            "get my location"
-
-
-centerCrosshairWhite : Html Msg
-centerCrosshairWhite =
-    div [ onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ]
+search : Postcode -> Html Msg
+search postcode =
+    if validPostcode postcode then
+        div
+            [ onClick FetchEventsForPostcode
+            , class "pointer mt2 fade-in o-0 ml2"
+            ]
+            [ text "search" ]
+    else
+        span [] []
 
 
-geolocationCrosshairWhite : Html Msg
-geolocationCrosshairWhite =
-    div [ onClick GetGeolocation ] [ responsiveImg "/images/crosshair-white.svg" ]
+fetchOnEnter : Postcode -> Attribute Msg
+fetchOnEnter postcode =
+    if validPostcode postcode then
+        onEnter FetchEventsForPostcode
+    else
+        emptyProperty
 
 
-handleLocationFetch : Model -> Html Msg
-handleLocationFetch model =
-    case model.userGeolocation of
-        Loading ->
-            fetchingLocation
-
-        _ ->
-            enterPostcode model
-
-
-fetchingLocation : Html Msg
-fetchingLocation =
-    div [] [ p [ class "green fade-in" ] [ text "finding your location" ] ]
-
-
-enterPostcode : Model -> Html Msg
-enterPostcode model =
-    div []
-        [ p [ class "green" ] [ text "Enter your postcode" ]
-        , input ([ onInput UpdatePostcode ] ++ viewPostcode model.postcode) []
-        ]
-
-
-viewPostcode : Postcode -> List (Attribute Msg)
-viewPostcode x =
+extractPostcode : Postcode -> Attribute Msg
+extractPostcode x =
     case x of
         NotEntered ->
-            [ placeholder "W1T4JE", class "green tc bn outline-0 f5 fw4" ]
+            value ""
 
         Valid postcode ->
-            [ class "green tc bn outline-0 f5 fw4", value <| String.toUpper postcode ]
+            value <| String.toUpper postcode
 
         Invalid postcode ->
-            [ class "red tc bn outline-0 f5 fw4", value <| String.toUpper postcode ]
+            value <| String.toUpper postcode

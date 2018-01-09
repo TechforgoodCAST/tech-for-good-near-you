@@ -1,5 +1,6 @@
 module Views.Events exposing (..)
 
+import Config exposing (mobileNav)
 import Data.Dates exposing (..)
 import Data.Events exposing (..)
 import Data.Maps exposing (..)
@@ -8,8 +9,8 @@ import Helpers.Style exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Types exposing (..)
 import RemoteData exposing (RemoteData)
+import Types exposing (..)
 import Views.Dates exposing (dateMainOptions)
 import Views.Layout exposing (desktopCredit)
 
@@ -57,7 +58,7 @@ allEvents model =
     div
         [ classes [ "ph4-ns w-100 overflow-y-scroll smooth-scroll" ]
         , style [ ( "height", px <| mapMargin model ) ]
-        , id model.eventsContainerId
+        , id Config.eventsContainerId
         ]
     <|
         renderEvents model
@@ -72,7 +73,7 @@ renderEvents model =
 
 
 mapMargin : Model -> Int
-mapMargin ({ mobileNav, window } as model) =
+mapMargin ({ window } as model) =
     if isMobile model then
         ((window.height - mobileNav.topHeight - mobileNav.bottomHeight) // 2) + mobileNav.bottomHeight
     else

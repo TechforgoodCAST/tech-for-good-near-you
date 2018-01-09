@@ -1,17 +1,18 @@
 module Request.MeetupEvents exposing (..)
 
 import Data.Events exposing (addDistanceToEvents)
+import Data.Maps exposing (londonCoords)
 import Date exposing (..)
 import Http
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Types exposing (..)
 import RemoteData exposing (WebData)
+import Types exposing (..)
 
 
 handleReceiveMeetupEvents : WebData (List Event) -> Model -> Model
 handleReceiveMeetupEvents meetupEvents model =
-    { model | meetupEvents = addDistanceToEvents model meetupEvents }
+    { model | meetupEvents = addDistanceToEvents londonCoords model meetupEvents }
 
 
 getMeetupEvents : Cmd Msg

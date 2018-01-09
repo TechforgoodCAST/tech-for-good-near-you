@@ -1,10 +1,11 @@
 module Data.Events exposing (..)
 
+import Config
 import Data.Dates exposing (filterByDate)
-import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
+import Data.Location.Radius exposing (..)
 import Date.Extra
-import Types exposing (..)
 import RemoteData exposing (RemoteData(..), WebData, isFailure, isLoading)
+import Types exposing (..)
 
 
 handleFetchEvents : Model -> Model
@@ -15,9 +16,13 @@ handleFetchEvents model =
     }
 
 
-addDistanceToEvents : Model -> WebData (List Event) -> WebData (List Event)
-addDistanceToEvents model events =
-    RemoteData.map (List.map <| calculateEventDistance model.selectedLocation) events
+addDistanceToEvents : Coords -> Model -> WebData (List Event) -> WebData (List Event)
+addDistanceToEvents fallbackLocation model events =
+    let
+        location =
+            RemoteData.withDefault fallbackLocation model.userLocation
+    in
+        RemoteData.map (List.map <| calculateEventDistance location) events
 
 
 stillLoading : Model -> Bool
@@ -47,14 +52,14 @@ filterEvents : Model -> WebData (List Event)
 filterEvents model =
     model
         |> allEvents
-        |> RemoteData.map (filterByDate model >> filterByDistance model)
+        |> RemoteData.map (filterByDate model >> filterByDistance Config.searchRadius)
 
 
 numberVisibleEvents : Model -> Int
 numberVisibleEvents model =
     model
         |> filterEvents
-        |> RemoteData.map (List.length)
+        |> RemoteData.map List.length
         |> RemoteData.withDefault 0
 
 

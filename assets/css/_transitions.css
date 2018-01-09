@@ -1,9 +1,9 @@
-.t-5ms {
+.t-500ms {
   transition-duration: 0.5s!important;
 }
 
-.t-delay-2s {
-  transition-delay: 2s!important;
+.t-delay-500ms {
+  transition-delay: 0.5s!important;
 }
 
 .all {

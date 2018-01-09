@@ -2,8 +2,7 @@ module Types exposing (..)
 
 import Date exposing (..)
 import Dom
-import Geolocation
-import RemoteData exposing (WebData, RemoteData)
+import RemoteData exposing (WebData)
 import Time exposing (..)
 import Window
 
@@ -11,23 +10,14 @@ import Window
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
+    , today : Maybe Date
     , meetupEvents : WebData (List Event)
     , customEvents : WebData (List Event)
-    , userGeolocation : GeolocationData
-    , userPostcodeLocation : WebData Coords
-    , selectedLocation : Coords
-    , currentDate : Maybe Date
+    , userLocation : WebData Coords
     , topNavOpen : Bool
-    , searchRadius : Int
-    , mapId : String
-    , eventsContainerId : String
-    , window : Window.Size
-    , mobileDateOptionsVisible : Bool
     , bottomNavOpen : Bool
-    , mobileNav :
-        { topHeight : Int
-        , bottomHeight : Int
-        }
+    , mobileDateOptionsVisible : Bool
+    , window : Window.Size
     }
 
 
@@ -80,27 +70,23 @@ type alias Marker =
     }
 
 
-type alias GeolocationData =
-    RemoteData Geolocation.Error Geolocation.Location
-
-
 type Msg
     = UpdatePostcode String
     | SetDateRange DateRange
     | ReceiveMeetupEvents (WebData (List Event))
     | ReceiveCustomEvents (WebData (List Event))
-    | GetGeolocation
-    | ReceiveGeolocation GeolocationData
     | CurrentDate Time
     | RecievePostcodeLatLng (WebData Coords)
     | CenterMapOnUser
     | CenterEvent Marker
     | FetchEvents
+    | FetchEventsForPostcode
     | FitBounds
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool
     | UpdateMap
+    | UpdateUserLocation Coords
     | ResetMobileNav
     | FilteredMarkers
     | RefreshMapSize

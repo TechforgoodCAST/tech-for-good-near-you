@@ -1,5 +1,6 @@
 module Views.Navigation exposing (..)
 
+import Config exposing (mobileNav)
 import Helpers.Html exposing (responsiveImg)
 import Helpers.Style exposing (..)
 import Html exposing (..)
@@ -7,7 +8,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Views.Dates exposing (..)
-import Views.Location exposing (centerCrosshairWhite, geolocationCrosshairWhite, getMyLocation)
+import Views.Location exposing (eventsNearPostcode)
 
 
 topNav : Model -> Html Msg
@@ -73,10 +74,10 @@ googleSheetLink image =
 
 mobileTopBar : Model -> Html Msg
 mobileTopBar model =
-    div [ class mobileOnly, style [ ( "margin-bottom", px model.mobileNav.topHeight ) ] ]
+    div [ class mobileOnly, style [ ( "margin-bottom", px mobileNav.topHeight ) ] ]
         [ div
             [ class "fixed z-5 bg-green white top-0 left-0 w-100 flex justify-between items-center"
-            , style [ ( "height", px model.mobileNav.topHeight ) ]
+            , style [ ( "height", px mobileNav.topHeight ) ]
             ]
             [ div [ class "ml2 mt2 pointer flex" ] [ logo, p [ class "ml2" ] [ text "near you" ] ]
             , div
@@ -117,7 +118,7 @@ mobileBottomNav model =
     div
         [ classes [ "bg-green w-100 fixed left-0 bottom-0 z-5 flex items-center justify-center" ]
         , style
-            [ ( "height", px model.mobileNav.bottomHeight )
+            [ ( "height", px mobileNav.bottomHeight )
             , bottomMobileNavPosition model
             ]
         ]
@@ -127,7 +128,7 @@ mobileBottomNav model =
 bottomMobileNavPosition : Model -> Style
 bottomMobileNavPosition model =
     if model.bottomNavOpen then
-        transform <| translateY <| (model.window.height - model.mobileNav.topHeight) // -2
+        transform <| translateY <| (model.window.height - mobileNav.topHeight) // -2
     else
         transform <| translateY 0
 
@@ -142,10 +143,19 @@ mobileBottomNavOptions model =
 
 mobileMainOptions : Model -> Html Msg
 mobileMainOptions model =
-    div [ class "flex items-center justify-between w-100 ph3" ]
-        [ div [ style [ ( "width", "30px" ) ], class "spin" ] [ centerCrosshairWhite ]
-        , div [ style [ ( "width", "25px" ) ], class "pointer", onClick <| MobileDateVisible True ] [ responsiveImg "/images/clock.svg" ]
-        , div [ style [ ( "width", "25px" ) ], class "pointer", handleBottomNavToggle model ] [ responsiveImg "/images/calendar-white.svg" ]
+    div [ class "flex items-center justify-between w-100 ph5" ]
+        [ div
+            [ style [ ( "width", "25px" ) ]
+            , class "pointer"
+            , onClick <| MobileDateVisible True
+            ]
+            [ responsiveImg "/images/clock.svg" ]
+        , div
+            [ style [ ( "width", "25px" ) ]
+            , class "pointer"
+            , handleBottomNavToggle model
+            ]
+            [ responsiveImg "/images/calendar-white.svg" ]
         ]
 
 
@@ -186,7 +196,7 @@ logo =
 
 navbarOptions : Model -> Html Msg
 navbarOptions model =
-    div [ class "pt1 pb3-ns t-5ms all ease bg-green" ]
+    div [ class "pt1 pb3-ns t-500ms all ease bg-green" ]
         [ dateSideOptions model
-        , getMyLocation model
+        , eventsNearPostcode model
         ]

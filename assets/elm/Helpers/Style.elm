@@ -1,5 +1,6 @@
 module Helpers.Style exposing (..)
 
+import Config exposing (mobileNav)
 import Html exposing (Attribute)
 import Html.Attributes exposing (class, style)
 import Types exposing (..)
@@ -104,13 +105,13 @@ percentScreenHeight percent { window } =
 
 
 mobileMaxHeight : Model -> Style
-mobileMaxHeight ({ window, mobileNav } as model) =
+mobileMaxHeight ({ window } as model) =
     ( "height", px <| window.height - mobileNav.topHeight )
         |> ifMobile model
 
 
 mobileFullHeight : Model -> Style
-mobileFullHeight ({ window, mobileNav } as model) =
+mobileFullHeight ({ window } as model) =
     ( "height", px <| window.height - mobileNav.topHeight - mobileNav.bottomHeight )
         |> ifMobile model
 

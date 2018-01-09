@@ -11,13 +11,10 @@ handleRecievePostcodeLatLng : WebData Coords -> Model -> Model
 handleRecievePostcodeLatLng webData model =
     case webData of
         Success coords ->
-            { model
-                | userPostcodeLocation = Success coords
-                , selectedLocation = coords
-            }
+            { model | userLocation = Success coords }
 
         _ ->
-            { model | userPostcodeLocation = webData }
+            { model | userLocation = webData }
 
 
 handleGetLatLngFromPostcode : Model -> Cmd Msg

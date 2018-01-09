@@ -6,12 +6,17 @@ import Regex exposing (..)
 
 handleUpdatePostcode : String -> Model -> Model
 handleUpdatePostcode postcode model =
-    { model
-        | postcode =
-            postcode
-                |> stripSpaces
-                |> validatePostcode
-    }
+    { model | postcode = postcode |> validatePostcode }
+
+
+validPostcode : Postcode -> Bool
+validPostcode postcode =
+    case postcode of
+        Valid _ ->
+            True
+
+        _ ->
+            False
 
 
 validatePostcode : String -> Postcode

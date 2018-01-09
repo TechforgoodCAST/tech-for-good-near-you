@@ -5,7 +5,6 @@ import Types exposing (..)
 import State exposing (..)
 import View exposing (..)
 
-
 main : Program Never Model Msg
 main =
     program

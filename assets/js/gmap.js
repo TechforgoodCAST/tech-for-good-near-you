@@ -1,4 +1,4 @@
-import { sendScrollDistanceToElm, openElmMobileBottomNav } from './interop.js'
+import { sendScrollDistanceToElm } from './interop.js'
 
 const google = window.google
 let _map
@@ -73,7 +73,6 @@ function fitBounds () {
 function addMarkerListener (elmApp, _marker) {
   google.maps.event.addListener(_marker.instance, 'click', function () {
     sendScrollDistanceToElm(elmApp, _marker)
-    openElmMobileBottomNav(elmApp)
     infoWindow.setContent(makeDescription(_marker))
     infoWindow.open(_map, this)
   })

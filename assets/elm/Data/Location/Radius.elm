@@ -3,25 +3,14 @@ module Data.Location.Radius exposing (..)
 import Types exposing (..)
 
 
-handleSearchRadius : String -> Model -> Model
-handleSearchRadius radius model =
-    setSearchRadius radius model
+filterByDistance : Int -> List Event -> List Event
+filterByDistance searchRadius =
+    List.filter (filterEventByDistance searchRadius)
 
 
-setSearchRadius : String -> Model -> Model
-setSearchRadius radius model =
-    let
-        newRadius =
-            radius
-                |> String.toInt
-                |> Result.withDefault 300
-    in
-        { model | searchRadius = newRadius }
-
-
-degreesToRadians : Float -> Float
-degreesToRadians deg =
-    deg * (pi / 180)
+filterEventByDistance : Int -> Event -> Bool
+filterEventByDistance searchRadius event =
+    event.distance <= searchRadius
 
 
 latLngToMiles : Coords -> Coords -> Int
@@ -48,11 +37,6 @@ latLngToMiles c1 c2 =
         round (r * c)
 
 
-filterByDistance : Model -> List Event -> List Event
-filterByDistance model =
-    List.filter (filterEventByDistance model.searchRadius)
-
-
-filterEventByDistance : Int -> Event -> Bool
-filterEventByDistance searchRadius event =
-    event.distance <= searchRadius
+degreesToRadians : Float -> Float
+degreesToRadians deg =
+    deg * (pi / 180)
