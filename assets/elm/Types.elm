@@ -88,7 +88,6 @@ type Msg
     | MobileDateVisible Bool
     | BottomNavOpen Bool
     | UpdateMap
-    | UpdateUserLocation Coords
     | ResetMobileNav
     | FilteredMarkers
     | RefreshMapSize

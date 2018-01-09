@@ -5,11 +5,11 @@ import Types exposing (..)
 
 filterByDistance : Int -> List Event -> List Event
 filterByDistance searchRadius =
-    List.filter (filterEventByDistance searchRadius)
+    List.filter (withinSearchRadius searchRadius)
 
 
-filterEventByDistance : Int -> Event -> Bool
-filterEventByDistance searchRadius event =
+withinSearchRadius : Int -> Event -> Bool
+withinSearchRadius searchRadius event =
     event.distance <= searchRadius
 
 

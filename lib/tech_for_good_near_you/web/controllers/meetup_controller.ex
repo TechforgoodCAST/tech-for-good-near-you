@@ -10,9 +10,7 @@ defmodule TechForGoodNearYou.Web.MeetupController do
     response =
       HTTPoison.get!(
         "https://api.meetup.com/2/events", [],
-        params: [
-          {"group_id", Enum.join(group_ids, ",")}
-        ]
+        params: [{"group_id", Enum.join(group_ids, ",")}]
       )
       |> Map.get(:body)
       |> Poison.decode!

@@ -75,15 +75,11 @@ update msg model =
             { model | searchRadius = searchRadii.local } ! [ handleGetLatLngFromPostcode model ]
 
         RecievePostcodeLatLng (Success coords) ->
-            (handleRecievePostcodeLatLng (Success coords) model ! [])
-                |> andThen update (UpdateUserLocation coords)
+            (handleRecievePostcodeLatLng (Success coords) model ! [ updateUserLocation coords ])
                 |> andThen update FetchEvents
 
         RecievePostcodeLatLng remoteData ->
             handleRecievePostcodeLatLng remoteData model ! []
-
-        UpdateUserLocation coords ->
-            model ! [ updateUserLocation coords ]
 
         MobileDateVisible bool ->
             { model | mobileDateOptionsVisible = bool } ! []
