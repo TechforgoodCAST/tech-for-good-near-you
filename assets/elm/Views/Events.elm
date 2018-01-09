@@ -75,7 +75,7 @@ renderEvents model =
 mapMargin : Model -> Int
 mapMargin ({ window } as model) =
     if isMobile model then
-        ((window.height - mobileNav.topHeight - mobileNav.bottomHeight) // 2) + mobileNav.bottomHeight
+        (window.height - mobileNav.topHeight) // 2
     else
         window.height // 2
 

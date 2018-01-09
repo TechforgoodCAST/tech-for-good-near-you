@@ -45,7 +45,7 @@ handleMobileHeight model =
 mobileContainer : Model -> Html Msg -> Html Msg
 mobileContainer model content =
     if isMobile model then
-        div [ style [ percentScreenHeight 85 model ] ] [ content ]
+        div [ style [ percentScreenHeight 86 model ] ] [ content ]
     else
         content
 
