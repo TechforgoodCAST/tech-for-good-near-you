@@ -17,7 +17,7 @@ handleClearUserLocation model =
 
 handleUpdatePostcode : String -> Model -> Model
 handleUpdatePostcode postcode model =
-    { model | postcode = postcode |> validatePostcode }
+    { model | postcode = validatePostcode postcode }
 
 
 validPostcode : Postcode -> Bool
@@ -36,11 +36,6 @@ validatePostcode postcode =
         Valid postcode
     else
         Invalid postcode
-
-
-stripSpaces : String -> String
-stripSpaces =
-    String.filter ((/=) ' ')
 
 
 postcodeRegex : Regex
