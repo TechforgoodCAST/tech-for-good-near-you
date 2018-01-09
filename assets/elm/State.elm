@@ -1,8 +1,9 @@
 module State exposing (..)
 
+import Config exposing (searchRadii)
 import Data.Dates exposing (getCurrentDate, handleSelectedDate, setCurrentDate)
 import Data.Events exposing (..)
-import Data.Location.Postcode exposing (handleUpdatePostcode, validatePostcode)
+import Data.Location.Postcode exposing (..)
 import Data.Maps exposing (..)
 import Data.Navigation exposing (handleResetMobileNav, handleToggleTopNavbar)
 import Data.Ports exposing (..)
@@ -35,6 +36,7 @@ initialModel =
     , meetupEvents = Loading
     , customEvents = Loading
     , userLocation = NotAsked
+    , searchRadius = searchRadii.national
     , topNavOpen = False
     , bottomNavOpen = False
     , mobileDateOptionsVisible = False
@@ -48,13 +50,17 @@ update msg model =
         UpdatePostcode postcode ->
             handleUpdatePostcode postcode model ! []
 
+        ClearUserLocation ->
+            (handleClearUserLocation model ! [ clearUserLocation ])
+                |> andThen update FilteredMarkers
+
         SetDateRange date ->
             (handleSelectedDate date model ! [])
                 |> andThen update FilteredMarkers
                 |> addCmd (handleScrollEventsToTop model)
 
         CurrentDate date ->
-            (model |> setCurrentDate date) ! []
+            setCurrentDate date model ! []
 
         ReceiveMeetupEvents events ->
             (handleReceiveMeetupEvents events model ! []) |> andThen update UpdateMap
@@ -66,7 +72,7 @@ update msg model =
             handleFetchEvents model ! [ getMeetupEvents, getCustomEvents ]
 
         FetchEventsForPostcode ->
-            model ! [ handleGetLatLngFromPostcode model ]
+            { model | searchRadius = searchRadii.local } ! [ handleGetLatLngFromPostcode model ]
 
         RecievePostcodeLatLng (Success coords) ->
             (handleRecievePostcodeLatLng (Success coords) model ! [])

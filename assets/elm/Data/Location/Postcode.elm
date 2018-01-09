@@ -1,7 +1,18 @@
 module Data.Location.Postcode exposing (..)
 
-import Types exposing (..)
+import Config exposing (searchRadii)
 import Regex exposing (..)
+import RemoteData exposing (RemoteData(NotAsked))
+import Types exposing (..)
+
+
+handleClearUserLocation : Model -> Model
+handleClearUserLocation model =
+    { model
+        | postcode = NotEntered
+        , userLocation = NotAsked
+        , searchRadius = searchRadii.national
+    }
 
 
 handleUpdatePostcode : String -> Model -> Model

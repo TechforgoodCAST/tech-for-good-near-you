@@ -3,5 +3,4 @@ function sendScrollDistanceToElm (app, _marker) {
   app.ports.scrollToEvent.send(el.offsetTop)
 }
 
-
 module.exports = { sendScrollDistanceToElm }

@@ -1,6 +1,5 @@
 module Data.Events exposing (..)
 
-import Config
 import Data.Dates exposing (filterByDate)
 import Data.Location.Radius exposing (..)
 import Date.Extra
@@ -52,7 +51,7 @@ filterEvents : Model -> WebData (List Event)
 filterEvents model =
     model
         |> allEvents
-        |> RemoteData.map (filterByDate model >> filterByDistance Config.searchRadius)
+        |> RemoteData.map (filterByDate model >> filterByDistance model.searchRadius)
 
 
 numberVisibleEvents : Model -> Int

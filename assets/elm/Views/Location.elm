@@ -6,6 +6,7 @@ import Helpers.Style exposing (classes, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import RemoteData exposing (WebData, RemoteData(..))
 import Types exposing (..)
 
 
@@ -22,20 +23,42 @@ eventsNearPostcode model =
             , extractPostcode model.postcode
             ]
             []
-        , search model.postcode
+        , search model
         ]
 
 
-search : Postcode -> Html Msg
-search postcode =
+search : Model -> Html Msg
+search model =
+    div [ class "mt2 flex justify-between" ]
+        [ fetchEventsForPostcode model.postcode
+        , clearUserLocation model.userLocation
+        ]
+
+
+fetchEventsForPostcode : Postcode -> Html Msg
+fetchEventsForPostcode postcode =
     if validPostcode postcode then
         div
             [ onClick FetchEventsForPostcode
-            , class "pointer mt2 fade-in o-0 ml2"
+            , class "pointer fade-in o-0"
             ]
             [ text "search" ]
     else
-        span [] []
+        span [ class "w1" ] []
+
+
+clearUserLocation : WebData Coords -> Html Msg
+clearUserLocation userLocation =
+    case userLocation of
+        NotAsked ->
+            span [ class "w1" ] []
+
+        _ ->
+            div
+                [ onClick ClearUserLocation
+                , class "pointer mr1 fade-in o-0"
+                ]
+                [ text "clear" ]
 
 
 fetchOnEnter : Postcode -> Attribute Msg

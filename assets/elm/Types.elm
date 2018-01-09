@@ -14,6 +14,7 @@ type alias Model =
     , meetupEvents : WebData (List Event)
     , customEvents : WebData (List Event)
     , userLocation : WebData Coords
+    , searchRadius : Int
     , topNavOpen : Bool
     , bottomNavOpen : Bool
     , mobileDateOptionsVisible : Bool
@@ -72,6 +73,7 @@ type alias Marker =
 
 type Msg
     = UpdatePostcode String
+    | ClearUserLocation
     | SetDateRange DateRange
     | ReceiveMeetupEvents (WebData (List Event))
     | ReceiveCustomEvents (WebData (List Event))

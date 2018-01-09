@@ -3,6 +3,7 @@ port module Data.Ports
         ( initMap
         , updateMarkers
         , updateUserLocation
+        , clearUserLocation
         , centerMapOnUser
         , centerEvent
         , fitBounds
@@ -21,6 +22,14 @@ port updateMarkers : List Marker -> Cmd msg
 
 
 port updateUserLocation : Coords -> Cmd msg
+
+
+clearUserLocation : Cmd msg
+clearUserLocation =
+    clearUserLocation_ ()
+
+
+port clearUserLocation_ : () -> Cmd msg
 
 
 centerMapOnUser : Cmd Msg
