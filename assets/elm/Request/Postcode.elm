@@ -3,7 +3,7 @@ module Request.Postcode exposing (..)
 import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 
 
@@ -11,13 +11,10 @@ handleRecievePostcodeLatLng : WebData Coords -> Model -> Model
 handleRecievePostcodeLatLng webData model =
     case webData of
         Success coords ->
-            { model
-                | userPostcodeLocation = Success coords
-                , selectedUserLocation = Just coords
-            }
+            { model | userLocation = Success coords }
 
         _ ->
-            { model | userPostcodeLocation = webData }
+            { model | userLocation = webData }
 
 
 handleGetLatLngFromPostcode : Model -> Cmd Msg

@@ -1,7 +1,7 @@
 module Data.Navigation exposing (..)
 
 import Helpers.Style exposing (isMobile)
-import Model exposing (..)
+import Types exposing (..)
 
 
 handleResetMobileNav : Model -> Model

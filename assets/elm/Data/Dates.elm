@@ -2,22 +2,19 @@ module Data.Dates exposing (..)
 
 import Date exposing (..)
 import Date.Extra exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 import Task
 import Time exposing (..)
 
 
 setCurrentDate : Time -> Model -> Model
-setCurrentDate currentDate model =
-    { model | currentDate = Just <| fromTime currentDate }
+setCurrentDate today model =
+    { model | today = Just <| fromTime today }
 
 
 handleSelectedDate : DateRange -> Model -> Model
 handleSelectedDate dateRange model =
-    if model.selectedDate == dateRange then
-        { model | selectedDate = NoDate }
-    else
-        { model | selectedDate = dateRange }
+    { model | selectedDate = dateRange }
 
 
 datesList : List DateRange
@@ -35,21 +32,18 @@ getCurrentDate =
 
 
 filterByDate : Model -> List Event -> List Event
-filterByDate { selectedDate, currentDate } =
+filterByDate { selectedDate, today } =
     case selectedDate of
         Today ->
-            List.filter <| isEventBefore Day currentDate
+            List.filter <| isEventBefore Day today
 
         ThisWeek ->
-            List.filter <| isEventBefore Week currentDate
+            List.filter <| isEventBefore Week today
 
         ThisMonth ->
-            List.filter <| isEventBefore Month currentDate
+            List.filter <| isEventBefore Month today
 
         All ->
-            allEvents
-
-        NoDate ->
             allEvents
 
 
@@ -59,9 +53,9 @@ allEvents =
 
 
 isEventBefore : Interval -> Maybe Date -> Event -> Bool
-isEventBefore interval currentDate event =
+isEventBefore interval today event =
     Just (event.time)
-        |> Maybe.map3 isBetween currentDate (Maybe.map (Date.Extra.ceiling interval) currentDate)
+        |> Maybe.map3 isBetween today (Maybe.map (Date.Extra.ceiling interval) today)
         |> Maybe.withDefault False
 
 
@@ -80,9 +74,6 @@ noEventsInDateRange dateRange =
         All ->
             "No events found"
 
-        NoDate ->
-            ""
-
 
 dateRangeToString : DateRange -> String
 dateRangeToString dateRange =
@@ -98,9 +89,6 @@ dateRangeToString dateRange =
 
         All ->
             "All events"
-
-        NoDate ->
-            ""
 
 
 displayDate : Date -> String

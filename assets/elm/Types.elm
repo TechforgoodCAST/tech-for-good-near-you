@@ -1,9 +1,8 @@
-module Model exposing (..)
+module Types exposing (..)
 
 import Date exposing (..)
 import Dom
-import Geolocation exposing (Error, Location)
-import RemoteData exposing (WebData, RemoteData)
+import RemoteData exposing (WebData)
 import Time exposing (..)
 import Window
 
@@ -11,25 +10,15 @@ import Window
 type alias Model =
     { postcode : Postcode
     , selectedDate : DateRange
+    , today : Maybe Date
     , meetupEvents : WebData (List Event)
     , customEvents : WebData (List Event)
-    , userGeolocation : GeolocationData
-    , userPostcodeLocation : WebData Coords
-    , selectedUserLocation : Maybe Coords
-    , currentDate : Maybe Date
-    , mapVisible : Bool
-    , topNavOpen : Bool
-    , view : View
+    , userLocation : WebData Coords
     , searchRadius : Int
-    , mapId : String
-    , eventsContainerId : String
-    , window : Window.Size
-    , mobileDateOptionsVisible : Bool
+    , topNavOpen : Bool
     , bottomNavOpen : Bool
-    , mobileNav :
-        { topHeight : Int
-        , bottomHeight : Int
-        }
+    , mobileDateOptionsVisible : Bool
+    , window : Window.Size
     }
 
 
@@ -49,12 +38,6 @@ type alias Event =
     }
 
 
-type View
-    = MyLocation
-    | MyDates
-    | Results
-
-
 type Postcode
     = NotEntered
     | Invalid String
@@ -62,8 +45,7 @@ type Postcode
 
 
 type DateRange
-    = NoDate
-    | Today
+    = Today
     | ThisWeek
     | ThisMonth
     | All
@@ -89,33 +71,24 @@ type alias Marker =
     }
 
 
-type alias GeolocationData =
-    RemoteData Error Location
-
-
 type Msg
     = UpdatePostcode String
+    | ClearUserLocation
     | SetDateRange DateRange
     | ReceiveMeetupEvents (WebData (List Event))
     | ReceiveCustomEvents (WebData (List Event))
-    | GetGeolocation
-    | ReceiveGeolocation GeolocationData
     | CurrentDate Time
-    | SetView View
-    | NavigateToResults
     | RecievePostcodeLatLng (WebData Coords)
-    | GoToDates
     | CenterMapOnUser
     | CenterEvent Marker
     | FetchEvents
+    | FetchEventsForPostcode
     | FitBounds
-    | SetSearchRadius String
     | ToggleTopNavbar
     | MobileDateVisible Bool
     | BottomNavOpen Bool
     | UpdateMap
     | ResetMobileNav
-    | Restart
     | FilteredMarkers
     | RefreshMapSize
     | WindowSize Window.Size

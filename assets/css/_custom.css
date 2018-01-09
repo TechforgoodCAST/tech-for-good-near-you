@@ -11,6 +11,10 @@ body {
   user-select: none;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 .mt--4 {
   margin-top: -var(--spacing-large);
 }
@@ -21,6 +25,10 @@ body {
 
 .smooth-scroll {
   -webkit-overflow-scrolling: touch;
+}
+
+.placeholder-white::placeholder {
+  color: white;
 }
 
 @media (--breakpoint-not-small) {

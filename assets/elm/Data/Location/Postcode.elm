@@ -1,17 +1,33 @@
 module Data.Location.Postcode exposing (..)
 
-import Model exposing (..)
+import Config exposing (searchRadii)
 import Regex exposing (..)
+import RemoteData exposing (RemoteData(NotAsked))
+import Types exposing (..)
+
+
+handleClearUserLocation : Model -> Model
+handleClearUserLocation model =
+    { model
+        | postcode = NotEntered
+        , userLocation = NotAsked
+        , searchRadius = searchRadii.national
+    }
 
 
 handleUpdatePostcode : String -> Model -> Model
 handleUpdatePostcode postcode model =
-    { model
-        | postcode =
-            postcode
-                |> stripSpaces
-                |> validatePostcode
-    }
+    { model | postcode = validatePostcode postcode }
+
+
+validPostcode : Postcode -> Bool
+validPostcode postcode =
+    case postcode of
+        Valid _ ->
+            True
+
+        _ ->
+            False
 
 
 validatePostcode : String -> Postcode
@@ -20,11 +36,6 @@ validatePostcode postcode =
         Valid postcode
     else
         Invalid postcode
-
-
-stripSpaces : String -> String
-stripSpaces =
-    String.filter ((/=) ' ')
 
 
 postcodeRegex : Regex

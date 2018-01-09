@@ -1,17 +1,18 @@
 module Request.CustomEvents exposing (..)
 
 import Data.Events exposing (addDistanceToEvents)
+import Data.Maps exposing (londonCoords)
 import Date exposing (..)
 import Http
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Model exposing (..)
 import RemoteData exposing (WebData)
+import Types exposing (..)
 
 
 handleReceiveCustomEvents : WebData (List Event) -> Model -> Model
 handleReceiveCustomEvents customEvents model =
-    { model | customEvents = addDistanceToEvents model customEvents }
+    { model | customEvents = addDistanceToEvents londonCoords model customEvents }
 
 
 getCustomEvents : Cmd Msg

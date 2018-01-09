@@ -1,93 +1,82 @@
 module Views.Location exposing (..)
 
-import Helpers.Html exposing (responsiveImg)
-import Helpers.HtmlEvents exposing (onEnter)
+import Data.Location.Postcode exposing (validPostcode)
+import Helpers.Html exposing (emptyProperty, onEnter, responsiveImg)
+import Helpers.Style exposing (classes, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Model exposing (..)
-import RemoteData exposing (RemoteData(..), isLoading)
+import RemoteData exposing (WebData, RemoteData(..))
+import Types exposing (..)
 
 
-location : Model -> Html Msg
-location model =
-    div
-        [ class "tc w-100 mt5-ns fade-in" ]
-        [ h2 [ class "green mt0 mt4-ns ph3" ] [ text "Find Tech for Good Events near you" ]
-        , handleUserLocationError model
-        , handleLocationFetch model
+eventsNearPostcode : Model -> Html Msg
+eventsNearPostcode model =
+    div [ class "white t-3 all ease mt4" ]
+        [ p [] [ text "events near:" ]
+        , input
+            [ style [ ( "width", px 100 ) ]
+            , class "placeholder-white bg-green ba b--white br2 outline-0 f6 fw4 tl pv1 ph2 white"
+            , onInput UpdatePostcode
+            , placeholder "postcode"
+            , fetchOnEnter model.postcode
+            , extractPostcode model.postcode
+            ]
+            []
+        , search model
         ]
 
 
-handleUserLocationError : Model -> Html Msg
-handleUserLocationError model =
-    case model.userGeolocation of
-        Failure _ ->
-            div [ class "gold mv5" ]
-                [ p [] [ text "Could not get your location" ]
-                , p [] [ text "Try entering your postcode" ]
+search : Model -> Html Msg
+search model =
+    div [ class "mt2 flex justify-between" ]
+        [ fetchEventsForPostcode model.postcode
+        , clearUserLocation model.userLocation
+        ]
+
+
+fetchEventsForPostcode : Postcode -> Html Msg
+fetchEventsForPostcode postcode =
+    if validPostcode postcode then
+        div
+            [ onClick FetchEventsForPostcode
+            , class "pointer fade-in o-0"
+            ]
+            [ text "search" ]
+    else
+        span [ class "w1" ] []
+
+
+clearUserLocation : WebData Coords -> Html Msg
+clearUserLocation userLocation =
+    case userLocation of
+        NotAsked ->
+            span [ class "w1" ] []
+
+        _ ->
+            div
+                [ onClick ClearUserLocation
+                , class "pointer mr1 fade-in o-0"
                 ]
-
-        _ ->
-            locationCrosshair model
+                [ text "clear" ]
 
 
-locationCrosshair : Model -> Html Msg
-locationCrosshair model =
-    div []
-        [ p [ class "green f6 mt5" ] [ text "Get my location" ]
-        , div [ class "w3 center pointer spin", onClick GetGeolocation ] [ responsiveImg "/images/crosshair.svg" ]
-        , p [ class "green mv4 mv5-ns", classList [ ( "dn", isLoading model.userGeolocation ) ] ] [ text "-- OR --" ]
-        ]
+fetchOnEnter : Postcode -> Attribute Msg
+fetchOnEnter postcode =
+    if validPostcode postcode then
+        onEnter FetchEventsForPostcode
+    else
+        emptyProperty
 
 
-centerCrosshairWhite : Model -> Html Msg
-centerCrosshairWhite model =
-    div [ onClick CenterMapOnUser ] [ responsiveImg "/images/crosshair-white.svg" ]
-
-
-handleLocationFetch : Model -> Html Msg
-handleLocationFetch model =
-    case model.userGeolocation of
-        Loading ->
-            fetchingLocation
-
-        _ ->
-            enterPostcode model
-
-
-fetchingLocation : Html Msg
-fetchingLocation =
-    div [] [ p [ class "green fade-in" ] [ text "finding your location" ] ]
-
-
-enterPostcode : Model -> Html Msg
-enterPostcode model =
-    div []
-        [ p [ class "green" ] [ text "Enter your postcode" ]
-        , input ([ onInput UpdatePostcode ] ++ viewPostcode model.postcode) []
-        , showNext model
-        ]
-
-
-showNext : Model -> Html Msg
-showNext model =
-    case model.postcode of
-        Valid _ ->
-            p [ onClick GoToDates, class "gold mt4 tracked pointer tracked fade-in" ] [ text "NEXT" ]
-
-        _ ->
-            span [] []
-
-
-viewPostcode : Postcode -> List (Attribute Msg)
-viewPostcode x =
+extractPostcode : Postcode -> Attribute Msg
+extractPostcode x =
     case x of
         NotEntered ->
-            [ placeholder "W1T4JE", class "green tc bn outline-0 f5 fw4" ]
+            value ""
 
         Valid postcode ->
-            [ class "green tc bn outline-0 f5 fw4", value (String.toUpper postcode), onEnter GoToDates ]
+            value <| String.toUpper postcode
 
         Invalid postcode ->
-            [ class "red tc bn outline-0 f5 fw4", value (String.toUpper postcode) ]
+            value <| String.toUpper postcode

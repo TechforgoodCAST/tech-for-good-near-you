@@ -1,10 +1,9 @@
-module Main exposing (..)
+module App exposing (..)
 
 import Html exposing (program)
-import Model exposing (..)
-import Update exposing (..)
+import Types exposing (..)
+import State exposing (..)
 import View exposing (..)
-
 
 main : Program Never Model Msg
 main =

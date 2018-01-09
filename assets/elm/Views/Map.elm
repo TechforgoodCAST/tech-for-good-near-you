@@ -1,27 +1,25 @@
 module Views.Map exposing (..)
 
+import Config
 import Data.Events exposing (filterEvents, numberVisibleEvents)
 import Helpers.Html exposing (emptyProperty)
 import Helpers.Style exposing (classes, isMobile, px)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Model exposing (..)
+import Types exposing (..)
 
 
 renderMap : Model -> Html Msg
 renderMap model =
-    if model.mapVisible then
-        div
-            [ class <| classes [ "flex w-100 z-5", mapPositioning model ]
-            , style [ ( "height", px <| mapHeight model ) ]
-            , handleHideMobileDateOptions model
-            ]
-            [ div [ class "ml6-ns pl4-ns" ] []
-            , div [ id model.mapId, class mapBaseClasses ] []
-            ]
-    else
-        mapPlaceholder model
+    div
+        [ classes [ "flex w-100 z-5", mapPositioning model ]
+        , style [ ( "height", px <| mapHeight model ) ]
+        , handleHideMobileDateOptions model
+        ]
+        [ div [ class "ml6-ns pl4-ns" ] []
+        , div [ id Config.mapId, class mapBaseClasses ] []
+        ]
 
 
 handleHideMobileDateOptions : Model -> Attribute Msg
@@ -33,22 +31,18 @@ handleHideMobileDateOptions model =
 
 
 mapHeight : Model -> Int
-mapHeight ({ window, mobileNav } as model) =
-    if isMobile model then
-        if model.bottomNavOpen then
-            ((window.height - mobileNav.topHeight) // 2) - mobileNav.bottomHeight
+mapHeight ({ window } as model) =
+    let
+        { topHeight, bottomHeight } =
+            Config.mobileNav
+    in
+        if isMobile model then
+            if model.bottomNavOpen then
+                ((window.height - topHeight) // 2) - bottomHeight
+            else
+                window.height - topHeight - bottomHeight
         else
-            window.height - mobileNav.topHeight - mobileNav.bottomHeight
-    else
-        window.height // 2
-
-
-mapPlaceholder : Model -> Html msg
-mapPlaceholder model =
-    div []
-        [ div [] []
-        , div [ id model.mapId, class "dn" ] []
-        ]
+            window.height // 2
 
 
 mapPositioning : Model -> String

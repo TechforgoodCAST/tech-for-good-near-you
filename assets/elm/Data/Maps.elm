@@ -1,11 +1,12 @@
 module Data.Maps exposing (..)
 
+import Config
 import Data.Events exposing (eventLat, eventLng, filterEvents)
 import Data.Ports exposing (initMap, openBottomNav, updateMarkers)
 import Helpers.Delay exposing (googleMapDelay)
 import Helpers.Style exposing (isMobile)
-import Model exposing (..)
 import RemoteData exposing (RemoteData)
+import Types exposing (..)
 
 
 updateMap : Cmd Msg
@@ -17,14 +18,6 @@ updateMap =
         ]
 
 
-handleMobileBottomNavOpen : Model -> Sub Msg
-handleMobileBottomNavOpen model =
-    if isMobile model then
-        openBottomNav BottomNavOpen
-    else
-        Sub.none
-
-
 refreshMapSize : Cmd Msg
 refreshMapSize =
     googleMapDelay RefreshMapSize
@@ -34,7 +27,7 @@ initMapAtLondon : Model -> Cmd Msg
 initMapAtLondon model =
     initMap
         { marker = centerAtLondon
-        , mapId = model.mapId
+        , mapId = Config.mapId
         }
 
 
@@ -60,3 +53,8 @@ makeMarker e =
 centerAtLondon : Marker
 centerAtLondon =
     Marker "" "" 51.5062 0.1164
+
+
+londonCoords : Coords
+londonCoords =
+    Coords 51.5062 0.1164

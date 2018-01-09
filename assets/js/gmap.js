@@ -1,10 +1,10 @@
-import { sendScrollDistanceToElm, openElmMobileBottomNav } from './interop.js'
+import { sendScrollDistanceToElm } from './interop.js'
 
 const google = window.google
 let _map
 let infoWindow
 let mapDiv
-let userPosition
+let userLocation
 let visibleMarkers = []
 
 function initMap ({ marker, mapId }) {
@@ -57,12 +57,6 @@ function makeDescription (_marker) {
   `
 }
 
-function _fitBounds (_markers) {
-  var bounds = new google.maps.LatLngBounds()
-  _markers.forEach(m => bounds.extend(m.instance.getPosition()))
-  _map.fitBounds(bounds)
-}
-
 function fitBounds () {
   if (visibleMarkers.length) {
     resizeMap()
@@ -70,10 +64,22 @@ function fitBounds () {
   }
 }
 
+function _fitBounds (_markers) {
+  var bounds = new google.maps.LatLngBounds()
+  _markers.forEach(m => bounds.extend(m.instance.getPosition()))
+  _userLocationBounds(bounds)
+  _map.fitBounds(bounds)
+}
+
+function _userLocationBounds (bounds) {
+  if (userLocation) {
+    bounds.extend(userLocation.getPosition())
+  }
+}
+
 function addMarkerListener (elmApp, _marker) {
   google.maps.event.addListener(_marker.instance, 'click', function () {
     sendScrollDistanceToElm(elmApp, _marker)
-    openElmMobileBottomNav(elmApp)
     infoWindow.setContent(makeDescription(_marker))
     infoWindow.open(_map, this)
   })
@@ -108,15 +114,21 @@ function updateUserLocation (coords) {
       lng: coords.lng
     }
   }
-  if (userPosition) {
-    userPosition.setMap(null)
+  clearUserLocation()
+  userLocation = new google.maps.Marker(_options)
+}
+
+function clearUserLocation () {
+  if (userLocation) {
+    userLocation.setMap(null)
   }
-  userPosition = new google.maps.Marker(_options)
 }
 
 function centerMapOnUser () {
-  _map.setCenter(userPosition.getPosition())
-  _map.setZoom(13)
+  if (userLocation) {
+    _map.setCenter(userLocation.getPosition())
+    _map.setZoom(13)
+  }
 }
 
 function centerEvent (event) {
@@ -142,6 +154,7 @@ module.exports = {
   initMap,
   updateMarkers,
   updateUserLocation,
+  clearUserLocation,
   centerMapOnUser,
   centerEvent,
   resizeMap,

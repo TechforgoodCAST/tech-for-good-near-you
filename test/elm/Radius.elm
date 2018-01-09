@@ -3,7 +3,7 @@ module Radius exposing (..)
 import Test exposing (..)
 import Expect
 import Data.Location.Radius exposing (..)
-import Model exposing (..)
+import Types exposing (..)
 
 
 suite : Test

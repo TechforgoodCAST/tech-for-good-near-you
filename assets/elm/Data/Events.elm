@@ -1,10 +1,10 @@
 module Data.Events exposing (..)
 
 import Data.Dates exposing (filterByDate)
-import Data.Location.Radius exposing (filterByDistance, latLngToMiles)
+import Data.Location.Radius exposing (..)
 import Date.Extra
-import Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData, isFailure, isLoading)
+import Types exposing (..)
 
 
 handleFetchEvents : Model -> Model
@@ -15,22 +15,13 @@ handleFetchEvents model =
     }
 
 
-handleGoToSearchResults : Model -> Model
-handleGoToSearchResults model =
-    { model
-        | view = Results
-        , mapVisible = True
-    }
-
-
-addDistanceToEvents : Model -> WebData (List Event) -> WebData (List Event)
-addDistanceToEvents model events =
-    case model.selectedUserLocation of
-        Nothing ->
-            events
-
-        Just c1 ->
-            events |> RemoteData.map (List.map (calculateEventDistance c1))
+addDistanceToEvents : Coords -> Model -> WebData (List Event) -> WebData (List Event)
+addDistanceToEvents fallbackLocation model events =
+    let
+        location =
+            RemoteData.withDefault fallbackLocation model.userLocation
+    in
+        RemoteData.map (List.map <| calculateEventDistance location) events
 
 
 stillLoading : Model -> Bool
@@ -51,7 +42,7 @@ someEventsRetrieved model =
 nonEmptyEvents : WebData (List Event) -> Bool
 nonEmptyEvents events =
     events
-        |> RemoteData.map (\evts -> (List.length evts) > 0)
+        |> RemoteData.map (\evts -> List.length evts > 0)
         |> RemoteData.toMaybe
         |> Maybe.withDefault False
 
@@ -60,14 +51,14 @@ filterEvents : Model -> WebData (List Event)
 filterEvents model =
     model
         |> allEvents
-        |> RemoteData.map (filterByDate model >> filterByDistance model)
+        |> RemoteData.map (filterByDate model >> filterByDistance model.searchRadius)
 
 
 numberVisibleEvents : Model -> Int
 numberVisibleEvents model =
     model
         |> filterEvents
-        |> RemoteData.map (List.length)
+        |> RemoteData.map List.length
         |> RemoteData.withDefault 0
 
 
